@@ -94,6 +94,17 @@ const Sidebar = ({ isCollapsed, activeItem, onItemSelect }) => {
                     <button 
                       onClick={() => {
                         if (hasSubItems) {
+                          // If sidebar is collapsed, clicking the icon should open the first sub-item
+                          if (isCollapsed) {
+                            const firstSub = item.subItems && item.subItems[0]
+                            if (firstSub) {
+                              onItemSelect(firstSub)
+                              setActiveSubItem(firstSub)
+                              // keep dropdown state consistent for when sidebar expands
+                              setOpenDropdown(label)
+                              return
+                            }
+                          }
                           setOpenDropdown(isOpen ? null : label);
                         } else {
                           onItemSelect(label);
