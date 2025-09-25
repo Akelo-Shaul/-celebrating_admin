@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Menu, Search, Bell, ChevronDown, X } from 'lucide-react'
+import { Menu, Search, Bell, ChevronDown } from 'lucide-react'
 import { findSubItems, isMainMenuItem, findParentMenuItem } from '../../config/menuItems'
 
 const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const profileRef = useRef(null)
   const isMain = isMainMenuItem(title)
   const parentItem = findParentMenuItem(title)
@@ -18,30 +18,15 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false)
       }
+      // close profile panel when clicking outside
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  // Close profile panel when clicking outside or pressing Escape
-  useEffect(() => {
-    const handleOutside = (e) => {
-      if (isProfileOpen && profileRef.current && !profileRef.current.contains(e.target)) {
-        setIsProfileOpen(false)
-      }
-    }
-    const handleEsc = (e) => {
-      if (e.key === 'Escape') setIsProfileOpen(false)
-    }
-    document.addEventListener('mousedown', handleOutside)
-    document.addEventListener('keydown', handleEsc)
-    return () => {
-      document.removeEventListener('mousedown', handleOutside)
-      document.removeEventListener('keydown', handleEsc)
-    }
-  }, [isProfileOpen])
   return (
-    <>
     <header className="bg-white border-b flex flex-wrap">
       {/* Main header content */}
       <div className="w-full px-4 py-3 flex items-start md:items-center justify-between">
@@ -114,23 +99,147 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
           </button>
 
           {/* Profile */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsProfileOpen(true)}
-              className="flex items-center gap-3 focus:outline-none"
-              title="Open profile"
-            >
-              <img 
-                src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000" 
-                alt="Elisha Abade" 
-                className="w-8 h-8 rounded-full"
-              />
-              <div className="hidden md:block text-left">
-                <div className="text-sm font-medium text-gray-800">Elisha Abade</div>
-                <div className="text-xs text-gray-500">Admin</div>
+          <div
+            ref={profileRef}
+            className="flex items-center gap-3 cursor-pointer select-none"
+            onClick={() => setIsProfileOpen(true)}
+            role="button"
+            aria-haspopup="true"
+            aria-expanded={isProfileOpen}
+          >
+            <img
+              src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000"
+              alt="Elisha Abade"
+              className="w-8 h-8 rounded-full"
+            />
+            <div className="hidden md:block">
+              <div className="text-sm font-medium text-gray-800">Elisha Abade</div>
+              <div className="text-xs text-gray-500">Admin</div>
+            </div>
+            <ChevronDown size={16} className="text-gray-400" />
+          </div>
+
+          {/* Profile slide-in panel and overlay */}
+          {/* Overlay */}
+          {isProfileOpen && (
+            <div
+              className="fixed inset-0 z-40 bg-black/40"
+              onClick={() => setIsProfileOpen(false)}
+              aria-hidden="true"
+            />
+          )}
+
+          {/* Panel */}
+          <div
+            className={`fixed top-0 right-0 z-50 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
+              isProfileOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
+            aria-hidden={!isProfileOpen}
+          >
+            <div className="p-6 h-full flex flex-col">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000&size=128"
+                    alt="Elisha Avatar"
+                    className="w-16 h-16 rounded-full"
+                  />
+                  <div>
+                    <div className="text-lg font-semibold text-gray-800">Elisha Abade</div>
+                    <div className="text-sm text-gray-500">Admin</div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsProfileOpen(false)}
+                  className="text-gray-500 hover:text-gray-700 p-1 rounded"
+                  aria-label="Close profile panel"
+                >
+                  ✕
+                </button>
               </div>
-              <ChevronDown size={16} className="text-gray-400" />
-            </button>
+
+              <div className="mt-6 space-y-2 text-sm text-gray-700">
+                <div>
+                  <div className="text-xs text-gray-500">Admin ID</div>
+                  <div className="font-medium">#ADM-1023</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500">Position</div>
+                  <div className="font-medium">Super Admin</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500">Email</div>
+                  <div className="font-medium">elisha.abade@example.com</div>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <button
+                  onClick={() => { /* placeholder for edit profile action */ }}
+                  className="w-full bg-yellow-100 text-gray-900 px-4 py-2 rounded-md font-medium"
+                >
+                  Edit Profile
+                </button>
+              </div>
+
+              <div className="mt-6 flex-1 overflow-auto">
+                {/* Messages section */}
+                <div className="mb-4">
+                  <div className="text-xs font-semibold text-gray-500 uppercase mb-2">Messages</div>
+                  <div className="space-y-2">
+                    {/* Example message items - replace with real data as needed */}
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">EA</div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-800">System Admin</div>
+                        <div className="text-xs text-gray-500 truncate">Your monthly report is ready.</div>
+                      </div>
+                      <div className="text-xs text-gray-400">2h</div>
+                    </button>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">CS</div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-800">Customer Support</div>
+                        <div className="text-xs text-gray-500 truncate">We have updated your ticket.</div>
+                      </div>
+                      <div className="text-xs text-gray-400">1d</div>
+                    </button>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">MG</div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-800">Marketing</div>
+                        <div className="text-xs text-gray-500 truncate">New promotional assets are ready.</div>
+                      </div>
+                      <div className="text-xs text-gray-400">3d</div>
+                    </button>
+                  </div>
+                </div>
+
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Notifications</button>
+                  </li>
+                  <li>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Help & Support</button>
+                  </li>
+                  <li>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Change Password</button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        // placeholder logout behavior
+                        setIsProfileOpen(false)
+                        // you can call a logout handler here
+                      }}
+                      className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-gray-50"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -147,55 +256,6 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
         </div>
       </div>
     </header>
-
-    {/* Profile Drawer Overlay */}
-    {isProfileOpen && (
-      <div className="fixed inset-0 z-50 flex">
-        {/* Backdrop */}
-        <div className="fixed inset-0 bg-black/40" onClick={() => setIsProfileOpen(false)} />
-
-        {/* Drawer */}
-        <aside ref={profileRef} className="ml-auto w-full max-w-md bg-white h-full shadow-xl p-6 overflow-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold">Profile Settings</h2>
-            <button onClick={() => setIsProfileOpen(false)} className="p-2 rounded hover:bg-gray-100">
-              <X size={18} />
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <img src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000" alt="avatar" className="w-12 h-12 rounded-full" />
-              <div>
-                <div className="font-medium">Elisha Abade</div>
-                <div className="text-sm text-gray-500">Admin</div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Full name</label>
-              <input className="w-full border rounded px-3 py-2" defaultValue="Elisha Abade" />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Email</label>
-              <input className="w-full border rounded px-3 py-2" defaultValue="elisha@example.com" />
-            </div>
-
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">Role</label>
-              <input className="w-full border rounded px-3 py-2" defaultValue="Admin" />
-            </div>
-
-            <div className="pt-4">
-              <button className="bg-yellow-200 text-gray-900 px-4 py-2 rounded mr-2">Save changes</button>
-              <button onClick={() => setIsProfileOpen(false)} className="px-4 py-2 rounded border">Cancel</button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    )}
-    </>
   )
 }
 
