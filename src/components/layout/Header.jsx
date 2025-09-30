@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Menu, Search, Bell, ChevronDown } from 'lucide-react'
+import { Menu, Search, Bell, ChevronDown, Mail, Edit2, HelpCircle, Lock, LogOut, MessageSquare, User } from 'lucide-react'
 import { findSubItems, isMainMenuItem, findParentMenuItem } from '../../config/menuItems'
 
 const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
@@ -189,7 +189,9 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                   <div className="space-y-2">
                     {/* Example message items - replace with real data as needed */}
                     <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">EA</div>
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">
+                        <MessageSquare size={16} />
+                      </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-gray-800">System Admin</div>
                         <div className="text-xs text-gray-500 truncate">Your monthly report is ready.</div>
@@ -197,7 +199,9 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                       <div className="text-xs text-gray-400">2h</div>
                     </button>
                     <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">CS</div>
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">
+                        <Mail size={16} />
+                      </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-gray-800">Customer Support</div>
                         <div className="text-xs text-gray-500 truncate">We have updated your ticket.</div>
@@ -205,7 +209,9 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                       <div className="text-xs text-gray-400">1d</div>
                     </button>
                     <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">MG</div>
+                      <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600">
+                        <User size={16} />
+                      </div>
                       <div className="flex-1">
                         <div className="text-sm font-medium text-gray-800">Marketing</div>
                         <div className="text-xs text-gray-500 truncate">New promotional assets are ready.</div>
@@ -217,13 +223,22 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
 
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Notifications</button>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-center gap-3">
+                      <Bell size={16} className="text-gray-600" />
+                      <span>Notifications</span>
+                    </button>
                   </li>
                   <li>
-                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Help & Support</button>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-center gap-3">
+                      <HelpCircle size={16} className="text-gray-600" />
+                      <span>Help & Support</span>
+                    </button>
                   </li>
                   <li>
-                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50">Change Password</button>
+                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-center gap-3">
+                      <Lock size={16} className="text-gray-600" />
+                      <span>Change Password</span>
+                    </button>
                   </li>
                   <li>
                     <button
@@ -232,9 +247,10 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                         setIsProfileOpen(false)
                         // you can call a logout handler here
                       }}
-                      className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-gray-50"
+                      className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-gray-50 flex items-center gap-3"
                     >
-                      Logout
+                      <LogOut size={16} />
+                      <span>Logout</span>
                     </button>
                   </li>
                 </ul>
