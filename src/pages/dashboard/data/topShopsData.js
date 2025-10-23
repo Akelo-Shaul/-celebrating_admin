@@ -10,7 +10,8 @@ export const topShopsData = [
     },
     country: 'KE', // Kenya
     salesVolume: 32000,
-    productsCount: 94
+    productsCount: 94,
+    status: 'active'
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ export const topShopsData = [
     },
     country: 'KE',
     salesVolume: 28500,
-    productsCount: 78
+    productsCount: 78,
+    status: 'active'
   },
   {
     id: 3,
@@ -34,7 +36,8 @@ export const topShopsData = [
     },
     country: 'KE',
     salesVolume: 25000,
-    productsCount: 65
+    productsCount: 65,
+    status: 'pending'
   },
   {
     id: 4,
@@ -46,7 +49,8 @@ export const topShopsData = [
     },
     country: 'KE',
     salesVolume: 23000,
-    productsCount: 54
+    productsCount: 54,
+    status: 'active'
   },
   {
     id: 5,
@@ -58,6 +62,7 @@ export const topShopsData = [
     },
     country: 'KE',
     salesVolume: 21500,
-    productsCount: 48
+    productsCount: 48,
+    status: 'pending'
   }
 ]

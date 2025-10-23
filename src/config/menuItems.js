@@ -64,18 +64,34 @@ export const menuItems = [
       {
         label: 'Transaction History',
         subItems: [
-          'All Transactions',
-          'Pending Transactions',
-          'Failed Transactions',
-          'Transaction Reports'
+          'Transaction History',
+          'Deposits',
+          'Withdrawals',
+          'Escrows'
         ]
+      },
+      {
+        label: 'Platform Revenue',
+        subItems: [
+          'Revenue Overview',
+          'Transaction Fees',
+          'Commission Revenue',
+          'Event Revenue',
+          'Streaming Revenue',
+          'Social Revenue',
+          'Promoted Post Revenue',
+          'Revenue Analytics'
+        ]
+      },
+      {
+        label: 'Fraud Detection And Alerts'
       }
     ],
   },
   {
     title: 'RATING AND REVIEW',
     items: [
-      { label: 'All Reviews' },
+      { label: 'All Ratings' },
       { label: 'Rankings' },
       { label: 'Rating Analytics' },
       { label: 'Authenticity Analysis' }
@@ -87,9 +103,10 @@ export const menuItems = [
       {
         label: 'Post Management',
         subItems: [
-          'All Posts',
-          'Scheduled Posts',
-          'Post Analytics',
+          'All Celebrations',
+          'Scheduled Celebrations',
+          'Celebration Analytics',
+          'Content Moderation',
           'Content Calendar'
         ]
       },

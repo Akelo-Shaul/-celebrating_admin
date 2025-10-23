@@ -1,26 +1,35 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
+import 'leaflet/dist/leaflet.css'
 import Header from './components/layout/Header'
 import Sidebar from './components/layout/Sidebar'
 import PageContainer from './components/PageContainer'
+import { MessagingProvider } from './contexts/MessagingContext'
+import { NotificationProvider } from './contexts/NotificationContext'
 
 // Dashboard Pages
 import DashboardOverview from './pages/dashboard/DashboardOverview'
 import UserOverview from './pages/dashboard/UserOverview'
 import ShopsOverview from './pages/dashboard/ShopsOverview'
+import ProductsOverview from './pages/dashboard/ProductsOverview'
+import WalletOverview from './pages/dashboard/WalletOverview'
 
 // User Management Pages
 import UserManagement from './pages/users/UserManagement'
 import AllUsers from './pages/users/AllUsers'
 import UserRoles from './pages/users/UserRoles'
+import UserActivities from './pages/users/UserActivities'
 
 // Celebrity Management Pages
 import CelebrityManagement from './pages/celebrities/CelebrityManagement'
 import CelebrityList from './pages/celebrities/CelebrityList'
+import VerificationRequests from './pages/celebrities/VerificationRequests'
+import CelebrityCategories from './pages/celebrities/CelebrityCategories'
 
 // Shop Management Pages
 import ActiveShops from './pages/shops/ActiveShops'
+import PendingApprovals from './pages/shops/PendingApprovals'
 import ShopCategories from './pages/shops/ShopCategories'
 import ShopAnalytics from './pages/shops/ShopAnalytics'
 
@@ -28,13 +37,54 @@ import ShopAnalytics from './pages/shops/ShopAnalytics'
 import WalletManagement from './pages/financial/WalletManagement'
 import BalanceOverview from './pages/financial/BalanceOverview'
 import TransactionLog from './pages/financial/TransactionLog'
+import TransactionHistory from './pages/financial/TransactionHistory'
+import Deposits from './pages/financial/Deposits'
+import Withdrawals from './pages/financial/Withdrawals'
+import Escrows from './pages/financial/Escrows'
+import ActiveEscrows from './pages/financial/ActiveEscrows'
+import DisputeResolution from './pages/financial/DisputeResolution'
+import FraudDetection from './pages/financial/FraudDetection'
+import PaymentMethods from './pages/financial/PaymentMethods'
+import WithdrawalRequests from './pages/financial/WithdrawalRequests'
+import RevenueOverview from './pages/financial/RevenueOverview'
+import TransactionFeesRevenue from './pages/financial/TransactionFeesRevenue'
+import CommissionRevenue from './pages/financial/CommissionRevenue'
+import EventRevenue from './pages/financial/EventRevenue'
+import StreamingRevenue from './pages/financial/StreamingRevenue'
+import SocialRevenue from './pages/financial/SocialRevenue'
+import RevenueAnalytics from './pages/financial/RevenueAnalytics'
+import PromotedPostRevenue from './pages/financial/PromotedPostRevenue'
 
 // Reviews Pages
 import AllReviews from './pages/reviews/AllReviews'
+import AllRatings from './pages/reviews/AllRatings'
+import Rankings from './pages/reviews/Rankings'
 
 // Social Pages
 import PostManagement from './pages/social/PostManagement'
-import AllPosts from './pages/social/AllPosts'
+import AllCelebrations from './pages/social/AllCelebrations'
+import ScheduledCelebrations from './pages/social/ScheduledCelebrations'
+import CelebrationAnalytics from './pages/social/CelebrationAnalytics'
+import ContentModeration from './pages/social/ContentModeration'
+import UserEngagement from './pages/social/UserEngagement'
+import CategoryList from './pages/social/CategoryList'
+
+// Streaming Pages
+import ActiveStreams from './pages/streaming/ActiveStreams'
+import StreamAnalytics from './pages/streaming/StreamAnalytics'
+import ScheduledStreams from './pages/streaming/ScheduledStreams'
+
+// Events Pages
+import EventAnalytics from './pages/events/EventAnalytics'
+import UpcomingEvents from './pages/events/UpcomingEvents'
+import PastEvents from './pages/events/PastEvents'
+import EventCategories from './pages/events/EventCategories'
+// Entity Pages
+import UserProfile from './pages/entities/UserProfile'
+import StoreProfile from './pages/entities/StoreProfile'
+import WalletProfile from './pages/entities/WalletProfile'
+import PostDetail from './pages/entities/PostDetail'
+import ProductProfile from './pages/entities/ProductProfile'
 
 const AppContent = () => {
   const navigate = useNavigate()
@@ -68,6 +118,30 @@ const AppContent = () => {
     const path = location.pathname.slice(1).replace(/-/g, ' ').trim()
     if (path) {
       // Title-case each word so it matches labels in menuItems
+      if (location.pathname.startsWith('/profile/')) {
+        setActiveItem('Profile')
+        return
+      }
+      if (location.pathname.startsWith('/store/')) {
+        const storeName = decodeURIComponent(location.pathname.split('/store/')[1])
+        setActiveItem(`Store/${storeName}`)
+        return
+      }
+      if (location.pathname.startsWith('/wallet/')) {
+        const walletName = decodeURIComponent(location.pathname.split('/wallet/')[1])
+        setActiveItem(`Wallet/${walletName}`)
+        return
+      }
+      if (location.pathname.startsWith('/post/')) {
+        const postId = decodeURIComponent(location.pathname.split('/post/')[1])
+        setActiveItem(`Post/${postId}`)
+        return
+      }
+      if (location.pathname.startsWith('/product/')) {
+        const productId = decodeURIComponent(location.pathname.split('/product/')[1])
+        setActiveItem(`Product/${productId}`)
+        return
+      }
       const titled = path.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
       setActiveItem(titled)
     }
@@ -108,42 +182,79 @@ const AppContent = () => {
               {/* Dashboard Sub Items */}
               <Route path="/user-overview" element={<UserOverview />} />
               <Route path="/shops-overview" element={<ShopsOverview />} />
-              <Route path="/products-overview" element={<PageContainer title="Products Overview" />} />
-              <Route path="/wallet-overview" element={<PageContainer title="Wallet Overview" />} />
+              <Route path="/products-overview" element={<ProductsOverview />} />
+              <Route path="/wallet-overview" element={<WalletOverview />} />
               
               {/* User Management Routes */}
               <Route path="/user-management" element={<UserManagement />} />
               <Route path="/all-users" element={<AllUsers />} />
               <Route path="/user-roles" element={<UserRoles />} />
-              <Route path="/user-activities" element={<PageContainer title="User Activities" />} />
+              <Route path="/user-activities" element={<UserActivities />} />
               <Route path="/access-control" element={<PageContainer title="Access Control" />} />
 
               {/* Celebrity Management Routes */}
               <Route path="/celebrity-management" element={<CelebrityManagement />} />
               <Route path="/celebrity-list" element={<CelebrityList />} />
-              <Route path="/verification-requests" element={<PageContainer title="Verification Requests" />} />
-              <Route path="/celebrity-categories" element={<PageContainer title="Celebrity Categories" />} />
+              <Route path="/verification-requests" element={<VerificationRequests />} />
+              <Route path="/celebrity-categories" element={<CelebrityCategories />} />
               <Route path="/performance-metrics" element={<PageContainer title="Performance Metrics" />} />
 
               {/* Shop Management Routes */}
               <Route path="/shop-management" element={<PageContainer title="Shop Management" />} />
-              <Route path="/active-shops" element={<PageContainer title="Active Shops" />} />
-              <Route path="/pending-approvals" element={<PageContainer title="Pending Approvals" />} />
-              <Route path="/shop-categories" element={<PageContainer title="Shop Categories" />} />
-              <Route path="/shop-analytics" element={<PageContainer title="Shop Analytics" />} />
+              <Route path="/active-shops" element={<ActiveShops />} />
+              <Route path="/pending-approvals" element={<PendingApprovals />} />
+              <Route path="/shop-categories" element={<ShopCategories />} />
+              <Route path="/shop-analytics" element={<ShopAnalytics />} />
 
               {/* Financial Routes */}
               <Route path="/wallet-management" element={<PageContainer title="Wallet Management" />} />
-              <Route path="/balance-overview" element={<PageContainer title="Balance Overview" />} />
-              <Route path="/transaction-log" element={<PageContainer title="Transaction Log" />} />
-              <Route path="/payment-methods" element={<PageContainer title="Payment Methods" />} />
-              <Route path="/withdrawal-requests" element={<PageContainer title="Withdrawal Requests" />} />
+              <Route path="/balance-overview" element={<BalanceOverview />} />
+              <Route path="/transaction-log" element={<TransactionLog />} />
+              <Route path="/payment-methods" element={<PaymentMethods />} />
+              <Route path="/withdrawal-requests" element={<WithdrawalRequests />} />
+
+              {/* Transaction History Routes */}
+              <Route path="/transaction-history" element={<TransactionHistory />} />
+              <Route path="/deposits" element={<Deposits />} />
+              <Route path="/withdrawals" element={<Withdrawals />} />
+              <Route path="/escrows" element={<Escrows />} />
 
               <Route path="/escrow-management" element={<PageContainer title="Escrow Management" />} />
-              <Route path="/active-escrows" element={<PageContainer title="Active Escrows" />} />
+              <Route path="/active-escrows" element={<ActiveEscrows />} />
               <Route path="/completed-escrows" element={<PageContainer title="Completed Escrows" />} />
-              <Route path="/dispute-resolution" element={<PageContainer title="Dispute Resolution" />} />
+              <Route path="/dispute-resolution" element={<DisputeResolution />} />
               <Route path="/escrow-settings" element={<PageContainer title="Escrow Settings" />} />
+
+              <Route path="/fraud-detection-and-alerts" element={<FraudDetection />} />
+
+              {/* Platform Revenue Routes */}
+              <Route path="/platform-revenue" element={<PageContainer title="Platform Revenue" />} />
+              <Route path="/revenue-overview" element={<RevenueOverview />} />
+              <Route path="/transaction-fees" element={<TransactionFeesRevenue />} />
+              <Route path="/commission-revenue" element={<CommissionRevenue />} />
+              <Route path="/event-revenue" element={<EventRevenue />} />
+              <Route path="/streaming-revenue" element={<StreamingRevenue />} />
+              <Route path="/social-revenue" element={<SocialRevenue />} />
+              <Route path="/promoted-post-revenue" element={<PromotedPostRevenue />} />
+              <Route path="/revenue-analytics" element={<RevenueAnalytics />} />
+
+              {/* Streaming Routes */}
+              <Route path="/active-streams" element={<ActiveStreams />} />
+              <Route path="/stream-analytics" element={<StreamAnalytics />} />
+              <Route path="/scheduled-streams" element={<ScheduledStreams />} />
+
+              {/* Events Routes */}
+              <Route path="/event-analytics" element={<EventAnalytics />} />
+              <Route path="/upcoming-events" element={<UpcomingEvents />} />
+              <Route path="/past-events" element={<PastEvents />} />
+              <Route path="/event-categories" element={<EventCategories />} />
+
+              {/* Entity routes */}
+              <Route path="/profile/:id" element={<UserProfile />} />
+              <Route path="/store/:id" element={<StoreProfile />} />
+              <Route path="/wallet/:id" element={<WalletProfile />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/product/:id" element={<ProductProfile />} />
 
               <Route path="/transaction-history" element={<PageContainer title="Transaction History" />} />
               <Route path="/all-transactions" element={<PageContainer title="All Transactions" />} />
@@ -152,23 +263,30 @@ const AppContent = () => {
               <Route path="/transaction-reports" element={<PageContainer title="Transaction Reports" />} />
 
               {/* Rating and Review Routes */}
-              <Route path="/all-reviews" element={<PageContainer title="All Reviews" />} />
-              <Route path="/rankings" element={<PageContainer title="Rankings" />} />
+              <Route path="/all-reviews" element={<AllReviews />} />
+              <Route path="/all-ratings" element={<AllRatings />} />
+              <Route path="/rankings" element={<Rankings />} />
               <Route path="/rating-analytics" element={<PageContainer title="Rating Analytics" />} />
               <Route path="/authenticity-analysis" element={<PageContainer title="Authenticity Analysis" />} />
 
               {/* Social Routes */}
-              <Route path="/post-management" element={<PageContainer title="Post Management" />} />
-              <Route path="/all-posts" element={<PageContainer title="All Posts" />} />
+              <Route path="/post-management" element={<PostManagement />} />
+              <Route path="/all-celebrations" element={<AllCelebrations />} />
+              <Route path="/scheduled-celebrations" element={<ScheduledCelebrations />} />
+              <Route path="/celebration-analytics" element={<CelebrationAnalytics />} />
+              <Route path="/content-moderation" element={<ContentModeration />} />
               <Route path="/scheduled-posts" element={<PageContainer title="Scheduled Posts" />} />
               <Route path="/post-analytics" element={<PageContainer title="Post Analytics" />} />
               <Route path="/content-calendar" element={<PageContainer title="Content Calendar" />} />
 
               <Route path="/engagement-metrics" element={<PageContainer title="Engagement Metrics" />} />
-              <Route path="/user-engagement" element={<PageContainer title="User Engagement" />} />
+              <Route path="/user-engagement" element={<UserEngagement />} />
               <Route path="/content-performance" element={<PageContainer title="Content Performance" />} />
               <Route path="/interaction-analysis" element={<PageContainer title="Interaction Analysis" />} />
               <Route path="/engagement-reports" element={<PageContainer title="Engagement Reports" />} />
+
+              {/* Content Categories Routes */}
+              <Route path="/category-list" element={<CategoryList />} />
 
               {/* Catch all route */}
               <Route path="*" element={<PageContainer title="Page Not Found" />} />
@@ -183,7 +301,11 @@ const AppContent = () => {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <NotificationProvider>
+        <MessagingProvider>
+          <AppContent />
+        </MessagingProvider>
+      </NotificationProvider>
     </Router>
   )
 }

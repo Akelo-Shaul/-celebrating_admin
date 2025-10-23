@@ -1,14 +1,14 @@
 import React from 'react'
-import TopCelebrities from './widgets/TopCelebrities'
-import CountryRankings from './widgets/CountryRankings'
-import UsersGrowth from './widgets/UsersGrowth'
-import TopShops from './widgets/TopShops'
+import TopCelebrities from './user_widgets/TopCelebrities'
+import CountryRankings from './user_widgets/CountryRankings'
+import UsersGrowth from './user_widgets/UsersGrowth'
+import TopShops from './user_widgets/TopShops'
 
 const UserOverview = () => {
   return (
     <div className="p-6 h-full overflow-x-hidden">
       <div className="flex flex-col gap-6 h-full">
-        <div className="flex flex-row gap-6">
+        <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-[2] h-full">
                 <div className="h-full">
                     <TopCelebrities />
@@ -20,13 +20,13 @@ const UserOverview = () => {
                 </div>
             </div>
         </div>
-        <div className="flex flex-row gap-6">
-            <div className="flex-1">
-                <UsersGrowth />
-            </div>
-            <div className="flex-1">
-                <TopShops />
-            </div>
+        <div className="flex flex-col pb-10 md:flex-row gap-6 min-w-0">
+          <div className="flex-1 min-w-0">
+            <UsersGrowth />
+          </div>
+          <div className="flex-1 min-w-0">
+            <TopShops />
+          </div>
         </div>
       </div>
     </div>
