@@ -1,77 +1,98 @@
-import React from 'react';
+import React from 'react'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Doughnut } from 'react-chartjs-2'
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const EventsByCategoriesChart = () => {
-  const data = [
-    { label: 'Music', value: 42, color: '#10b981' },
-    { label: 'Launch', value: 10, color: '#fb923c' },
-    { label: 'Business', value: 28, color: '#eab308' },
-    { label: 'Food', value: 12, color: '#f97316' },
-    { label: 'Entertainment', value: 8, color: '#ef4444' }
-  ];
+  const chartData = {
+    labels: ['Music', 'Business', 'Food', 'Launch', 'Entertainment'],
+    datasets: [
+      {
+        data: [42, 28, 12, 10, 8],
+        backgroundColor: [
+          'rgba(16, 185, 129, 0.85)',
+          'rgba(234, 179, 8, 0.85)',
+          'rgba(249, 115, 22, 0.85)',
+          'rgba(251, 146, 60, 0.85)',
+          'rgba(239, 68, 68, 0.85)'
+        ],
+        borderColor: [
+          'rgb(16, 185, 129)',
+          'rgb(234, 179, 8)',
+          'rgb(249, 115, 22)',
+          'rgb(251, 146, 60)',
+          'rgb(239, 68, 68)'
+        ],
+        borderWidth: 3
+      }
+    ]
+  }
 
-  const total = data.reduce((sum, item) => sum + item.value, 0);
-  let currentAngle = 0;
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        align: 'center',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 12,
+          font: {
+            size: 12,
+            weight: '500'
+          },
+          color: '#374151',
+          generateLabels: function(chart) {
+            const datasets = chart.data.datasets
+            return chart.data.labels.map((label, i) => ({
+              text: label,
+              fillStyle: datasets[0].backgroundColor[i],
+              strokeStyle: datasets[0].borderColor[i],
+              lineWidth: 0,
+              hidden: false,
+              index: i,
+              pointStyle: 'circle'
+            }))
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: function(context) {
+            const label = context.label || ''
+            const value = context.parsed || 0
+            return `${label}: ${value}%`
+          }
+        }
+      }
+    },
+    cutout: '70%',
+    radius: '90%'
+  }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Events By Categories</h3>
+    <div className="bg-white rounded-lg shadow p-6 h-full">
+      <h3 className="text-lg font-bold text-gray-900 mb-4">Events By Categories</h3>
       
-      {/* Pie Chart */}
-      <div className="flex justify-center mb-6">
-        <svg width="200" height="200" className="transform -rotate-90">
-          <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" strokeWidth="40" />
-          {data.map((item, index) => {
-            const percentage = item.value;
-            const angle = (percentage / total) * 360;
-            const startAngle = currentAngle;
-            const endAngle = currentAngle + angle;
-            
-            const startAngleRad = (startAngle * Math.PI) / 180;
-            const endAngleRad = (endAngle * Math.PI) / 180;
-            
-            const x1 = 100 + 80 * Math.cos(startAngleRad);
-            const y1 = 100 + 80 * Math.sin(startAngleRad);
-            const x2 = 100 + 80 * Math.cos(endAngleRad);
-            const y2 = 100 + 80 * Math.sin(endAngleRad);
-            
-            const largeArcFlag = angle > 180 ? 1 : 0;
-            
-            const pathData = [
-              `M 100 100`,
-              `L ${x1} ${y1}`,
-              `A 80 80 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-              'Z'
-            ].join(' ');
-            
-            currentAngle += angle;
-            
-            return (
-              <path
-                key={index}
-                d={pathData}
-                fill={item.color}
-                stroke="white"
-                strokeWidth="2"
-              />
-            );
-          })}
-        </svg>
-      </div>
-      
-      {/* Legend */}
-      <div className="grid grid-cols-2 gap-2">
-        {data.map((item, index) => (
-          <div key={index} className="flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-            <span className="text-sm text-gray-600">{item.label}</span>
-          </div>
-        ))}
+      <div style={{ height: '220px' }}>
+        <Doughnut data={chartData} options={options} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EventsByCategoriesChart;
+export default EventsByCategoriesChart
+
 
 
 

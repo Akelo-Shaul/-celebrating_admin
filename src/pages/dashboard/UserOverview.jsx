@@ -7,6 +7,10 @@ import TopShops from './user_widgets/TopShops'
 const UserOverview = () => {
   return (
     <div className="p-6 h-full overflow-x-hidden">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">User Overview</h1>
+        <p className="text-gray-600 mt-1">Track user growth, engagement, and top performers across the platform</p>
+      </div>
       <div className="flex flex-col gap-6 h-full">
         <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-[2] h-full">

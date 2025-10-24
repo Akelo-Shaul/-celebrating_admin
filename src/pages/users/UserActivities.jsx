@@ -22,6 +22,10 @@ export default function UserActivities() {
 
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">User Activities</h1>
+        <p className="text-gray-600 mt-1">Monitor user engagement, content creation, and platform interactions</p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="lg:col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat, i) => (

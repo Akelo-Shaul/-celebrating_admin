@@ -992,10 +992,6 @@ const UserProfile = () => {
         console.log(`Featuring/Unfeaturing post: ${post.id}`)
         alert(`${post.featured ? 'Unfeatured' : 'Featured'} post: "${post.title}"`)
         break
-      case 'message':
-        console.log(`Messaging user about post: ${post.id}`)
-        alert(`Opening message dialog to contact user about post: "${post.title}"`)
-        break
       default:
         break
     }
@@ -1757,8 +1753,9 @@ const UserProfile = () => {
                {(profile.liveStreams || []).map((stream) => (
                  <div 
                    key={stream.id} 
-                   className="flex-shrink-0 w-40 rounded-lg overflow-hidden border-2 border-gray-300"
+                   className="flex-shrink-0 w-40 rounded-lg overflow-hidden border-2 border-gray-300 cursor-pointer hover:shadow-lg transition-shadow"
                    style={{ backgroundColor: '#d9d9d9' }}
+                   onClick={() => navigate(`/stream/${encodeURIComponent(stream.title)}`)}
                  >
                    {/* Thumbnail */}
                    <div className="w-full h-32 bg-gray-300 overflow-hidden">

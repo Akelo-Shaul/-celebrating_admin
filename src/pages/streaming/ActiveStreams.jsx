@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Radio, Users, Calendar, TrendingUp, Clock, Eye, Timer, Award, DollarSign, MessageSquare } from 'lucide-react';
 import StatCard from '../../components/common/StatCard';
 import StreamCard from './active_streams_widgets/StreamCard';
 import AlertsSidebar from './active_streams_widgets/AlertsSidebar';
 
 const ActiveStreams = () => {
+  const navigate = useNavigate();
   const [streams, setStreams] = useState([
     {
       id: 1,
@@ -206,8 +208,7 @@ const ActiveStreams = () => {
   ];
 
   const handleViewStream = (stream) => {
-    console.log('View stream:', stream);
-    // Implement view stream functionality
+    navigate(`/stream/${encodeURIComponent(stream.title)}`);
   };
 
   const handleMoreOptions = (stream) => {

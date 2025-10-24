@@ -1,8 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PastEventCard = ({ event }) => {
+  const navigate = useNavigate();
+  
   return (
-    <div className="bg-gray-100 rounded-lg overflow-hidden shadow">
+    <div 
+      className="bg-gray-100 rounded-lg overflow-hidden shadow cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={() => navigate(`/event/${encodeURIComponent(event.title)}`)}
+    >
       {/* Header with Pattern Background */}
       <div className="relative h-32 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900">
         {/* Background Pattern - Tribal Masks */}

@@ -1,10 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const TopStreamersList = () => {
+  const navigate = useNavigate();
+  
   const streamers = [
     {
       rank: 1,
       name: 'Braum Hallabery',
+      handle: '@braum',
       avatar: 'B',
       streams: 14,
       viewers: 1345245,
@@ -13,6 +17,7 @@ const TopStreamersList = () => {
     {
       rank: 2,
       name: 'Braum Hallabery',
+      handle: '@braum',
       avatar: 'B',
       streams: 14,
       viewers: 1345245,
@@ -21,6 +26,7 @@ const TopStreamersList = () => {
     {
       rank: 3,
       name: 'Braum Hallabery',
+      handle: '@braum',
       avatar: 'B',
       streams: 14,
       viewers: 1345245,
@@ -29,6 +35,7 @@ const TopStreamersList = () => {
     {
       rank: 4,
       name: 'Braum Hallabery',
+      handle: '@braum',
       avatar: 'B',
       streams: 14,
       viewers: 1345245,
@@ -37,6 +44,7 @@ const TopStreamersList = () => {
     {
       rank: 5,
       name: 'Braum Hallabery',
+      handle: '@braum',
       avatar: 'B',
       streams: 14,
       viewers: 1345245,
@@ -57,7 +65,11 @@ const TopStreamersList = () => {
       
       <div className="space-y-4">
         {streamers.map((streamer) => (
-          <div key={streamer.rank} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+          <div 
+            key={streamer.rank} 
+            className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+            onClick={() => navigate(`/profile/${encodeURIComponent(streamer.handle)}`)}
+          >
             <div className="flex-shrink-0">
               <span className="text-sm font-bold text-gray-600">#{streamer.rank}</span>
             </div>
@@ -68,6 +80,7 @@ const TopStreamersList = () => {
             
             <div className="flex-1 min-w-0">
               <h4 className="text-sm font-semibold text-gray-900 truncate">{streamer.name}</h4>
+              <p className="text-xs text-gray-500">{streamer.handle}</p>
             </div>
             
             <div className="text-right">
@@ -83,6 +96,7 @@ const TopStreamersList = () => {
 };
 
 export default TopStreamersList;
+
 
 
 

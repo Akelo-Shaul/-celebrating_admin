@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const EventListTable = () => {
+  const navigate = useNavigate();
+  
   const events = [
     {
       id: 1,
@@ -119,7 +122,11 @@ const EventListTable = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {events.map((event) => (
-              <tr key={event.id} className="hover:bg-gray-50">
+              <tr 
+                key={event.id} 
+                className="hover:bg-gray-50 cursor-pointer"
+                onClick={() => navigate(`/event/${encodeURIComponent(event.title)}`)}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center space-x-3">
                     <input type="checkbox" className="rounded border-gray-300" />
@@ -178,6 +185,7 @@ const EventListTable = () => {
 };
 
 export default EventListTable;
+
 
 
 

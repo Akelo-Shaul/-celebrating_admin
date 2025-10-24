@@ -1,7 +1,172 @@
-import React from 'react'
-import SellerItem from '../shop_widgets/SellerItem'
+import React, { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Eye, Edit, BarChart2, Archive, AlertTriangle, Trash2 } from 'lucide-react'
+
+// Product Context Menu Component
+const ProductContextMenu = ({ isOpen, position, onClose, product, onAction }) => {
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, onClose])
+
+  if (!isOpen || !product) return null
+
+  const menuItems = [
+    {
+      icon: Eye,
+      label: 'View Details',
+      action: 'view',
+      color: 'text-blue-600'
+    },
+    {
+      icon: Edit,
+      label: 'Edit Product',
+      action: 'edit',
+      color: 'text-gray-700'
+    },
+    {
+      icon: BarChart2,
+      label: 'View Analytics',
+      action: 'analytics',
+      color: 'text-purple-600'
+    },
+    {
+      icon: Archive,
+      label: 'Archive Product',
+      action: 'archive',
+      color: 'text-orange-600'
+    },
+    {
+      icon: AlertTriangle,
+      label: 'Mark as Out of Stock',
+      action: 'outOfStock',
+      color: 'text-yellow-600'
+    },
+    {
+      icon: Trash2,
+      label: 'Delete Product',
+      action: 'delete',
+      color: 'text-red-600'
+    }
+  ]
+
+  return (
+    <div
+      ref={menuRef}
+      className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50"
+      style={{
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+      }}
+    >
+      <div className="px-3 py-2 border-b border-gray-100">
+        <div className="font-semibold text-sm text-gray-900">{product.name}</div>
+        <div className="text-xs text-gray-500">By {product.owner}</div>
+      </div>
+      
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            onAction(item.action, product)
+            onClose()
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
+        >
+          <item.icon size={16} className={item.color} />
+          <span className={`text-sm ${item.color}`}>{item.label}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export default function BestSellersTable({ sellers = [] }) {
+  const navigate = useNavigate()
+  const [productContextMenu, setProductContextMenu] = useState({ 
+    isOpen: false, 
+    position: { x: 0, y: 0 }, 
+    product: null 
+  })
+
+  const handleProductContextMenu = (e, product) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setProductContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      product
+    })
+  }
+
+  const closeProductContextMenu = () => {
+    setProductContextMenu({ isOpen: false, position: { x: 0, y: 0 }, product: null })
+  }
+
+  const handleProductAction = (action, product) => {
+    switch (action) {
+      case 'view':
+        console.log(`Viewing product: ${product.name}`)
+        navigate(`/product/${encodeURIComponent(product.name)}`)
+        break
+      case 'edit':
+        console.log(`Editing product: ${product.name}`)
+        alert(`Editing product: ${product.name}`)
+        break
+      case 'analytics':
+        console.log(`Viewing analytics for: ${product.name}`)
+        alert(`Viewing analytics for: ${product.name}`)
+        break
+      case 'archive':
+        console.log(`Archiving product: ${product.name}`)
+        alert(`Product ${product.name} has been archived`)
+        break
+      case 'outOfStock':
+        console.log(`Marking as out of stock: ${product.name}`)
+        alert(`${product.name} marked as out of stock`)
+        break
+      case 'delete':
+        console.log(`Deleting product: ${product.name}`)
+        if (window.confirm(`Are you sure you want to delete ${product.name}? This action cannot be undone.`)) {
+          alert(`Product ${product.name} deleted`)
+        }
+        break
+      default:
+        break
+    }
+  }
+
+  const handleProductClick = (product) => {
+    navigate(`/product/${encodeURIComponent(product.name)}`)
+  }
+
+  // Create default products if no sellers provided
+  const defaultProducts = Array.from({ length: 6 }).map((_, i) => ({
+    name: 'Marika Halaga',
+    owner: 'Bungii Halamu',
+    sales: 32000,
+    orders: 32000,
+    rating: 4.5
+  }))
+
+  const products = sellers.length ? sellers.map(s => ({
+    name: s.product,
+    owner: s.owner,
+    sales: s.sales,
+    orders: s.orders,
+    rating: 4.5
+  })) : defaultProducts
+
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Header Section */}
@@ -61,44 +226,39 @@ export default function BestSellersTable({ sellers = [] }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {sellers.length ? sellers.map((s, i) => (
-              <tr key={i} className="hover:bg-gray-50">
+            {products.map((product, i) => (
+              <tr 
+                key={i} 
+                className="hover:bg-gray-50 cursor-pointer transition-colors"
+                onClick={() => handleProductClick(product)}
+                onContextMenu={(e) => handleProductContextMenu(e, product)}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{s.product}</div>
-                  <div className="text-sm text-gray-500">By {s.owner}</div>
+                  <div className="text-sm font-medium text-gray-900">{product.name}</div>
+                  <div className="text-sm text-gray-500">By {product.owner}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {s.sales.toLocaleString()}
+                  {product.sales.toLocaleString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {s.orders}
+                  {product.orders.toLocaleString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  4.5
+                  {product.rating}
                 </td>
               </tr>
-            )) : (
-              Array.from({ length: 6 }).map((_, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">Marika Halaga</div>
-                    <div className="text-sm text-gray-500">By Bungii Halamu</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    32,000
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    32,000
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    4.5
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>
+
+      <ProductContextMenu
+        isOpen={productContextMenu.isOpen}
+        position={productContextMenu.position}
+        onClose={closeProductContextMenu}
+        product={productContextMenu.product}
+        onAction={handleProductAction}
+      />
     </div>
   )
 }

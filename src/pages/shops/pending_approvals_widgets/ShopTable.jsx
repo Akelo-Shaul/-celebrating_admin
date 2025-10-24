@@ -1,8 +1,173 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Eye, CheckCircle, XCircle, User, MessageCircle, FileText, BarChart2, Trash2 } from 'lucide-react';
+import { useMessaging } from '../../../contexts/MessagingContext';
+
+// Context Menu Component
+const ShopContextMenu = ({ isOpen, position, onClose, shop, onAction }) => {
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !shop) return null;
+
+  const menuItems = [
+    {
+      icon: Eye,
+      label: 'View Shop',
+      action: 'view',
+      color: 'text-blue-600'
+    },
+    {
+      icon: CheckCircle,
+      label: 'Approve Shop',
+      action: 'approve',
+      color: 'text-green-600'
+    },
+    {
+      icon: XCircle,
+      label: 'Reject Shop',
+      action: 'reject',
+      color: 'text-red-600'
+    },
+    {
+      icon: User,
+      label: 'View Creator Profile',
+      action: 'viewCreator',
+      color: 'text-purple-600'
+    },
+    {
+      icon: MessageCircle,
+      label: 'Message Creator',
+      action: 'message',
+      color: 'text-blue-500'
+    },
+    {
+      icon: FileText,
+      label: 'Request More Info',
+      action: 'requestInfo',
+      color: 'text-orange-600'
+    },
+    {
+      icon: BarChart2,
+      label: 'View Analytics',
+      action: 'analytics',
+      color: 'text-indigo-600'
+    },
+    {
+      icon: Trash2,
+      label: 'Delete Request',
+      action: 'delete',
+      color: 'text-red-700'
+    }
+  ];
+
+  return (
+    <div
+      ref={menuRef}
+      className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50"
+      style={{
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="px-3 py-2 border-b border-gray-100">
+        <div className="font-semibold text-sm text-gray-900">{shop.name}</div>
+        <div className="text-xs text-gray-500">Wait time: {shop.waitTime}</div>
+      </div>
+      
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            onAction(item.action, shop);
+            onClose();
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
+        >
+          <item.icon size={16} className={item.color} />
+          <span className={`text-sm ${item.color}`}>{item.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+};
 
 const ShopTable = ({ shops }) => {
   const navigate = useNavigate();
+  const { openMessage } = useMessaging();
+  const [contextMenu, setContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, shop: null });
+
+  const handleContextMenu = (e, shop) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      shop
+    });
+  };
+
+  const closeContextMenu = () => {
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, shop: null });
+  };
+
+  const handleAction = (action, shop) => {
+    switch (action) {
+      case 'view':
+        console.log(`Viewing shop: ${shop.name}`);
+        navigate(`/store/${encodeURIComponent(shop.name)}`);
+        break;
+      case 'approve':
+        console.log(`Approving shop: ${shop.name}`);
+        if (confirm(`Approve shop "${shop.name}"?`)) {
+          alert(`Shop "${shop.name}" has been approved!`);
+        }
+        break;
+      case 'reject':
+        console.log(`Rejecting shop: ${shop.name}`);
+        if (confirm(`Reject shop "${shop.name}"? The creator will be notified.`)) {
+          alert(`Shop "${shop.name}" has been rejected.`);
+        }
+        break;
+      case 'viewCreator':
+        console.log(`Viewing creator profile for shop: ${shop.name}`);
+        navigate(`/profile/${encodeURIComponent(shop.name)}`);
+        break;
+      case 'message':
+        console.log(`Messaging creator of shop: ${shop.name}`);
+        openMessage({ name: shop.name, username: `@${shop.name}` });
+        break;
+      case 'requestInfo':
+        console.log(`Requesting more info for shop: ${shop.name}`);
+        alert(`Requesting additional information from creator of "${shop.name}"`);
+        break;
+      case 'analytics':
+        console.log(`Viewing analytics for shop: ${shop.name}`);
+        alert(`Opening analytics for shop "${shop.name}"`);
+        break;
+      case 'delete':
+        console.log(`Deleting shop request: ${shop.name}`);
+        if (confirm(`Delete shop request "${shop.name}"? This action cannot be undone.`)) {
+          alert(`Shop request "${shop.name}" has been deleted.`);
+        }
+        break;
+      default:
+        break;
+    }
+  };
   
   return (
     <div className="bg-white rounded-lg shadow">
@@ -73,8 +238,9 @@ const ShopTable = ({ shops }) => {
                 key={shop.name} 
                 className="hover:bg-gray-50 cursor-pointer transition-colors"
                 onClick={() => navigate(`/store/${encodeURIComponent(shop.name)}`)}
+                onContextMenu={(e) => handleContextMenu(e, shop)}
               >
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">{shop.name}</div>
                 </td>
                 <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
@@ -86,8 +252,10 @@ const ShopTable = ({ shops }) => {
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-700">{shop.createdAt}</td>
-                <td className="px-6 py-4">
-                  <img src={`https://flagcdn.com/w20/${shop.country.toLowerCase()}.png`} alt={shop.country} className="h-4" />
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="flex items-center justify-center">
+                    <img src={`https://flagcdn.com/w20/${shop.country.toLowerCase()}.png`} alt={shop.country} className="h-4" />
+                  </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-700">{shop.waitTime}</td>
                 <td className="px-6 py-4 text-sm text-gray-900">{shop.followers}</td>
@@ -109,6 +277,15 @@ const ShopTable = ({ shops }) => {
           </tbody>
         </table>
       </div>
+
+      {/* Context Menu */}
+      <ShopContextMenu
+        isOpen={contextMenu.isOpen}
+        position={contextMenu.position}
+        onClose={closeContextMenu}
+        shop={contextMenu.shop}
+        onAction={handleAction}
+      />
     </div>
   );
 };

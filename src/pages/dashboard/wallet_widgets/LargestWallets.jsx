@@ -1,13 +1,120 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as Flags from 'country-flag-icons/react/3x2'
 import { countryToCode } from '../shop_widgets/countryUtils'
+import { Eye, Lock, Unlock, AlertTriangle, Ban, TrendingUp, FileText, DollarSign } from 'lucide-react'
+
+// Wallet Context Menu Component
+const WalletContextMenu = ({ isOpen, position, onClose, wallet, onAction }) => {
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, onClose])
+
+  if (!isOpen || !wallet) return null
+
+  const menuItems = [
+    {
+      icon: Eye,
+      label: 'View Wallet Details',
+      action: 'view',
+      color: 'text-blue-600'
+    },
+    {
+      icon: FileText,
+      label: 'View Transactions',
+      action: 'transactions',
+      color: 'text-purple-600'
+    },
+    {
+      icon: TrendingUp,
+      label: 'View Analytics',
+      action: 'analytics',
+      color: 'text-green-600'
+    },
+    {
+      icon: Lock,
+      label: 'Freeze Wallet',
+      action: 'freeze',
+      color: 'text-orange-600'
+    },
+    {
+      icon: Unlock,
+      label: 'Unfreeze Wallet',
+      action: 'unfreeze',
+      color: 'text-green-600'
+    },
+    {
+      icon: AlertTriangle,
+      label: 'Flag for Review',
+      action: 'flag',
+      color: 'text-yellow-600'
+    },
+    {
+      icon: DollarSign,
+      label: 'Adjust Balance',
+      action: 'adjustBalance',
+      color: 'text-gray-700'
+    },
+    {
+      icon: Ban,
+      label: 'Suspend Wallet',
+      action: 'suspend',
+      color: 'text-red-600'
+    }
+  ]
+
+  return (
+    <div
+      ref={menuRef}
+      className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50"
+      style={{
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+      }}
+    >
+      <div className="px-3 py-2 border-b border-gray-100">
+        <div className="font-semibold text-sm text-gray-900">{wallet.owner}</div>
+        <div className="text-xs text-gray-500">{wallet.handle} • ${wallet.balance.toLocaleString()}</div>
+      </div>
+      
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            onAction(item.action, wallet)
+            onClose()
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
+        >
+          <item.icon size={16} className={item.color} />
+          <span className={`text-sm ${item.color}`}>{item.label}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
 
 // Wallets Overview (Largest Wallets)
 // Columns: Owner, Country, Wallet Balance ($), Tx Volume
 const LargestWallets = ({ wallets = [] }) => {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
+  const [walletContextMenu, setWalletContextMenu] = useState({ 
+    isOpen: false, 
+    position: { x: 0, y: 0 }, 
+    wallet: null 
+  })
 
   const rows = (wallets.length ? wallets : [
     { owner: 'Braum Hallabery', handle: '@braum', country: 'Kenya', balance: 1134452.54, txVolume: 34500 },
@@ -16,6 +123,63 @@ const LargestWallets = ({ wallets = [] }) => {
     { owner: 'Paward Chung', handle: '@paward', country: 'Kenya', balance: 504452.54, txVolume: 16500 },
     { owner: 'Hang Turm', handle: '@hang', country: 'Kenya', balance: 404452.54, txVolume: 12500 },
   ]).filter(r => r.owner.toLowerCase().includes(query.trim().toLowerCase()))
+
+  const handleWalletContextMenu = (e, wallet) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setWalletContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      wallet
+    })
+  }
+
+  const closeWalletContextMenu = () => {
+    setWalletContextMenu({ isOpen: false, position: { x: 0, y: 0 }, wallet: null })
+  }
+
+  const handleWalletAction = (action, wallet) => {
+    switch (action) {
+      case 'view':
+        console.log(`Viewing wallet: ${wallet.owner}`)
+        navigate(`/wallet/${encodeURIComponent(wallet.owner)}`)
+        break
+      case 'transactions':
+        console.log(`Viewing transactions for: ${wallet.owner}`)
+        alert(`Opening transaction history for ${wallet.owner}`)
+        break
+      case 'analytics':
+        console.log(`Viewing analytics for: ${wallet.owner}`)
+        alert(`Opening analytics dashboard for ${wallet.owner}'s wallet`)
+        break
+      case 'freeze':
+        console.log(`Freezing wallet: ${wallet.owner}`)
+        if (window.confirm(`Are you sure you want to freeze ${wallet.owner}'s wallet?`)) {
+          alert(`Wallet frozen for ${wallet.owner}`)
+        }
+        break
+      case 'unfreeze':
+        console.log(`Unfreezing wallet: ${wallet.owner}`)
+        alert(`Wallet unfrozen for ${wallet.owner}`)
+        break
+      case 'flag':
+        console.log(`Flagging wallet for review: ${wallet.owner}`)
+        alert(`Wallet flagged for review: ${wallet.owner}`)
+        break
+      case 'adjustBalance':
+        console.log(`Adjusting balance for: ${wallet.owner}`)
+        alert(`Opening balance adjustment dialog for ${wallet.owner}`)
+        break
+      case 'suspend':
+        console.log(`Suspending wallet: ${wallet.owner}`)
+        if (window.confirm(`Are you sure you want to suspend ${wallet.owner}'s wallet? This action requires admin approval.`)) {
+          alert(`Wallet suspension initiated for ${wallet.owner}`)
+        }
+        break
+      default:
+        break
+    }
+  }
 
   return (
     <div className="bg-white rounded-md shadow-sm p-4">
@@ -44,6 +208,7 @@ const LargestWallets = ({ wallets = [] }) => {
             key={i} 
             className="bg-gray-50 rounded-lg px-3 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
             onClick={() => navigate(`/wallet/${encodeURIComponent(w.owner)}`)}
+            onContextMenu={(e) => handleWalletContextMenu(e, w)}
           >
             <div className="grid grid-cols-[1fr_90px_120px_120px] items-center gap-4">
               <div className="flex items-center gap-3 min-w-0">
@@ -63,6 +228,14 @@ const LargestWallets = ({ wallets = [] }) => {
           </div>
         ))}
       </div>
+
+      <WalletContextMenu
+        isOpen={walletContextMenu.isOpen}
+        position={walletContextMenu.position}
+        onClose={closeWalletContextMenu}
+        wallet={walletContextMenu.wallet}
+        onAction={handleWalletAction}
+      />
     </div>
   )
 }

@@ -1,4 +1,8 @@
 import React from 'react'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Doughnut } from 'react-chartjs-2'
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const RevenueBySourceChart = () => {
   const data = [
@@ -10,59 +14,94 @@ const RevenueBySourceChart = () => {
     { label: 'Subscriptions', value: 3, amount: '$72K', color: '#ec4899' }
   ]
 
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-  let currentAngle = 0
+  const chartData = {
+    labels: data.map(item => item.label),
+    datasets: [
+      {
+        data: data.map(item => item.value),
+        backgroundColor: [
+          'rgba(16, 185, 129, 0.85)',
+          'rgba(59, 130, 246, 0.85)',
+          'rgba(245, 158, 11, 0.85)',
+          'rgba(239, 68, 68, 0.85)',
+          'rgba(139, 92, 246, 0.85)',
+          'rgba(236, 72, 153, 0.85)'
+        ],
+        borderColor: [
+          'rgb(16, 185, 129)',
+          'rgb(59, 130, 246)',
+          'rgb(245, 158, 11)',
+          'rgb(239, 68, 68)',
+          'rgb(139, 92, 246)',
+          'rgb(236, 72, 153)'
+        ],
+        borderWidth: 3
+      }
+    ]
+  }
 
-  const createSlice = (item, index) => {
-    const percentage = item.value
-    const angle = (percentage / 100) * 360
-    const startAngle = currentAngle
-    const endAngle = currentAngle + angle
-    
-    const startAngleRad = (startAngle * Math.PI) / 180
-    const endAngleRad = (endAngle * Math.PI) / 180
-    
-    const x1 = 100 + 80 * Math.cos(startAngleRad)
-    const y1 = 100 + 80 * Math.sin(startAngleRad)
-    const x2 = 100 + 80 * Math.cos(endAngleRad)
-    const y2 = 100 + 80 * Math.sin(endAngleRad)
-    
-    const largeArcFlag = angle > 180 ? 1 : 0
-    
-    const pathData = [
-      `M 100 100`,
-      `L ${x1} ${y1}`,
-      `A 80 80 0 ${largeArcFlag} 1 ${x2} ${y2}`,
-      'Z'
-    ].join(' ')
-    
-    currentAngle += angle
-    
-    return (
-      <path
-        key={index}
-        d={pathData}
-        fill={item.color}
-        stroke="white"
-        strokeWidth="3"
-        className="hover:opacity-80 transition-opacity cursor-pointer"
-      />
-    )
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        align: 'center',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 12,
+          font: {
+            size: 12,
+            weight: '500'
+          },
+          color: '#374151',
+          generateLabels: function(chart) {
+            const datasets = chart.data.datasets
+            return chart.data.labels.map((label, i) => ({
+              text: label,
+              fillStyle: datasets[0].backgroundColor[i],
+              strokeStyle: datasets[0].borderColor[i],
+              lineWidth: 0,
+              hidden: false,
+              index: i,
+              pointStyle: 'circle'
+            }))
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: function(context) {
+            const label = context.label || ''
+            const value = context.parsed || 0
+            const dataItem = data[context.dataIndex]
+            return `${label}: ${value}% (${dataItem.amount})`
+          }
+        }
+      }
+    },
+    cutout: '70%',
+    radius: '90%'
   }
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue by Source</h3>
+      <h3 className="text-lg font-bold text-gray-900 mb-6">Revenue by Source</h3>
       
-      {/* Pie Chart */}
-      <div className="flex items-center justify-center mb-6">
-        <svg width="200" height="200" className="transform -rotate-90">
-          {data.map((item, index) => createSlice(item, index))}
-        </svg>
+      <div style={{ height: '200px' }} className="mb-4">
+        <Doughnut data={chartData} options={options} />
       </div>
       
-      {/* Legend */}
-      <div className="space-y-3">
+      {/* Stats Legend */}
+      <div className="space-y-3 mt-4">
         {data.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -84,5 +123,6 @@ const RevenueBySourceChart = () => {
 }
 
 export default RevenueBySourceChart
+
 
 

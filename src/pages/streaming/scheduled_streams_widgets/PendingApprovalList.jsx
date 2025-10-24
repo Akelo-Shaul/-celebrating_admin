@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PendingApprovalList = () => {
+  const navigate = useNavigate();
+  
   const pendingStreams = [
     {
       id: 1,
@@ -33,7 +36,7 @@ const PendingApprovalList = () => {
   ];
 
   const handlePreview = (stream) => {
-    console.log('Preview stream:', stream);
+    navigate(`/stream/${encodeURIComponent(stream.title)}`);
   };
 
   const handleApprove = (stream) => {
@@ -170,6 +173,7 @@ const PendingApprovalList = () => {
 };
 
 export default PendingApprovalList;
+
 
 
 

@@ -79,12 +79,18 @@ import EventAnalytics from './pages/events/EventAnalytics'
 import UpcomingEvents from './pages/events/UpcomingEvents'
 import PastEvents from './pages/events/PastEvents'
 import EventCategories from './pages/events/EventCategories'
+
+// Ticket Sales Pages
+import TicketSales from './pages/tickets/TicketSales'
+
 // Entity Pages
 import UserProfile from './pages/entities/UserProfile'
 import StoreProfile from './pages/entities/StoreProfile'
 import WalletProfile from './pages/entities/WalletProfile'
 import PostDetail from './pages/entities/PostDetail'
 import ProductProfile from './pages/entities/ProductProfile'
+import EventDetail from './pages/entities/EventDetail'
+import LiveStreamDetail from './pages/entities/LiveStreamDetail'
 
 const AppContent = () => {
   const navigate = useNavigate()
@@ -140,6 +146,16 @@ const AppContent = () => {
       if (location.pathname.startsWith('/product/')) {
         const productId = decodeURIComponent(location.pathname.split('/product/')[1])
         setActiveItem(`Product/${productId}`)
+        return
+      }
+      if (location.pathname.startsWith('/event/')) {
+        const eventName = decodeURIComponent(location.pathname.split('/event/')[1])
+        setActiveItem(`Event/${eventName}`)
+        return
+      }
+      if (location.pathname.startsWith('/stream/')) {
+        const streamName = decodeURIComponent(location.pathname.split('/stream/')[1])
+        setActiveItem(`Stream/${streamName}`)
         return
       }
       const titled = path.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
@@ -249,12 +265,21 @@ const AppContent = () => {
               <Route path="/past-events" element={<PastEvents />} />
               <Route path="/event-categories" element={<EventCategories />} />
 
+              {/* Ticket Sales Routes */}
+              <Route path="/ticket-sales" element={<TicketSales />} />
+              <Route path="/active-tickets" element={<TicketSales />} />
+              <Route path="/sales-analytics" element={<TicketSales />} />
+              <Route path="/pricing-tiers" element={<PageContainer title="Pricing Tiers" />} />
+              <Route path="/ticket-reports" element={<PageContainer title="Ticket Reports" />} />
+
               {/* Entity routes */}
               <Route path="/profile/:id" element={<UserProfile />} />
               <Route path="/store/:id" element={<StoreProfile />} />
               <Route path="/wallet/:id" element={<WalletProfile />} />
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/product/:id" element={<ProductProfile />} />
+              <Route path="/event/:id" element={<EventDetail />} />
+              <Route path="/stream/:id" element={<LiveStreamDetail />} />
 
               <Route path="/transaction-history" element={<PageContainer title="Transaction History" />} />
               <Route path="/all-transactions" element={<PageContainer title="All Transactions" />} />

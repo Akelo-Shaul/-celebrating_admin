@@ -7,6 +7,10 @@ import SalesVolume from './products_widgets/SalesVolume'
 export default function ProductsOverview() {
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Products Overview</h1>
+        <p className="text-gray-600 mt-1">Track product sales, best sellers, and market trends</p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left column: Best Sellers (span 8) */}
         <div className="lg:col-span-8">

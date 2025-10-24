@@ -9,6 +9,10 @@ import GrowthReport from './wallet_widgets/SalesReport'
 export default function WalletOverview() {
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Wallet Overview</h1>
+        <p className="text-gray-600 mt-1">Monitor wallet activity, transactions, and financial trends</p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Top stat cards (span 8) and right distribution (span 4) */}
         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-4">

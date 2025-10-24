@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StreamCard = ({ stream, onViewStream, onMoreOptions }) => {
+  const navigate = useNavigate();
   const getStatusBadgeColor = (status) => {
     switch (status) {
       case 'Celebrity':
@@ -15,7 +17,10 @@ const StreamCard = ({ stream, onViewStream, onMoreOptions }) => {
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg overflow-hidden shadow">
+    <div 
+      className="bg-gray-100 rounded-lg overflow-hidden shadow cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={() => navigate(`/stream/${encodeURIComponent(stream.title)}`)}
+    >
       {/* Video Thumbnail Area */}
       <div className="relative h-48 bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900">
         {/* Background Pattern - Tribal Masks */}
@@ -90,7 +95,10 @@ const StreamCard = ({ stream, onViewStream, onMoreOptions }) => {
             </div>
             {/* More Options */}
             <button
-              onClick={() => onMoreOptions(stream)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onMoreOptions(stream)
+              }}
               className="text-gray-400 hover:text-gray-600"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

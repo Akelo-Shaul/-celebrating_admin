@@ -9,6 +9,7 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
   const dropdownRef = useRef(null)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const profileRef = useRef(null)
+  const profilePanelRef = useRef(null)
   const isMain = isMainMenuItem(title)
   const parentItem = findParentMenuItem(title)
   // If the current title is a main item show it, otherwise prefer its parent (if any).
@@ -42,7 +43,9 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
 
   const unreadCount = messages.filter(msg => msg.unread).length
 
-  const handleMessageClick = (message) => {
+  const handleMessageClick = (e, message) => {
+    e.stopPropagation() // Prevent event from bubbling
+    console.log('Opening message for:', message.sender)
     openMessage(message.sender)
     setIsProfileOpen(false)
   }
@@ -52,8 +55,13 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false)
       }
-      // close profile panel when clicking outside
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
+      // close profile panel when clicking outside both the button and the panel
+      if (
+        profileRef.current && 
+        !profileRef.current.contains(event.target) &&
+        profilePanelRef.current &&
+        !profilePanelRef.current.contains(event.target)
+      ) {
         setIsProfileOpen(false)
       }
     }
@@ -165,6 +173,7 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
 
           {/* Panel */}
           <div
+            ref={profilePanelRef}
             className={`fixed top-0 right-0 z-50 h-full w-80 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
               isProfileOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
@@ -231,8 +240,8 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                     {messages.map((message) => (
                       <button
                         key={message.id}
-                        onClick={() => handleMessageClick(message)}
-                        className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-start gap-3 transition-colors"
+                        onClick={(e) => handleMessageClick(e, message)}
+                        className="w-full text-left px-3 py-2 rounded hover:bg-gray-100 active:bg-gray-200 flex items-start gap-3 transition-all cursor-pointer border border-transparent hover:border-gray-200"
                       >
                         <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600 flex-shrink-0">
                           <MessageSquare size={16} />

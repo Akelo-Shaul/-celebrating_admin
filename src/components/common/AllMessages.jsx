@@ -3,6 +3,7 @@ import { Search, Edit } from 'lucide-react'
 
 const AllMessages = ({ onSelectConversation }) => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [activeTab, setActiveTab] = useState('users') // 'users' or 'organizations'
 
   // Mock conversations
   const mockConversations = [
@@ -14,7 +15,8 @@ const AllMessages = ({ onSelectConversation }) => {
       lastMessage: 'You sent an attachment.',
       timestamp: '7h',
       unread: false,
-      online: true
+      online: true,
+      type: 'user'
     },
     {
       id: 2,
@@ -25,7 +27,8 @@ const AllMessages = ({ onSelectConversation }) => {
       timestamp: '9h',
       unread: true,
       unreadCount: 2,
-      online: true
+      online: true,
+      type: 'user'
     },
     {
       id: 3,
@@ -35,7 +38,8 @@ const AllMessages = ({ onSelectConversation }) => {
       lastMessage: 'You sent an attachment.',
       timestamp: '17h',
       unread: false,
-      online: false
+      online: false,
+      type: 'user'
     },
     {
       id: 4,
@@ -45,7 +49,8 @@ const AllMessages = ({ onSelectConversation }) => {
       lastMessage: 'You sent an attachment.',
       timestamp: '17h',
       unread: false,
-      online: true
+      online: true,
+      type: 'user'
     },
     {
       id: 5,
@@ -55,7 +60,8 @@ const AllMessages = ({ onSelectConversation }) => {
       lastMessage: 'You sent an attachment.',
       timestamp: '21h',
       unread: false,
-      online: false
+      online: false,
+      type: 'organization'
     },
     {
       id: 6,
@@ -65,14 +71,35 @@ const AllMessages = ({ onSelectConversation }) => {
       lastMessage: 'Ngong sent an attachment.',
       timestamp: '6d',
       unread: false,
-      online: false
+      online: false,
+      type: 'organization'
+    },
+    {
+      id: 7,
+      name: 'Kilimani Tech Hub',
+      username: '@KiliTech',
+      avatar: null,
+      lastMessage: 'Meeting scheduled for tomorrow',
+      timestamp: '2d',
+      unread: true,
+      unreadCount: 1,
+      online: true,
+      type: 'organization'
     }
   ]
 
-  const filteredConversations = mockConversations.filter(conv =>
-    conv.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    conv.username.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  const filteredConversations = mockConversations.filter(conv => {
+    const matchesSearch = conv.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      conv.username.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesTab = conv.type === activeTab
+    return matchesSearch && matchesTab
+  })
+
+  // Count unread messages for each tab
+  const unreadCounts = {
+    users: mockConversations.filter(c => c.type === 'user' && c.unread).length,
+    organizations: mockConversations.filter(c => c.type === 'organization' && c.unread).length
+  }
 
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden">
@@ -90,11 +117,60 @@ const AllMessages = ({ onSelectConversation }) => {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="flex border-b border-gray-200 bg-gray-50">
+        <button
+          onClick={() => setActiveTab('users')}
+          className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors relative ${
+            activeTab === 'users'
+              ? 'text-blue-600 bg-white'
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <div className="flex items-center justify-center gap-2">
+            <span>Users</span>
+            {unreadCounts.users > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-500 rounded-full">
+                {unreadCounts.users}
+              </span>
+            )}
+          </div>
+          {activeTab === 'users' && (
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
+          )}
+        </button>
+        <button
+          onClick={() => setActiveTab('organizations')}
+          className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors relative ${
+            activeTab === 'organizations'
+              ? 'text-blue-600 bg-white'
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <div className="flex items-center justify-center gap-2">
+            <span>Organizations</span>
+            {unreadCounts.organizations > 0 && (
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-500 rounded-full">
+                {unreadCounts.organizations}
+              </span>
+            )}
+          </div>
+          {activeTab === 'organizations' && (
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
+          )}
+        </button>
+      </div>
+
       {/* Conversations List */}
       <div className="flex-1 overflow-y-auto">
         {filteredConversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
-            <p className="text-sm">No conversations found</p>
+          <div className="flex flex-col items-center justify-center h-full text-gray-500 px-4">
+            <p className="text-sm text-center">
+              {searchQuery 
+                ? `No ${activeTab === 'users' ? 'users' : 'organizations'} found matching "${searchQuery}"`
+                : `No ${activeTab === 'users' ? 'user' : 'organization'} conversations yet`
+              }
+            </p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">

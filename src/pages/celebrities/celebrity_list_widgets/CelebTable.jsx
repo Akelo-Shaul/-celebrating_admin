@@ -169,19 +169,19 @@ export default function CelebTable({ celebs }) {
             {rows.map((r, i) => (
               <tr 
                 key={i} 
-                className="hover:bg-gray-50 cursor-context-menu"
+                className="hover:bg-gray-50 cursor-pointer transition-colors"
+                onClick={() => navigate(`/profile/${encodeURIComponent(r.handle)}`, { state: { role: 'celebrity' } })}
                 onContextMenu={(e) => handleContextMenu(e, r)}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center space-x-3">
                     {/* Circular avatar with colored border - orange for celebrities */}
                     <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold cursor-pointer"
-                      onClick={() => navigate(`/profile/${encodeURIComponent(r.handle)}`, { state: { role: 'celebrity' } })}
+                      className="w-12 h-12 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold"
                     >
                       {r.name.split(' ').map(n => n[0]).slice(0,2).join('')}
                     </div>
-                    <div className="cursor-pointer" onClick={() => navigate(`/profile/${encodeURIComponent(r.handle)}`, { state: { role: 'celebrity' } })}>
+                    <div>
                       <div className="text-sm font-medium text-gray-900">@{r.handle}</div>
                       <div className="text-sm text-gray-500">{r.id}</div>
                     </div>

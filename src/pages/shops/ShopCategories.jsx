@@ -75,9 +75,13 @@ const ShopCategories = () => {
 
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Shop Categories</h1>
+        <p className="text-gray-600 mt-1">Browse shops organized by categories and product types</p>
+      </div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4">All Categories</h1>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">All Categories</h2>
         <CategoryList
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}

@@ -234,6 +234,10 @@ const VerificationRequests = () => {
 
   return (
     <div className="p-4 md:p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Verification Requests</h1>
+        <p className="text-gray-600 mt-1">Review and process celebrity verification applications</p>
+      </div>
       {/* Header with Search and Filter */}
       <div className="bg-white rounded-lg shadow">
         <div className="px-6 py-4 border-b border-gray-200">

@@ -1,6 +1,189 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Eye, Lock, Unlock, User, MessageCircle, DollarSign, BarChart2, AlertTriangle, FileText, TrendingUp } from 'lucide-react';
+import { useMessaging } from '../../../contexts/MessagingContext';
+
+// Context Menu Component
+const WalletContextMenu = ({ isOpen, position, onClose, wallet, onAction }) => {
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !wallet) return null;
+
+  const isFrozen = wallet.status.text === 'Frozen';
+
+  const menuItems = [
+    {
+      icon: Eye,
+      label: 'View Wallet',
+      action: 'view',
+      color: 'text-blue-600'
+    },
+    {
+      icon: User,
+      label: 'View User Profile',
+      action: 'viewUser',
+      color: 'text-purple-600'
+    },
+    {
+      icon: MessageCircle,
+      label: 'Message User',
+      action: 'message',
+      color: 'text-blue-500'
+    },
+    {
+      icon: FileText,
+      label: 'View Transactions',
+      action: 'viewTransactions',
+      color: 'text-indigo-600'
+    },
+    {
+      icon: BarChart2,
+      label: 'View Analytics',
+      action: 'analytics',
+      color: 'text-green-600'
+    },
+    {
+      icon: DollarSign,
+      label: 'Adjust Balance',
+      action: 'adjustBalance',
+      color: 'text-emerald-600'
+    },
+    {
+      icon: isFrozen ? Unlock : Lock,
+      label: isFrozen ? 'Unfreeze Wallet' : 'Freeze Wallet',
+      action: isFrozen ? 'unfreeze' : 'freeze',
+      color: isFrozen ? 'text-green-600' : 'text-yellow-600'
+    },
+    {
+      icon: AlertTriangle,
+      label: 'Flag for Review',
+      action: 'flag',
+      color: 'text-orange-600'
+    },
+    {
+      icon: TrendingUp,
+      label: 'Transaction History',
+      action: 'history',
+      color: 'text-cyan-600'
+    }
+  ];
+
+  return (
+    <div
+      ref={menuRef}
+      className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50"
+      style={{
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="px-3 py-2 border-b border-gray-100">
+        <div className="font-semibold text-sm text-gray-900">{wallet.user.name}</div>
+        <div className="text-xs text-gray-500">{wallet.walletId}</div>
+        <div className="text-xs text-gray-500 mt-1">Balance: {wallet.balance.total}</div>
+      </div>
+      
+      {menuItems.map((item, index) => (
+        <button
+          key={index}
+          onClick={() => {
+            onAction(item.action, wallet);
+            onClose();
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
+        >
+          <item.icon size={16} className={item.color} />
+          <span className={`text-sm ${item.color}`}>{item.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+};
 
 const WalletListTable = ({ wallets }) => {
+  const navigate = useNavigate();
+  const { openMessage } = useMessaging();
+  const [contextMenu, setContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, wallet: null });
+
+  const handleContextMenu = (e, wallet) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      wallet
+    });
+  };
+
+  const closeContextMenu = () => {
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, wallet: null });
+  };
+
+  const handleAction = (action, wallet) => {
+    switch (action) {
+      case 'view':
+        console.log(`Viewing wallet: ${wallet.user.name}`);
+        navigate(`/wallet/${encodeURIComponent(wallet.user.name)}`);
+        break;
+      case 'viewUser':
+        console.log(`Viewing user profile: ${wallet.user.name}`);
+        navigate(`/profile/${encodeURIComponent(wallet.user.name)}`);
+        break;
+      case 'message':
+        console.log(`Messaging user: ${wallet.user.name}`);
+        openMessage({ name: wallet.user.name, username: wallet.user.handle });
+        break;
+      case 'viewTransactions':
+        console.log(`Viewing transactions for wallet: ${wallet.walletId}`);
+        alert(`Opening transactions for wallet ${wallet.walletId}`);
+        break;
+      case 'analytics':
+        console.log(`Viewing analytics for wallet: ${wallet.walletId}`);
+        alert(`Opening analytics for wallet ${wallet.walletId}`);
+        break;
+      case 'adjustBalance':
+        console.log(`Adjusting balance for wallet: ${wallet.walletId}`);
+        alert(`Opening balance adjustment dialog for wallet ${wallet.walletId}\nCurrent balance: ${wallet.balance.total}`);
+        break;
+      case 'freeze':
+        console.log(`Freezing wallet: ${wallet.walletId}`);
+        if (confirm(`Freeze wallet ${wallet.walletId} for ${wallet.user.name}? This will prevent all transactions.`)) {
+          alert(`Wallet ${wallet.walletId} has been frozen.`);
+        }
+        break;
+      case 'unfreeze':
+        console.log(`Unfreezing wallet: ${wallet.walletId}`);
+        if (confirm(`Unfreeze wallet ${wallet.walletId} for ${wallet.user.name}?`)) {
+          alert(`Wallet ${wallet.walletId} has been unfrozen.`);
+        }
+        break;
+      case 'flag':
+        console.log(`Flagging wallet for review: ${wallet.walletId}`);
+        alert(`Wallet ${wallet.walletId} has been flagged for review`);
+        break;
+      case 'history':
+        console.log(`Viewing transaction history for: ${wallet.walletId}`);
+        alert(`Opening transaction history for wallet ${wallet.walletId}`);
+        break;
+      default:
+        break;
+    }
+  };
+
   const columns = [
     '',
     'User',
@@ -172,8 +355,13 @@ const WalletListTable = ({ wallets }) => {
           </thead>
           <tbody className="bg-gray-100 divide-y divide-gray-200">
             {sampleWallets.map((wallet, index) => (
-              <tr key={wallet.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
+              <tr 
+                key={wallet.id} 
+                className="hover:bg-gray-50 cursor-pointer transition-colors"
+                onClick={() => navigate(`/wallet/${encodeURIComponent(wallet.user.name)}`)}
+                onContextMenu={(e) => handleContextMenu(e, wallet)}
+              >
+                <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                   <input type="checkbox" className="rounded border-gray-300" />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -227,6 +415,15 @@ const WalletListTable = ({ wallets }) => {
           </tbody>
         </table>
       </div>
+
+      {/* Context Menu */}
+      <WalletContextMenu
+        isOpen={contextMenu.isOpen}
+        position={contextMenu.position}
+        onClose={closeContextMenu}
+        wallet={contextMenu.wallet}
+        onAction={handleAction}
+      />
     </div>
   );
 };

@@ -126,3 +126,4 @@ const FeesByTypeTable = () => {
 export default FeesByTypeTable
 
 
+

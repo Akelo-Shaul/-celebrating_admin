@@ -70,6 +70,10 @@ const ActiveShops = () => {
 
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Active Shops</h1>
+        <p className="text-gray-600 mt-1">Monitor and manage all active shops on the platform</p>
+      </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <StatCard

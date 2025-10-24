@@ -79,13 +79,13 @@ const MessagingModal = ({ isOpen, onClose, recipient }) => {
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/20 z-40"
+        className="fixed inset-0 bg-black/20 z-[60]"
         onClick={onClose}
       />
 
       {/* Modal */}
       <div 
-        className={`fixed bg-white rounded-lg shadow-2xl z-50 flex flex-col transition-all duration-300 ${
+        className={`fixed bg-white rounded-lg shadow-2xl z-[70] flex flex-col transition-all duration-300 ${
           isMaximized 
             ? 'inset-4' 
             : 'bottom-4 right-4 w-96 h-[600px]'

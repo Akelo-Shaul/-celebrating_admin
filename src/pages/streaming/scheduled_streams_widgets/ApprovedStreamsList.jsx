@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ApprovedStreamsList = () => {
+  const navigate = useNavigate();
+  
   const approvedStreams = [
     {
       id: 1,
@@ -49,7 +52,7 @@ const ApprovedStreamsList = () => {
   };
 
   const handleDetails = (stream) => {
-    console.log('View details:', stream);
+    navigate(`/stream/${encodeURIComponent(stream.title)}`);
   };
 
   const handleCancel = (stream) => {

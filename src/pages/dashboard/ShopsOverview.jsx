@@ -24,6 +24,10 @@ const ShopsOverview = () => {
 
   return (
     <div className="p-6 h-full">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Shops Overview</h1>
+        <p className="text-gray-600 mt-1">Monitor shop performance, sales, and rankings across the platform</p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 flex flex-col gap-6">
           {/* Top stat cards: stack on small, row on md+ */}

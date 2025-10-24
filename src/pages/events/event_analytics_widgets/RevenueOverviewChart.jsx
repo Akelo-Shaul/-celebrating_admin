@@ -1,109 +1,212 @@
-import React from 'react';
+import React, { useState } from 'react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+)
 
 const RevenueOverviewChart = () => {
-  const data = [
-    { time: '00:00', revenue: 1000, tickets: 20000 },
-    { time: '03:00', revenue: 3000, tickets: 45000 },
-    { time: '06:00', revenue: 2000, tickets: 30000 },
-    { time: '09:00', revenue: 4000, tickets: 35000 },
-    { time: '12:00', revenue: 4500, tickets: 40000 },
-    { time: '15:00', revenue: 5200, tickets: 42000 },
-    { time: '18:00', revenue: 5800, tickets: 65000 },
-    { time: '21:00', revenue: 4800, tickets: 55000 },
-    { time: '00:00', revenue: 1000, tickets: 20000 }
-  ];
+  const [chartType, setChartType] = useState('line')
+  const labels = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']
 
-  const maxRevenue = Math.max(...data.map(d => d.revenue));
-  const maxTickets = Math.max(...data.map(d => d.tickets));
-  const revenueScale = 200 / maxRevenue;
-  const ticketsScale = 200 / maxTickets;
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Revenue',
+        data: [2000, 3600, 2800, 4400, 5000, 5500, 6000, 5200],
+        borderColor: 'rgb(249, 115, 22)',
+        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+        tension: 0.4,
+        borderWidth: 3,
+        pointRadius: 0,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: 'rgb(249, 115, 22)',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Tickets Sold',
+        data: [30000, 47000, 35000, 37000, 45000, 45000, 68000, 60000],
+        borderColor: 'rgb(34, 197, 94)',
+        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        tension: 0.4,
+        borderWidth: 3,
+        pointRadius: 0,
+        pointHoverRadius: 6,
+        pointHoverBackgroundColor: 'rgb(34, 197, 94)',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+        yAxisID: 'y1'
+      }
+    ]
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false
+    },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        align: 'center',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 20,
+          font: {
+            size: 13
+          },
+          generateLabels: function(chart) {
+            const datasets = chart.data.datasets
+            return datasets.map((dataset, i) => ({
+              text: dataset.label,
+              fillStyle: dataset.borderColor,
+              strokeStyle: dataset.borderColor,
+              lineWidth: 0,
+              hidden: !chart.isDatasetVisible(i),
+              index: i,
+              pointStyle: 'circle'
+            }))
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: function(context) {
+            let label = context.dataset.label || ''
+            if (label) {
+              label += ': '
+            }
+            if (context.parsed.y !== null) {
+              label += context.parsed.y.toLocaleString()
+            }
+            return label
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            size: 11
+          }
+        }
+      },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        min: 0,
+        max: 6000,
+        ticks: {
+          stepSize: 1000,
+          font: {
+            size: 11
+          },
+          callback: function(value) {
+            return value.toLocaleString()
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        min: 20000,
+        max: 70000,
+        ticks: {
+          stepSize: 10000,
+          font: {
+            size: 11
+          },
+          callback: function(value) {
+            return value.toLocaleString()
+          }
+        },
+        grid: {
+          drawOnChartArea: false
+        }
+      }
+    }
+  }
+
+  const ChartComponent = chartType === 'line' ? Line : Bar
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Overview</h3>
-      
-      {/* Chart */}
-      <div className="relative h-60 mb-4">
-        <svg width="100%" height="200" className="overflow-visible">
-          {/* Y-axis labels - Left (Revenue) */}
-          {[6000, 5000, 4000, 3000, 2000, 1000].map((value, index) => (
-            <g key={value}>
-              <line x1="40" y1={index * 40} x2="100%" y2={index * 40} stroke="#f3f4f6" />
-              <text x="35" y={index * 40 + 5} textAnchor="end" className="text-xs text-gray-500">
-                {value.toLocaleString()}
-              </text>
-            </g>
-          ))}
+    <div className="bg-white rounded-lg shadow">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-bold text-gray-900">Revenue Overview</h3>
           
-          {/* Y-axis labels - Right (Tickets) */}
-          {[70000, 60000, 50000, 40000, 30000, 20000].map((value, index) => (
-            <text key={value} x="100%" y={index * 40 + 5} textAnchor="start" className="text-xs text-gray-500">
-              {value.toLocaleString()}
-            </text>
-          ))}
-          
-          {/* Lines */}
-          {data.map((item, index) => {
-            const x = 60 + (index * 80);
-            const revenueY = 200 - (item.revenue * revenueScale);
-            const ticketsY = 200 - (item.tickets * ticketsScale);
-            
-            if (index === 0) return null;
-            
-            const prevItem = data[index - 1];
-            const prevX = 60 + ((index - 1) * 80);
-            const prevRevenueY = 200 - (prevItem.revenue * revenueScale);
-            const prevTicketsY = 200 - (prevItem.tickets * ticketsScale);
-            
-            return (
-              <g key={item.time}>
-                {/* Revenue line (orange) */}
-                <line
-                  x1={prevX}
-                  y1={prevRevenueY}
-                  x2={x}
-                  y2={revenueY}
-                  stroke="#f97316"
-                  strokeWidth="2"
-                />
-                {/* Tickets line (green) */}
-                <line
-                  x1={prevX}
-                  y1={prevTicketsY}
-                  x2={x}
-                  y2={ticketsY}
-                  stroke="#10b981"
-                  strokeWidth="2"
-                />
-              </g>
-            );
-          })}
-          
-          {/* Time labels */}
-          {data.slice(0, -1).map((item, index) => {
-            const x = 60 + (index * 80);
-            return (
-              <text key={item.time} x={x} y="220" textAnchor="middle" className="text-xs text-gray-600">
-                {item.time}
-              </text>
-            );
-          })}
-        </svg>
-      </div>
-      
-      {/* Legend */}
-      <div className="flex items-center justify-center space-x-6">
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-orange-500 rounded"></div>
-          <span className="text-sm text-gray-600">Revenue</span>
+          {/* Chart Type Toggle */}
+          <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
+            <button
+              onClick={() => setChartType('line')}
+              className={`px-3 py-1 text-sm rounded ${
+                chartType === 'line'
+                  ? 'bg-white text-orange-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Line
+            </button>
+            <button
+              onClick={() => setChartType('bar')}
+              className={`px-3 py-1 text-sm rounded ${
+                chartType === 'bar'
+                  ? 'bg-white text-orange-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Bar
+            </button>
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-green-500 rounded"></div>
-          <span className="text-sm text-gray-600">Tickets Sold</span>
+      </div>
+      <div className="p-6">
+        <div style={{ height: '300px' }}>
+          <ChartComponent data={data} options={options} />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RevenueOverviewChart;
+export default RevenueOverviewChart

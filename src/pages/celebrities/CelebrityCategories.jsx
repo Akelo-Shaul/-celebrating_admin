@@ -62,9 +62,13 @@ const CelebrityCategories = () => {
   
   return (
     <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Celebrity Categories</h1>
+        <p className="text-gray-600 mt-1">Browse celebrities organized by their categories and specializations</p>
+      </div>
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold text-gray-800">All Categories</h1>
+        <h2 className="text-xl font-semibold text-gray-800">All Categories</h2>
         <div className="flex items-center space-x-4">
           <div className="relative">
             <input

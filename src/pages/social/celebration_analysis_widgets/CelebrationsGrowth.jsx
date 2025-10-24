@@ -1,112 +1,157 @@
-import React from 'react';
+import React, { useState } from 'react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
 
 const CelebrationsGrowth = () => {
-  // Sample data for the line chart
-  const data = [
-    { month: 'Jan', value: 1700 },
-    { month: 'Feb', value: 1500 },
-    { month: 'Mar', value: 4900 },
-    { month: 'Apr', value: 4900 },
-    { month: 'May', value: 4200 },
-    { month: 'Jun', value: 5500 },
-    { month: 'Jul', value: 6000 },
-    { month: 'Aug', value: 6000 }
-  ];
+  const [chartType, setChartType] = useState('line')
 
-  const maxValue = 6000;
-  const minValue = 1000;
-  const chartHeight = 200;
-  const chartWidth = 300;
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
 
-  // Calculate SVG path for the line
-  const getPath = () => {
-    const points = data.map((point, index) => {
-      const x = (index / (data.length - 1)) * chartWidth;
-      const y = chartHeight - ((point.value - minValue) / (maxValue - minValue)) * chartHeight;
-      return `${x},${y}`;
-    });
-    
-    return `M ${points.join(' L ')}`;
-  };
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Celebrations',
+        data: [1700, 1500, 4900, 4900, 4200, 5500, 6000, 6000],
+        borderColor: 'rgb(249, 115, 22)',
+        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+        tension: 0.4,
+        borderWidth: 3,
+        fill: true,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: 'rgb(249, 115, 22)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverBackgroundColor: 'rgb(249, 115, 22)',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2
+      }
+    ]
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: function(context) {
+            const label = context.dataset.label || ''
+            const value = context.parsed.y
+            return `${label}: ${value.toLocaleString()}`
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            size: 11
+          },
+          color: '#6B7280'
+        }
+      },
+      y: {
+        beginAtZero: false,
+        min: 1000,
+        max: 6000,
+        ticks: {
+          stepSize: 1000,
+          font: {
+            size: 11
+          },
+          color: '#6B7280',
+          callback: function(value) {
+            return value.toLocaleString()
+          }
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        }
+      }
+    }
+  }
+
+  const ChartComponent = chartType === 'line' ? Line : Bar
 
   return (
     <div className="bg-white rounded-lg shadow p-6 h-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Celebrations Growth</h2>
+        <h2 className="text-lg font-bold text-gray-900">Celebrations Growth</h2>
+        
+        {/* Chart Type Toggle */}
+        <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
+          <button
+            onClick={() => setChartType('line')}
+            className={`px-3 py-1 text-sm rounded ${
+              chartType === 'line'
+                ? 'bg-white text-orange-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Line
+          </button>
+          <button
+            onClick={() => setChartType('bar')}
+            className={`px-3 py-1 text-sm rounded ${
+              chartType === 'bar'
+                ? 'bg-white text-orange-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Bar
+          </button>
+        </div>
       </div>
       
-      <div className="relative">
-        <svg width={chartWidth} height={chartHeight} className="w-full h-full">
-          {/* Grid lines */}
-          {[1000, 2000, 3000, 4000, 5000, 6000].map((value, index) => {
-            const y = chartHeight - ((value - minValue) / (maxValue - minValue)) * chartHeight;
-            return (
-              <g key={value}>
-                <line
-                  x1={0}
-                  y1={y}
-                  x2={chartWidth}
-                  y2={y}
-                  stroke="#f3f4f6"
-                  strokeWidth={1}
-                />
-                <text
-                  x={-10}
-                  y={y + 4}
-                  textAnchor="end"
-                  className="text-xs fill-gray-500"
-                >
-                  ${value.toLocaleString()}
-                </text>
-              </g>
-            );
-          })}
-          
-          {/* Month labels */}
-          {data.map((point, index) => {
-            const x = (index / (data.length - 1)) * chartWidth;
-            return (
-              <text
-                key={point.month}
-                x={x}
-                y={chartHeight + 20}
-                textAnchor="middle"
-                className="text-xs fill-gray-500"
-              >
-                {point.month}
-              </text>
-            );
-          })}
-          
-          {/* Data line */}
-          <path
-            d={getPath()}
-            stroke="#f97316"
-            strokeWidth={2}
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          
-          {/* Data points */}
-          {data.map((point, index) => {
-            const x = (index / (data.length - 1)) * chartWidth;
-            const y = chartHeight - ((point.value - minValue) / (maxValue - minValue)) * chartHeight;
-            return (
-              <circle
-                key={index}
-                cx={x}
-                cy={y}
-                r={4}
-                fill="#f97316"
-              />
-            );
-          })}
-        </svg>
+      <div style={{ height: '250px' }}>
+        <ChartComponent data={data} options={options} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CelebrationsGrowth;
+export default CelebrationsGrowth
 
