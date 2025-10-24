@@ -20,12 +20,12 @@ const RevenueBySourceChart = () => {
       {
         data: data.map(item => item.value),
         backgroundColor: [
-          'rgba(16, 185, 129, 0.85)',
-          'rgba(59, 130, 246, 0.85)',
-          'rgba(245, 158, 11, 0.85)',
-          'rgba(239, 68, 68, 0.85)',
-          'rgba(139, 92, 246, 0.85)',
-          'rgba(236, 72, 153, 0.85)'
+          'rgb(16, 185, 129)',
+          'rgb(59, 130, 246)',
+          'rgb(245, 158, 11)',
+          'rgb(239, 68, 68)',
+          'rgb(139, 92, 246)',
+          'rgb(236, 72, 153)'
         ],
         borderColor: [
           'rgb(16, 185, 129)',

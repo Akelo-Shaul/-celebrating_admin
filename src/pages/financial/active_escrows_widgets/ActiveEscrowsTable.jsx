@@ -202,7 +202,7 @@ const ActiveEscrowsTable = ({ escrows }) => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-8 w-8">
-                      <div className="h-8 w-8 bg-blue-400 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                      <div className="h-8 w-8 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                         {escrow.seller.avatar}
                       </div>
                     </div>

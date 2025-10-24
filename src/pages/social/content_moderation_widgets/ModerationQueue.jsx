@@ -72,11 +72,11 @@ const ModerationQueue = () => {
   return (
     <div className="space-y-4">
       {queueItems.map((item) => (
-        <div key={item.id} className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-colors">
+        <div key={item.id} className="border border-gray-200 rounded-lg p-4 hover:border-yellow-300 transition-colors">
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-start gap-4 flex-1">
               {/* User Avatar Placeholder */}
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white font-semibold">
                 {item.user.charAt(0)}
               </div>
 
@@ -130,7 +130,7 @@ const ModerationQueue = () => {
                 <XCircle className="w-5 h-5" />
               </button>
               <button 
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                 title="View Details"
               >
                 <Eye className="w-5 h-5" />
@@ -148,7 +148,7 @@ const ModerationQueue = () => {
 
       {/* Load More */}
       <div className="text-center pt-4">
-        <button className="px-6 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50">
+        <button className="px-6 py-2 text-sm font-medium text-orange-600 border border-orange-600 rounded-lg hover:bg-orange-50">
           Load More Items
         </button>
       </div>
@@ -157,6 +157,7 @@ const ModerationQueue = () => {
 }
 
 export default ModerationQueue
+
 
 
 

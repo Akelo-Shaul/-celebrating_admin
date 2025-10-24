@@ -12,7 +12,7 @@ const AverageRatingByCategory = () => {
   ];
 
   return (
-    <div className="bg-red-800 rounded-lg shadow p-6 h-fit">
+    <div className="bg-gray-800 rounded-lg shadow p-6 h-fit">
       <h3 className="text-lg font-semibold text-white mb-4">Average Rating By Category</h3>
       
       <div className="space-y-4">
@@ -33,6 +33,7 @@ const AverageRatingByCategory = () => {
 };
 
 export default AverageRatingByCategory;
+
 
 
 

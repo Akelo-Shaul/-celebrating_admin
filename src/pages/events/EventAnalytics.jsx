@@ -105,25 +105,34 @@ const EventAnalytics = () => {
         </div>
       </div>
 
-      {/* Middle Section - Charts and Alerts */}
+      {/* Middle Section - Charts */}
       <div className="mb-6">
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Revenue Overview Chart */}
-          <div className="col-span-2">
+          <div className="lg:col-span-2">
             <RevenueOverviewChart />
           </div>
           
-          {/* Right Side - Split into two sections */}
-          <div className="col-span-1 space-y-6">
+          {/* Right Side - Categories Chart */}
+          <div className="lg:col-span-1">
             <EventsByCategoriesChart />
-            <AlertsList />
           </div>
         </div>
       </div>
 
-      {/* Bottom Section - Event List Table */}
+      {/* Bottom Section - Event List and Alerts */}
       <div className="mb-6">
-        <EventListTable />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Event List Table - Takes 3 columns */}
+          <div className="lg:col-span-3">
+            <EventListTable />
+          </div>
+          
+          {/* Alerts Sidebar - Takes 1 column */}
+          <div className="lg:col-span-1">
+            <AlertsList />
+          </div>
+        </div>
       </div>
     </div>
   );

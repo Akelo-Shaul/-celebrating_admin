@@ -28,7 +28,7 @@ const PlatformGrowthChart = () => {
               onClick={() => setSelectedPeriod(period)}
               className={`px-3 py-1 text-xs rounded ${
                 selectedPeriod === period
-                  ? 'bg-blue-100 text-blue-800'
+                  ? 'bg-yellow-100 text-yellow-800'
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
@@ -83,13 +83,13 @@ const PlatformGrowthChart = () => {
                   stroke="#10b981"
                   strokeWidth="2"
                 />
-                {/* Viewers line (blue) */}
+                {/* Viewers line (gold/yellow) */}
                 <line
                   x1={prevX}
                   y1={prevViewersY}
                   x2={x}
                   y2={viewersY}
-                  stroke="#3b82f6"
+                  stroke="#eab308"
                   strokeWidth="2"
                 />
               </g>
@@ -131,7 +131,7 @@ const PlatformGrowthChart = () => {
           <span className="text-sm text-gray-600">Revenue</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-blue-500 rounded"></div>
+          <div className="w-3 h-3 bg-yellow-500 rounded"></div>
           <span className="text-sm text-gray-600">Viewers</span>
         </div>
       </div>

@@ -55,16 +55,16 @@ export default function TransactionOverview() {
             return [
               {
                 text: 'Deposits',
-                fillStyle: '#f87171',
-                strokeStyle: '#f87171',
+                fillStyle: '#f97316',
+                strokeStyle: '#f97316',
                 lineWidth: 0,
                 pointStyle: 'circle',
                 hidden: false,
               },
               {
                 text: 'Withdrawals',
-                fillStyle: '#2dd4bf',
-                strokeStyle: '#2dd4bf',
+                fillStyle: '#22c55e',
+                strokeStyle: '#22c55e',
                 lineWidth: 0,
                 pointStyle: 'circle',
                 hidden: false,
@@ -132,8 +132,8 @@ export default function TransactionOverview() {
       {
         label: 'Deposits',
         data: transactionData.deposits,
-        backgroundColor: 'rgba(248, 113, 113, 0.8)',
-        borderColor: '#f87171',
+        backgroundColor: '#f97316',
+        borderColor: '#f97316',
         borderWidth: 0,
         borderRadius: 4,
         barPercentage: 0.8,
@@ -142,8 +142,8 @@ export default function TransactionOverview() {
       {
         label: 'Withdrawals',
         data: transactionData.withdrawals,
-        backgroundColor: 'rgba(45, 212, 191, 0.8)',
-        borderColor: '#2dd4bf',
+        backgroundColor: '#22c55e',
+        borderColor: '#22c55e',
         borderWidth: 0,
         borderRadius: 4,
         barPercentage: 0.8,

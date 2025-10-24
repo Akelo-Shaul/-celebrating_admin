@@ -39,9 +39,9 @@ const TicketRevenueChart = () => {
         label: 'Revenue',
         data: [45000, 52000, 49000, 63000, 58000, 72000, 68000, 75000, 82000, 88000, 92000, 98000],
         borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        backgroundColor: 'rgb(34, 197, 94)',
         tension: 0.4,
-        fill: true
+        fill: false
       }
     ]
   }
@@ -53,9 +53,9 @@ const TicketRevenueChart = () => {
         label: 'Tickets Sold',
         data: [2200, 2500, 2300, 3100, 2900, 3600, 3400, 3800, 4100, 4400, 4600, 4900],
         borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        backgroundColor: 'rgb(59, 130, 246)',
         tension: 0.4,
-        fill: true
+        fill: false
       }
     ]
   }
@@ -67,17 +67,17 @@ const TicketRevenueChart = () => {
         label: '2023',
         data: [35000, 42000, 39000, 53000, 48000, 62000, 58000, 65000, 72000, 78000, 82000, 88000],
         borderColor: 'rgb(156, 163, 175)',
-        backgroundColor: 'rgba(156, 163, 175, 0.1)',
+        backgroundColor: 'rgb(156, 163, 175)',
         tension: 0.4,
-        fill: true
+        fill: false
       },
       {
         label: '2024',
         data: [45000, 52000, 49000, 63000, 58000, 72000, 68000, 75000, 82000, 88000, 92000, 98000],
         borderColor: 'rgb(34, 197, 94)',
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+        backgroundColor: 'rgb(34, 197, 94)',
         tension: 0.4,
-        fill: true
+        fill: false
       }
     ]
   }

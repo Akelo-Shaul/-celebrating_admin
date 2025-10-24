@@ -111,7 +111,7 @@ const RealTimeAlerts = () => {
           <div key={alert.id} className={`${alert.severityColor} rounded-lg p-4 flex items-center justify-between`}>
             <div className="flex items-center space-x-4">
               <div className="flex-shrink-0 h-10 w-10">
-                <div className="h-10 w-10 bg-blue-400 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                <div className="h-10 w-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                   B
                 </div>
               </div>
@@ -143,6 +143,7 @@ const RealTimeAlerts = () => {
 };
 
 export default RealTimeAlerts;
+
 
 
 

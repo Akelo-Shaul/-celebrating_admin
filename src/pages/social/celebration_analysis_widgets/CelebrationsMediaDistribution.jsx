@@ -18,9 +18,9 @@ const CelebrationsMediaDistribution = () => {
       {
         data: data.filter(item => item.value > 0).map(item => item.value),
         backgroundColor: [
-          'rgba(34, 197, 94, 0.85)',
-          'rgba(249, 115, 22, 0.85)',
-          'rgba(234, 179, 8, 0.85)'
+          'rgb(34, 197, 94)',
+          'rgb(249, 115, 22)',
+          'rgb(234, 179, 8)'
         ],
         borderColor: [
           'rgb(34, 197, 94)',

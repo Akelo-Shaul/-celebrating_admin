@@ -112,7 +112,7 @@ const AllMessages = ({ onSelectConversation }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search messages..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            className="w-full pl-10 pr-4 py-2 bg-gray-100 border-0 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm"
           />
         </div>
       </div>
@@ -123,40 +123,40 @@ const AllMessages = ({ onSelectConversation }) => {
           onClick={() => setActiveTab('users')}
           className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors relative ${
             activeTab === 'users'
-              ? 'text-blue-600 bg-white'
+              ? 'text-orange-600 bg-white'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
           <div className="flex items-center justify-center gap-2">
             <span>Users</span>
             {unreadCounts.users > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-500 rounded-full">
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-orange-500 rounded-full">
                 {unreadCounts.users}
               </span>
             )}
           </div>
           {activeTab === 'users' && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600"></div>
           )}
         </button>
         <button
           onClick={() => setActiveTab('organizations')}
           className={`flex-1 px-4 py-3 text-sm font-semibold transition-colors relative ${
             activeTab === 'organizations'
-              ? 'text-blue-600 bg-white'
+              ? 'text-orange-600 bg-white'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
           <div className="flex items-center justify-center gap-2">
             <span>Organizations</span>
             {unreadCounts.organizations > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-500 rounded-full">
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-orange-500 rounded-full">
                 {unreadCounts.organizations}
               </span>
             )}
           </div>
           {activeTab === 'organizations' && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-600"></div>
           )}
         </button>
       </div>
@@ -183,7 +183,7 @@ const AllMessages = ({ onSelectConversation }) => {
                 <div className="flex items-center gap-3">
                   {/* Avatar */}
                   <div className="relative flex-shrink-0">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center text-white font-semibold">
                       {conv.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                     </div>
                     {conv.online && (
@@ -208,7 +208,7 @@ const AllMessages = ({ onSelectConversation }) => {
                         {conv.lastMessage}
                       </p>
                       {conv.unread && conv.unreadCount && (
-                        <span className="flex-shrink-0 ml-2 w-5 h-5 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">
+                        <span className="flex-shrink-0 ml-2 w-5 h-5 bg-orange-500 text-white text-xs rounded-full flex items-center justify-center">
                           {conv.unreadCount}
                         </span>
                       )}
@@ -223,7 +223,7 @@ const AllMessages = ({ onSelectConversation }) => {
 
       {/* New Message Button */}
       <div className="p-4 border-t border-gray-200">
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-full transition-colors">
+        <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white rounded-full transition-colors">
           <Edit size={18} />
           <span className="text-sm font-medium">New Message</span>
         </button>

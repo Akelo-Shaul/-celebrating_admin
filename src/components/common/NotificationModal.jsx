@@ -65,15 +65,15 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
         className={`fixed bg-white rounded-lg shadow-2xl z-[70] flex flex-col transition-all duration-300 ${
           isMaximized 
             ? 'inset-4' 
-            : 'bottom-4 right-4 w-[500px] h-[650px]'
+            : 'top-20 right-4 w-[500px] max-h-[calc(100vh-6rem)] overflow-hidden'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50 rounded-t-lg">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-t-lg">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 rounded-full">
-              <Bell size={20} className="text-purple-600" />
+            <div className="p-2 bg-yellow-100 rounded-full">
+              <Bell size={20} className="text-orange-600" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">Send Notification</h3>
@@ -110,7 +110,7 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
             {recipient && (
               <div className="bg-white rounded-lg p-4 border border-gray-200">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-white font-semibold">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center text-white font-semibold">
                     {recipient.name?.split(' ').map(n => n[0]).slice(0, 2).join('') || 'U'}
                   </div>
                   <div>
@@ -157,7 +157,7 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
               <select
                 value={notificationData.priority}
                 onChange={(e) => setNotificationData({ ...notificationData, priority: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
               >
                 {priorityLevels.map((priority) => (
                   <option key={priority.value} value={priority.value}>
@@ -177,7 +177,7 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
                 value={notificationData.title}
                 onChange={(e) => setNotificationData({ ...notificationData, title: e.target.value })}
                 placeholder="Enter notification title..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
                 maxLength={100}
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -195,7 +195,7 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
                 onChange={(e) => setNotificationData({ ...notificationData, message: e.target.value })}
                 placeholder="Enter notification message..."
                 rows={6}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
                 maxLength={500}
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -250,7 +250,7 @@ const NotificationModal = ({ isOpen, onClose, recipient }) => {
             <button
               onClick={handleSendNotification}
               disabled={!notificationData.title.trim() || !notificationData.message.trim()}
-              className="flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send size={18} />
               Send Notification

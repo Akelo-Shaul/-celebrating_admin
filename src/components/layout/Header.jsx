@@ -256,7 +256,7 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                           <div className="text-xs text-gray-500 truncate">{message.preview}</div>
                         </div>
                         {message.unread && (
-                          <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-1.5"></div>
+                          <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0 mt-1.5"></div>
                         )}
                       </button>
                     ))}

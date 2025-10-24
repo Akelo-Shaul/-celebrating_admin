@@ -93,7 +93,7 @@ const AlertsSidebar = () => {
       </div>
 
       {/* Alerts List */}
-      <div className="p-4 space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto">
+      <div className="p-4 space-y-3 min-h-[600px] max-h-[calc(100vh-250px)] overflow-y-auto">
         {alerts.length === 0 ? (
           <div className="text-center py-8">
             <p className="text-gray-500 text-sm">No active alerts</p>

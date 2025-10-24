@@ -107,7 +107,7 @@ const MessagingModal = ({ isOpen, onClose, recipient }) => {
               <h3 className="text-lg font-semibold text-gray-900">Messages</h3>
             ) : (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center text-white font-semibold">
                   {currentRecipient?.name?.split(' ').map(n => n[0]).slice(0, 2).join('') || 'U'}
                 </div>
                 <div>

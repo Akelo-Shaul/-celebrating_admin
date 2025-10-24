@@ -66,7 +66,7 @@ const StreamCard = ({ stream, onViewStream, onMoreOptions }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-3">
             {/* Avatar */}
-            <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+            <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center text-white font-semibold text-sm">
               {stream.streamer.avatar}
             </div>
             <div>
