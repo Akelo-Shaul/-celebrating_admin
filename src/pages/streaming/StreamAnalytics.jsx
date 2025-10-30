@@ -129,18 +129,20 @@ const StreamAnalytics = () => {
         </div>
       </div>
 
-      {/* Bottom Section - 3 Cards Side by Side */}
+      {/* Bottom Section - make the two charts share the row and move the list below */}
       <div className="mb-6">
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="col-span-1">
             <PlatformGrowthChart />
           </div>
           <div className="col-span-1">
             <PeakHoursChart />
           </div>
-          <div className="col-span-1">
-            <TopStreamersList />
-          </div>
+        </div>
+
+        {/* Place Top Streamers list below the charts, full width on small and md */}
+        <div className="mt-6">
+          <TopStreamersList />
         </div>
       </div>
     </div>
