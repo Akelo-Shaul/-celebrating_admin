@@ -79,7 +79,7 @@ export const menuItems = [
           'Event Revenue',
           'Streaming Revenue',
           'Social Revenue',
-          'Promoted Post Revenue',
+          'Promotions Revenue',
           'Revenue Analytics'
         ]
       },

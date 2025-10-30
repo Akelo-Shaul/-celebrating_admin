@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { TrendingUp, TrendingDown, UserCog, Ban, Edit, CheckCircle, Bell, MessageCircle } from 'lucide-react'
+import { useMessaging } from '../../contexts/MessagingContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import * as Flags from 'country-flag-icons/react/3x2'
 import { countryToCode } from '../dashboard/shop_widgets/countryUtils'
 import CategoryList from './celebrity_management_widgets/CategoryList';
@@ -59,6 +61,54 @@ const CelebrityCategories = () => {
   };
 
   const currentCelebrities = celebritiesByCategory[selectedCategory] || [];
+
+  // Context menu state and handlers (same behaviour as UsersTable)
+  const [contextMenu, setContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, celebrity: null })
+  const menuRef = useRef(null)
+  const { openMessage } = useMessaging()
+  const { openNotification } = useNotification()
+
+  const handleContextMenu = (e, celebrity) => {
+    e.preventDefault()
+    setContextMenu({ isOpen: true, position: { x: e.clientX, y: e.clientY }, celebrity })
+  }
+
+  const closeContextMenu = () => setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, celebrity: null })
+
+  useEffect(() => {
+    const handleClickOutside = (ev) => {
+      if (menuRef.current && !menuRef.current.contains(ev.target)) closeContextMenu()
+    }
+    if (contextMenu.isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [contextMenu.isOpen])
+
+  const handleAction = (action, celeb) => {
+    switch(action) {
+      case 'message':
+        openMessage && openMessage(celeb)
+        break
+      case 'notify':
+        openNotification && openNotification(celeb)
+        break
+      case 'changeRole':
+        alert(`Toggling role for ${celeb.name}`)
+        break
+      case 'update':
+        alert(`Open update for ${celeb.name}`)
+        break
+      case 'disable':
+        alert(`Disabled ${celeb.name}`)
+        break
+      case 'activate':
+        alert(`Activated ${celeb.name}`)
+        break
+      default:
+        break
+    }
+  }
   
   return (
     <div className="p-6">
@@ -118,17 +168,21 @@ const CelebrityCategories = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {currentCelebrities.map((celebrity) => (
-                <tr key={celebrity.id} className="hover:bg-gray-50">
+                <tr 
+                  key={celebrity.id} 
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onContextMenu={(e) => handleContextMenu(e, celebrity)}
+                  onClick={() => navigate(`/profile/${encodeURIComponent(celebrity.handle)}`, { state: { role: celebrity.type } })}
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-3">
                       {/* Circular avatar with orange border for celebrities */}
                       <div 
-                        className="w-12 h-12 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold cursor-pointer"
-                        onClick={() => navigate(`/profile/${encodeURIComponent(celebrity.handle)}`, { state: { role: celebrity.type } })}
+                        className="w-12 h-12 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold"
                       >
                         {celebrity.name.split(' ').map(n => n[0]).slice(0,2).join('')}
                       </div>
-                      <div className="cursor-pointer" onClick={() => navigate(`/profile/${encodeURIComponent(celebrity.handle)}`, { state: { role: celebrity.type } })}>
+                      <div>
                         <div className="text-sm font-medium text-gray-900">{celebrity.username}</div>
                         <div className="text-sm text-gray-500">{celebrity.uniqueId}</div>
                       </div>
@@ -172,6 +226,25 @@ const CelebrityCategories = () => {
             </div>
           </div>
         </div>
+        
+        {/* Context Menu (copied behaviour from UsersTable) */}
+        {contextMenu.isOpen && contextMenu.celebrity && (
+          <div
+            ref={menuRef}
+            className="fixed bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[200px] z-50"
+            style={{ top: `${contextMenu.position.y}px`, left: `${contextMenu.position.x}px` }}
+          >
+            <div className="px-3 py-2 border-b border-gray-100">
+              <div className="font-semibold text-sm text-gray-900">{contextMenu.celebrity.name}</div>
+              <div className="text-xs text-gray-500">Celebrity</div>
+            </div>
+            <button onClick={() => { handleAction('message', contextMenu.celebrity); closeContextMenu() }} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"><MessageCircle size={16} className="text-blue-600" /> <span className="text-sm text-blue-600">Message</span></button>
+            <button onClick={() => { handleAction('changeRole', contextMenu.celebrity); closeContextMenu() }} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"><UserCog size={16} className="text-blue-600" /> <span className="text-sm text-blue-600">Change Role</span></button>
+            <button onClick={() => { handleAction('update', contextMenu.celebrity); closeContextMenu() }} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"><Edit size={16} className="text-gray-700" /> <span className="text-sm text-gray-700">Update</span></button>
+            <button onClick={() => { handleAction('disable', contextMenu.celebrity); closeContextMenu() }} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"><Ban size={16} className="text-red-600" /> <span className="text-sm text-red-600">Disable</span></button>
+            <button onClick={() => { handleAction('notify', contextMenu.celebrity); closeContextMenu() }} className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors text-left"><Bell size={16} className="text-purple-600" /> <span className="text-sm text-purple-600">Send Notification</span></button>
+          </div>
+        )}
       </div>
     </div>
   );

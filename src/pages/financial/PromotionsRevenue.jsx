@@ -7,12 +7,12 @@ import RevenueTrends from './promoted_post_widgets/RevenueTrends'
 import TopPromotedPosts from './promoted_post_widgets/TopPromotedPosts'
 import PromotionPerformance from './promoted_post_widgets/PromotionPerformance'
 
-const PromotedPostRevenue = () => {
+const PromotionsRevenue = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Promoted Post Revenue</h1>
-        <p className="text-gray-600">Revenue analytics from promoted posts and sponsored content</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Promotions Revenue</h1>
+        <p className="text-gray-600">Revenue analytics from promotions and sponsored content</p>
       </div>
 
       {/* Stats Cards */}
@@ -94,5 +94,5 @@ const PromotedPostRevenue = () => {
   )
 }
 
-export default PromotedPostRevenue
+export default PromotionsRevenue
 

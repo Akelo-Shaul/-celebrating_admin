@@ -49,7 +49,7 @@ const PromotionPerformance = () => {
   ]
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 h-full">
       <h3 className="text-lg font-semibold text-gray-900 mb-6">Promotion Performance Metrics</h3>
       
       {/* Performance Cards */}
@@ -57,8 +57,8 @@ const PromotionPerformance = () => {
         {metrics.map((metric, index) => {
           const Icon = metric.icon
           return (
-            <div key={index} className="bg-gray-50 rounded-lg p-4">
-              <div className={`w-10 h-10 ${metric.bgColor} rounded-lg flex items-center justify-center mb-3`}>
+            <div key={index} className="bg-white rounded-lg p-4 shadow-sm">
+              <div className={`w-10 h-10 ${metric.bgColor} rounded-lg flex items-center justify-center mb-3`}> 
                 <Icon className={`w-5 h-5 ${metric.color}`} />
               </div>
               <div className="text-xs text-gray-600 mb-1">{metric.label}</div>

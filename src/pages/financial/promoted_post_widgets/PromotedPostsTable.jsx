@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const PromotedPostsTable = () => {
+const PromotedPostsTable = ({ typeFilter = 'All' }) => {
+  const navigate = useNavigate()
   const posts = [
     {
       id: 'PP-5678',
@@ -102,6 +104,8 @@ const PromotedPostsTable = () => {
     }
   ]
 
+  const filtered = posts.filter(p => typeFilter === 'All' || (p.type || '').toLowerCase() === (typeFilter || '').toLowerCase())
+
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-6 border-b border-gray-200">
@@ -143,8 +147,8 @@ const PromotedPostsTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {posts.map((post, index) => (
-              <tr key={index} className="hover:bg-gray-50 transition-colors">
+            {filtered.map((post, index) => (
+              <tr key={index} className="hover:bg-gray-50 transition-colors cursor-pointer" onClick={() => navigate(`/promotion/${encodeURIComponent(post.id)}`)}>
                 <td className="px-6 py-4 text-sm font-medium text-gray-900">{post.id}</td>
                 <td className="px-6 py-4">
                   <div>

@@ -53,7 +53,8 @@ import EventRevenue from './pages/financial/EventRevenue'
 import StreamingRevenue from './pages/financial/StreamingRevenue'
 import SocialRevenue from './pages/financial/SocialRevenue'
 import RevenueAnalytics from './pages/financial/RevenueAnalytics'
-import PromotedPostRevenue from './pages/financial/PromotedPostRevenue'
+import PromotionsRevenue from './pages/financial/PromotionsRevenue'
+import PromotionDetail from './pages/financial/PromotionDetail'
 
 // Reviews Pages
 import AllReviews from './pages/reviews/AllReviews'
@@ -251,7 +252,8 @@ const AppContent = () => {
               <Route path="/event-revenue" element={<EventRevenue />} />
               <Route path="/streaming-revenue" element={<StreamingRevenue />} />
               <Route path="/social-revenue" element={<SocialRevenue />} />
-              <Route path="/promoted-post-revenue" element={<PromotedPostRevenue />} />
+              <Route path="/promotions-revenue" element={<PromotionsRevenue />} />
+              <Route path="/promotion/:id" element={<PromotionDetail />} />
               <Route path="/revenue-analytics" element={<RevenueAnalytics />} />
 
               {/* Streaming Routes */}
