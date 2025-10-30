@@ -11,19 +11,13 @@ const MonetizationTypesChart = () => {
       {
         data: [42, 28, 20, 10, 0],
         backgroundColor: [
-          'rgb(16, 185, 129)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)',
-          'rgb(251, 146, 60)',
-          'rgb(156, 163, 175)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b',
+          '#ef4444',
+          '#8b5cf6'
         ],
-        borderColor: [
-          'rgb(16, 185, 129)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)',
-          'rgb(251, 146, 60)',
-          'rgb(156, 163, 175)'
-        ],
+        borderColor: 'white',
         borderWidth: 3
       }
     ]
@@ -50,7 +44,7 @@ const MonetizationTypesChart = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,

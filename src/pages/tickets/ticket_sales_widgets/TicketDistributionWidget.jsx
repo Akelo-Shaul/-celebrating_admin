@@ -11,20 +11,14 @@ const TicketDistributionWidget = () => {
       {
         data: [25, 35, 20, 12, 8],
         backgroundColor: [
-          'rgb(234, 179, 8)',
-          'rgb(59, 130, 246)',
-          'rgb(34, 197, 94)',
-          'rgb(168, 85, 247)',
-          'rgb(249, 115, 22)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b',
+          '#ef4444',
+          '#8b5cf6'
         ],
-        borderColor: [
-          'rgb(234, 179, 8)',
-          'rgb(59, 130, 246)',
-          'rgb(34, 197, 94)',
-          'rgb(168, 85, 247)',
-          'rgb(249, 115, 22)'
-        ],
-        borderWidth: 2
+        borderColor: 'white',
+        borderWidth: 3
       }
     ]
   }
@@ -50,7 +44,7 @@ const TicketDistributionWidget = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,
@@ -128,4 +122,3 @@ const TicketDistributionWidget = () => {
 }
 
 export default TicketDistributionWidget
-

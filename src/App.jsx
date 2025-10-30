@@ -42,6 +42,7 @@ import Deposits from './pages/financial/Deposits'
 import Withdrawals from './pages/financial/Withdrawals'
 import Escrows from './pages/financial/Escrows'
 import ActiveEscrows from './pages/financial/ActiveEscrows'
+import CompletedEscrows from './pages/financial/CompletedEscrows'
 import DisputeResolution from './pages/financial/DisputeResolution'
 import FraudDetection from './pages/financial/FraudDetection'
 import PaymentMethods from './pages/financial/PaymentMethods'
@@ -238,7 +239,7 @@ const AppContent = () => {
 
               <Route path="/escrow-management" element={<PageContainer title="Escrow Management" />} />
               <Route path="/active-escrows" element={<ActiveEscrows />} />
-              <Route path="/completed-escrows" element={<PageContainer title="Completed Escrows" />} />
+              <Route path="/completed-escrows" element={<CompletedEscrows />} />
               <Route path="/dispute-resolution" element={<DisputeResolution />} />
               <Route path="/escrow-settings" element={<PageContainer title="Escrow Settings" />} />
 

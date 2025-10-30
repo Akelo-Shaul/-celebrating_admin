@@ -144,7 +144,7 @@ const RevenueGrowthChart = () => {
           label: 'Revenue',
           data: data.map(d => d.revenue),
           borderColor: '#10b981',
-          backgroundColor: revenueGradient || 'rgba(16, 185, 129, 0.1)',
+          backgroundColor: '#10b981',
           borderWidth: 4,
           fill: true,
           tension: 0.4,
@@ -163,7 +163,7 @@ const RevenueGrowthChart = () => {
           label: 'Transactions',
           data: data.map(d => d.transactions),
           borderColor: '#3b82f6',
-          backgroundColor: transactionsGradient || 'rgba(59, 130, 246, 0.1)',
+          backgroundColor: '#3b82f6',
           borderWidth: 4,
           fill: true,
           tension: 0.4,
@@ -242,5 +242,3 @@ const RevenueGrowthChart = () => {
 }
 
 export default RevenueGrowthChart
-
-

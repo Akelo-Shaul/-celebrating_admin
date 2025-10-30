@@ -244,7 +244,18 @@ const PromotionDetail = () => {
             <h4 className="text-sm font-semibold mb-3">Audience - Age</h4>
             <div className="flex items-center gap-4">
               <div className="w-36 h-36">
-                <Doughnut data={{ labels: Object.keys(audience.age), datasets: [{ data: Object.values(audience.age).map(v => Math.round(v * 100)), backgroundColor: ['#60a5fa', '#34d399', '#f59e0b', '#a78bfa'] }] }} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }} />
+                <Doughnut
+                  data={{
+                    labels: Object.keys(audience.age),
+                    datasets: [{
+                      data: Object.values(audience.age).map(v => Math.round(v * 100)),
+                      backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
+                      borderColor: 'white',
+                      borderWidth: 3
+                    }]
+                  }}
+                  options={{ maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }}
+                />
               </div>
               <div>
                 {Object.entries(audience.age).map(([k, v]) => (
@@ -258,7 +269,18 @@ const PromotionDetail = () => {
             <h4 className="text-sm font-semibold mb-3">Audience - Gender & Regions</h4>
             <div className="flex items-start gap-4">
               <div className="w-28 h-28">
-                <Doughnut data={{ labels: Object.keys(audience.gender), datasets: [{ data: Object.values(audience.gender).map(v => Math.round(v * 100)), backgroundColor: ['#f97316', '#60a5fa'] }] }} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }} />
+                <Doughnut
+                  data={{
+                    labels: Object.keys(audience.gender),
+                    datasets: [{
+                      data: Object.values(audience.gender).map(v => Math.round(v * 100)),
+                      backgroundColor: ['#10b981', '#3b82f6'],
+                      borderColor: 'white',
+                      borderWidth: 3
+                    }]
+                  }}
+                  options={{ maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }}
+                />
               </div>
               <div className="flex-1">
                 <div className="text-sm text-gray-700 mb-2">Top Regions</div>

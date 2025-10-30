@@ -18,15 +18,11 @@ const CelebrationsMediaDistribution = () => {
       {
         data: data.filter(item => item.value > 0).map(item => item.value),
         backgroundColor: [
-          'rgb(34, 197, 94)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b'
         ],
-        borderColor: [
-          'rgb(34, 197, 94)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)'
-        ],
+        borderColor: 'white',
         borderWidth: 3
       }
     ]
@@ -53,7 +49,7 @@ const CelebrationsMediaDistribution = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,
@@ -97,10 +93,3 @@ const CelebrationsMediaDistribution = () => {
 }
 
 export default CelebrationsMediaDistribution
-
-
-
-
-
-
-

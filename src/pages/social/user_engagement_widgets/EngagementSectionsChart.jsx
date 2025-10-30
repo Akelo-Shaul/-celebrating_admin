@@ -19,17 +19,12 @@ const EngagementSectionsChart = () => {
       {
         data: data.filter(item => item.value > 0).map(item => item.value),
         backgroundColor: [
-          'rgb(34, 197, 94)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)',
-          'rgb(251, 146, 60)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b',
+          '#ef4444'
         ],
-        borderColor: [
-          'rgb(34, 197, 94)',
-          'rgb(249, 115, 22)',
-          'rgb(234, 179, 8)',
-          'rgb(251, 146, 60)'
-        ],
+        borderColor: 'white',
         borderWidth: 3
       }
     ]
@@ -56,7 +51,7 @@ const EngagementSectionsChart = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,
@@ -100,10 +95,3 @@ const EngagementSectionsChart = () => {
 }
 
 export default EngagementSectionsChart
-
-
-
-
-
-
-

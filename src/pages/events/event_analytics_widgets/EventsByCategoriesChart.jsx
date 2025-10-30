@@ -11,19 +11,13 @@ const EventsByCategoriesChart = () => {
       {
         data: [42, 28, 12, 10, 8],
         backgroundColor: [
-          'rgb(16, 185, 129)',
-          'rgb(234, 179, 8)',
-          'rgb(249, 115, 22)',
-          'rgb(251, 146, 60)',
-          'rgb(239, 68, 68)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b',
+          '#ef4444',
+          '#8b5cf6'
         ],
-        borderColor: [
-          'rgb(16, 185, 129)',
-          'rgb(234, 179, 8)',
-          'rgb(249, 115, 22)',
-          'rgb(251, 146, 60)',
-          'rgb(239, 68, 68)'
-        ],
+        borderColor: 'white',
         borderWidth: 3
       }
     ]
@@ -50,7 +44,7 @@ const EventsByCategoriesChart = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,
@@ -92,10 +86,3 @@ const EventsByCategoriesChart = () => {
 }
 
 export default EventsByCategoriesChart
-
-
-
-
-
-
-

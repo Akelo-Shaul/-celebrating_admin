@@ -20,21 +20,14 @@ const RevenueBySourceChart = () => {
       {
         data: data.map(item => item.value),
         backgroundColor: [
-          'rgb(16, 185, 129)',
-          'rgb(59, 130, 246)',
-          'rgb(245, 158, 11)',
-          'rgb(239, 68, 68)',
-          'rgb(139, 92, 246)',
-          'rgb(236, 72, 153)'
+          '#10b981',
+          '#3b82f6',
+          '#f59e0b',
+          '#ef4444',
+          '#8b5cf6',
+          '#ec4899'
         ],
-        borderColor: [
-          'rgb(16, 185, 129)',
-          'rgb(59, 130, 246)',
-          'rgb(245, 158, 11)',
-          'rgb(239, 68, 68)',
-          'rgb(139, 92, 246)',
-          'rgb(236, 72, 153)'
-        ],
+        borderColor: 'white',
         borderWidth: 3
       }
     ]
@@ -61,7 +54,7 @@ const RevenueBySourceChart = () => {
             return chart.data.labels.map((label, i) => ({
               text: label,
               fillStyle: datasets[0].backgroundColor[i],
-              strokeStyle: datasets[0].borderColor[i],
+              strokeStyle: datasets[0].borderColor,
               lineWidth: 0,
               hidden: false,
               index: i,
@@ -123,6 +116,3 @@ const RevenueBySourceChart = () => {
 }
 
 export default RevenueBySourceChart
-
-
-
