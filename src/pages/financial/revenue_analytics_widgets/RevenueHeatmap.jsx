@@ -1,17 +1,26 @@
+
 import React from 'react'
+import OrderDistributionMap from '../../../components/common/OrderDistributionMap'
 
 const RevenueHeatmap = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Heatmap</h3>
-      <div className="flex items-center justify-center h-64 text-gray-400">
-        <p>Heatmap: Revenue activity by day and hour</p>
-      </div>
+
+      {/* Reuse the OrderDistributionMap for revenue heat visualization. */}
+      <OrderDistributionMap
+        // Use default demo data for now; map-specific data can be passed via props later
+        height="h-64"
+        showHeader={false}
+        showLegend={false}
+        showStats={false}
+      />
     </div>
   )
 }
 
 export default RevenueHeatmap
+
 
 
 

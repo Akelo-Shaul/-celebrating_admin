@@ -71,7 +71,8 @@ const OrderDistributionMap = ({
   height = 'h-64',
   showLegend = true,
   showStats = true,
-  darkMode = false
+  darkMode = false,
+  showHeader = true
 }) => {
   // Default order data if none provided (example data for African cities)
   const defaultOrderData = [
@@ -137,9 +138,11 @@ const OrderDistributionMap = ({
 
   return (
     <div className={containerClass}>
-      <h5 className={`font-semibold mb-3 text-sm ${textClass}`}>
-        Order Distribution Map
-      </h5>
+      {showHeader && (
+        <h5 className={`font-semibold mb-3 text-sm ${textClass}`}>
+          Order Distribution Map
+        </h5>
+      )}
       
       {/* Map Container */}
       <div className={`w-full ${height} rounded overflow-hidden border ${darkMode ? 'border-gray-600' : 'border-gray-200'} relative z-0`}>

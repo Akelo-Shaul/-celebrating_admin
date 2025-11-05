@@ -1,6 +1,34 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+)
 
 const RevenueTrends = () => {
+  const chartRef = useRef(null)
+  const [chartType, setChartType] = useState('line')
+
   const data = [
     { month: 'Jan', revenue: 18500, promotions: 98 },
     { month: 'Feb', revenue: 19800, promotions: 105 },
@@ -10,13 +38,157 @@ const RevenueTrends = () => {
     { month: 'Jun', revenue: 24850, promotions: 147 }
   ]
 
-  const maxRevenue = Math.max(...data.map(d => d.revenue))
-  const maxPromotions = Math.max(...data.map(d => d.promotions))
-  const revenueScale = 160 / maxRevenue
-  const promotionsScale = 160 / maxPromotions
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'nearest',
+      intersect: false,
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 12,
+          font: { size: 11 }
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1f2937',
+        titleColor: '#ffffff',
+        bodyColor: '#e5e7eb',
+        titleFont: { size: 12, weight: '500' },
+        bodyFont: { size: 11 },
+        padding: 10,
+        borderColor: 'rgba(255,255,255,0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: (context) => {
+            const label = context.dataset.label || ''
+            const value = context.parsed.y
+            if (label === 'Revenue') {
+              return `${label}: $${value.toLocaleString()}`
+            } else {
+              return `${label}: ${value}`
+            }
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: true,
+          color: 'rgba(0,0,0,0.05)',
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#374151',
+          padding: 6
+        }
+      },
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        beginAtZero: true,
+        grid: {
+          display: true,
+          color: 'rgba(0,0,0,0.05)',
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#374151',
+          padding: 6,
+          callback: (value) => `$${(value / 1000).toFixed(1)}K`
+        }
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        beginAtZero: true,
+        grid: {
+          drawOnChartArea: false,
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#374151',
+          padding: 6
+        }
+      }
+    }
+  }
+
+  const buildChartData = () => {
+    const ctx = chartRef.current?.ctx
+    const height = chartRef.current?.height || 250
+
+    const revenueGradient = ctx ? (() => {
+      const g = ctx.createLinearGradient(0, 0, 0, height)
+      g.addColorStop(0, 'rgba(139, 92, 246, 0.2)')
+      g.addColorStop(1, 'rgba(139, 92, 246, 0)')
+      return g
+    })() : null
+
+    const promotionsGradient = ctx ? (() => {
+      const g = ctx.createLinearGradient(0, 0, 0, height)
+      g.addColorStop(0, 'rgba(59, 130, 246, 0.2)')
+      g.addColorStop(1, 'rgba(59, 130, 246, 0)')
+      return g
+    })() : null
+
+    return {
+      labels: data.map(d => d.month),
+      datasets: [
+        {
+          label: 'Revenue',
+          data: data.map(d => d.revenue),
+          borderColor: '#8b5cf6',
+          backgroundColor: chartType === 'line' ? (revenueGradient || '#8b5cf640') : '#8b5cf680',
+          borderWidth: 3,
+          fill: chartType === 'line',
+          tension: chartType === 'line' ? 0.4 : 0,
+          pointRadius: chartType === 'line' ? 0 : 4,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#8b5cf6',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Promotions Count',
+          data: data.map(d => d.promotions),
+          borderColor: '#3b82f6',
+          backgroundColor: chartType === 'line' ? (promotionsGradient || '#3b82f640') : '#3b82f680',
+          borderWidth: 3,
+          fill: chartType === 'line',
+          tension: chartType === 'line' ? 0.4 : 0,
+          pointRadius: chartType === 'line' ? 0 : 4,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#3b82f6',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2,
+          yAxisID: 'y1'
+        }
+      ]
+    }
+  }
+
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.update()
+    }
+  }, [chartType])
+
+  const ChartComponent = chartType === 'line' ? Line : Bar
 
   return (
-  <div className="bg-white rounded-lg shadow p-6 h-full">
+    <div className="bg-white rounded-lg shadow p-6 h-full">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">Promotion Revenue Trends</h3>
         <div className="flex items-center gap-4">
@@ -28,112 +200,46 @@ const RevenueTrends = () => {
             <div className="w-3 h-3 bg-blue-500 rounded-full" />
             <span className="text-sm text-gray-600">Promotions Count</span>
           </div>
+          
+          {/* Chart Type Toggle */}
+          <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
+            <button
+              onClick={() => setChartType('line')}
+              className={`px-3 py-1 text-sm rounded transition-colors ${
+                chartType === 'line'
+                  ? 'bg-white text-orange-600 shadow-sm font-medium'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Line
+            </button>
+            <button
+              onClick={() => setChartType('bar')}
+              className={`px-3 py-1 text-sm rounded transition-colors ${
+                chartType === 'bar'
+                  ? 'bg-white text-orange-600 shadow-sm font-medium'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Bar
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="relative">
-        <svg width="100%" height="220" viewBox="0 0 600 220">
-          {/* Grid lines */}
-          {[0, 1, 2, 3, 4].map((i) => (
-            <line
-              key={i}
-              x1="50"
-              y1={20 + i * 40}
-              x2="570"
-              y2={20 + i * 40}
-              stroke="#e5e7eb"
-              strokeWidth="1"
-            />
-          ))}
-
-          {/* Y-axis labels */}
-          {[0, 1, 2, 3, 4].map((i) => {
-            const value = maxRevenue - (i * maxRevenue / 4)
-            return (
-              <text
-                key={i}
-                x="40"
-                y={25 + i * 40}
-                textAnchor="end"
-                className="text-xs fill-gray-500"
-              >
-                ${(value / 1000).toFixed(0)}K
-              </text>
-            )
-          })}
-
-          {/* Lines */}
-          {data.map((item, index) => {
-            if (index === 0) return null
-            const prevItem = data[index - 1]
-            
-            const x1 = 80 + (index - 1) * 90
-            const x2 = 80 + index * 90
-            const y1Revenue = 180 - (prevItem.revenue * revenueScale)
-            const y2Revenue = 180 - (item.revenue * revenueScale)
-            const y1Promo = 180 - (prevItem.promotions * promotionsScale)
-            const y2Promo = 180 - (item.promotions * promotionsScale)
-
-            return (
-              <g key={index}>
-                {/* Revenue line */}
-                <line
-                  x1={x1}
-                  y1={y1Revenue}
-                  x2={x2}
-                  y2={y2Revenue}
-                  stroke="#8b5cf6"
-                  strokeWidth="3"
-                />
-                {/* Promotions line */}
-                <line
-                  x1={x1}
-                  y1={y1Promo}
-                  x2={x2}
-                  y2={y2Promo}
-                  stroke="#3b82f6"
-                  strokeWidth="3"
-                />
-              </g>
-            )
-          })}
-
-          {/* Points */}
-          {data.map((item, index) => {
-            const x = 80 + index * 90
-            const yRevenue = 180 - (item.revenue * revenueScale)
-            const yPromo = 180 - (item.promotions * promotionsScale)
-
-            return (
-              <g key={`point-${index}`}>
-                <circle cx={x} cy={yRevenue} r="5" fill="#8b5cf6" stroke="white" strokeWidth="2" />
-                <circle cx={x} cy={yPromo} r="5" fill="#3b82f6" stroke="white" strokeWidth="2" />
-              </g>
-            )
-          })}
-
-          {/* X-axis labels */}
-          {data.map((item, index) => {
-            const x = 80 + index * 90
-            return (
-              <text
-                key={`label-${index}`}
-                x={x}
-                y="200"
-                textAnchor="middle"
-                className="text-xs fill-gray-600"
-              >
-                {item.month}
-              </text>
-            )
-          })}
-        </svg>
+      <div style={{ height: '250px' }}>
+        <ChartComponent
+          ref={chartRef}
+          options={options}
+          data={buildChartData()}
+        />
       </div>
     </div>
   )
 }
 
 export default RevenueTrends
+
 
 
 

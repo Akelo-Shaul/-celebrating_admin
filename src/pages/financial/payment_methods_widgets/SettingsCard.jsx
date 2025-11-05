@@ -11,14 +11,18 @@ const SettingsCard = ({ title, children }) => {
   );
 };
 
-const SettingField = ({ label, type = "input", value, options = [], placeholder }) => {
+const SettingField = ({ label, type = "input", value, options = [], placeholder, onChange }) => {
   const renderInput = () => {
     if (type === "dropdown") {
       return (
         <div className="relative">
-          <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white">
+          <select 
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white"
+            value={value}
+            onChange={onChange}
+          >
             {options.map((option, index) => (
-              <option key={index} value={option.value} selected={option.value === value}>
+              <option key={index} value={option.value}>
                 {option.label}
               </option>
             ))}
@@ -38,6 +42,7 @@ const SettingField = ({ label, type = "input", value, options = [], placeholder 
           <input
             type="checkbox"
             checked={value}
+            onChange={onChange}
             className="w-4 h-4 text-gray-600 border-gray-300 rounded focus:ring-gray-200"
           />
           <span className="text-sm text-gray-700">{label}</span>
@@ -46,19 +51,13 @@ const SettingField = ({ label, type = "input", value, options = [], placeholder 
     }
     
     return (
-      <div className="relative">
-        <input
-          type="text"
-          value={value}
-          placeholder={placeholder}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-        />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
-      </div>
+      <input
+        type={type === "number" ? "number" : "text"}
+        value={value}
+        placeholder={placeholder}
+        onChange={onChange}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+      />
     );
   };
 
@@ -77,6 +76,7 @@ const SettingField = ({ label, type = "input", value, options = [], placeholder 
 };
 
 export { SettingsCard, SettingField };
+
 
 
 

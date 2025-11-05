@@ -20,12 +20,14 @@ import UserManagement from './pages/users/UserManagement'
 import AllUsers from './pages/users/AllUsers'
 import UserRoles from './pages/users/UserRoles'
 import UserActivities from './pages/users/UserActivities'
+import AccessControl from './pages/users/AccessControl'
 
 // Celebrity Management Pages
 import CelebrityManagement from './pages/celebrities/CelebrityManagement'
 import CelebrityList from './pages/celebrities/CelebrityList'
 import VerificationRequests from './pages/celebrities/VerificationRequests'
 import CelebrityCategories from './pages/celebrities/CelebrityCategories'
+import PerformanceMetrics from './pages/celebrities/PerformanceMetrics'
 
 // Shop Management Pages
 import ActiveShops from './pages/shops/ActiveShops'
@@ -44,6 +46,7 @@ import Escrows from './pages/financial/Escrows'
 import ActiveEscrows from './pages/financial/ActiveEscrows'
 import CompletedEscrows from './pages/financial/CompletedEscrows'
 import DisputeResolution from './pages/financial/DisputeResolution'
+import EscrowSettings from './pages/financial/EscrowSettings'
 import FraudDetection from './pages/financial/FraudDetection'
 import PaymentMethods from './pages/financial/PaymentMethods'
 import WithdrawalRequests from './pages/financial/WithdrawalRequests'
@@ -208,14 +211,14 @@ const AppContent = () => {
               <Route path="/all-users" element={<AllUsers />} />
               <Route path="/user-roles" element={<UserRoles />} />
               <Route path="/user-activities" element={<UserActivities />} />
-              <Route path="/access-control" element={<PageContainer title="Access Control" />} />
+              <Route path="/access-control" element={<AccessControl />} />
 
               {/* Celebrity Management Routes */}
               <Route path="/celebrity-management" element={<CelebrityManagement />} />
               <Route path="/celebrity-list" element={<CelebrityList />} />
               <Route path="/verification-requests" element={<VerificationRequests />} />
               <Route path="/celebrity-categories" element={<CelebrityCategories />} />
-              <Route path="/performance-metrics" element={<PageContainer title="Performance Metrics" />} />
+              <Route path="/performance-metrics" element={<PerformanceMetrics />} />
 
               {/* Shop Management Routes */}
               <Route path="/shop-management" element={<PageContainer title="Shop Management" />} />
@@ -241,7 +244,7 @@ const AppContent = () => {
               <Route path="/active-escrows" element={<ActiveEscrows />} />
               <Route path="/completed-escrows" element={<CompletedEscrows />} />
               <Route path="/dispute-resolution" element={<DisputeResolution />} />
-              <Route path="/escrow-settings" element={<PageContainer title="Escrow Settings" />} />
+              <Route path="/escrow-settings" element={<EscrowSettings />} />
 
               <Route path="/fraud-detection-and-alerts" element={<FraudDetection />} />
 

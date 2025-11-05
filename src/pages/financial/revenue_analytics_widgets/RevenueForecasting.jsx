@@ -1,17 +1,235 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+)
 
 const RevenueForecasting = () => {
+  const chartRef = useRef(null)
+  const [chartType, setChartType] = useState('line')
+
+  const historicalData = [
+    { month: 'Jan', actual: 2185740 },
+    { month: 'Feb', actual: 2341700 },
+    { month: 'Mar', actual: 2492720 },
+    { month: 'Apr', actual: 2426290 },
+    { month: 'May', actual: 2649100 },
+    { month: 'Jun', actual: 2804850 }
+  ]
+
+  const forecastData = [
+    { month: 'Jul', projected: 2960000, optimistic: 3100000, conservative: 2820000 },
+    { month: 'Aug', projected: 3120000, optimistic: 3270000, conservative: 2970000 },
+    { month: 'Sep', projected: 3280000, optimistic: 3440000, conservative: 3120000 },
+    { month: 'Oct', projected: 3440000, optimistic: 3610000, conservative: 3270000 },
+    { month: 'Nov', projected: 3600000, optimistic: 3780000, conservative: 3420000 },
+    { month: 'Dec', projected: 3760000, optimistic: 3950000, conservative: 3570000 }
+  ]
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'nearest',
+      intersect: false,
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 12,
+          font: { size: 11 }
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1f2937',
+        titleColor: '#ffffff',
+        bodyColor: '#e5e7eb',
+        titleFont: { size: 12, weight: '500' },
+        bodyFont: { size: 11 },
+        padding: 10,
+        borderColor: 'rgba(255,255,255,0.1)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: (context) => {
+            const label = context.dataset.label || ''
+            const value = context.parsed.y
+            return `${label}: $${(value / 1000000).toFixed(2)}M`
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: true,
+          color: 'rgba(0,0,0,0.05)',
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#374151',
+          padding: 6
+        }
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          display: true,
+          color: 'rgba(0,0,0,0.05)',
+        },
+        ticks: {
+          font: { size: 11 },
+          color: '#374151',
+          padding: 6,
+          callback: (value) => `$${(value / 1000000).toFixed(1)}M`
+        }
+      }
+    }
+  }
+
+  const buildChartData = () => {
+    const ctx = chartRef.current?.ctx
+    const height = chartRef.current?.height || 250
+
+    const allMonths = [...historicalData.map(d => d.month), ...forecastData.map(d => d.month)]
+    
+    const actualGradient = ctx ? (() => {
+      const g = ctx.createLinearGradient(0, 0, 0, height)
+      g.addColorStop(0, 'rgba(16, 185, 129, 0.2)')
+      g.addColorStop(1, 'rgba(16, 185, 129, 0)')
+      return g
+    })() : null
+
+    const projectedGradient = ctx ? (() => {
+      const g = ctx.createLinearGradient(0, 0, 0, height)
+      g.addColorStop(0, 'rgba(59, 130, 246, 0.2)')
+      g.addColorStop(1, 'rgba(59, 130, 246, 0)')
+      return g
+    })() : null
+
+  // build series so projected line connects from the last historical point
+  const lastActual = historicalData[historicalData.length - 1]?.actual || null
+  const actualData = [...historicalData.map(d => d.actual), ...new Array(forecastData.length).fill(null)]
+  // place lastActual at the final historical index so the projected (dashed) line begins at that point
+  const projectedLeadingNulls = new Array(Math.max(0, historicalData.length - 1)).fill(null)
+  const projectedData = [...projectedLeadingNulls, lastActual, ...forecastData.map(d => d.projected)]
+
+    return {
+      labels: allMonths,
+      datasets: [
+        {
+          label: 'Actual Revenue',
+          data: actualData,
+          borderColor: '#10b981',
+          backgroundColor: chartType === 'line' ? (actualGradient || '#10b98140') : '#10b98180',
+          borderWidth: 3,
+          borderDash: [],
+          spanGaps: true,
+          fill: chartType === 'line',
+          tension: chartType === 'line' ? 0.4 : 0,
+          pointRadius: chartType === 'line' ? 4 : 5,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#10b981',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2
+        },
+        {
+          label: 'Projected Revenue',
+          data: projectedData,
+          borderColor: '#3b82f6',
+          backgroundColor: chartType === 'line' ? (projectedGradient || '#3b82f640') : '#3b82f680',
+          borderWidth: 3,
+          borderDash: [5, 5],
+          spanGaps: true,
+          fill: chartType === 'line',
+          tension: chartType === 'line' ? 0.4 : 0,
+          pointRadius: chartType === 'line' ? 4 : 5,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#3b82f6',
+          pointHoverBorderColor: '#fff',
+          pointHoverBorderWidth: 2
+        }
+      ]
+    }
+  }
+
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.update()
+    }
+  }, [chartType])
+
+  const ChartComponent = chartType === 'line' ? Line : Bar
+
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Forecasting</h3>
-      <div className="flex items-center justify-center h-64 text-gray-400">
-        <p>Chart: Projected revenue for next 6 months based on trends</p>
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-lg font-semibold text-gray-900">Revenue Forecasting</h3>
+        <div className="flex items-center gap-4">
+          {/* Chart Type Toggle */}
+          <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
+            <button
+              onClick={() => setChartType('line')}
+              className={`px-3 py-1 text-sm rounded transition-colors ${
+                chartType === 'line'
+                  ? 'bg-white text-orange-600 shadow-sm font-medium'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Line
+            </button>
+            <button
+              onClick={() => setChartType('bar')}
+              className={`px-3 py-1 text-sm rounded transition-colors ${
+                chartType === 'bar'
+                  ? 'bg-white text-orange-600 shadow-sm font-medium'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Bar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ height: '250px' }}>
+        <ChartComponent
+          ref={chartRef}
+          options={options}
+          data={buildChartData()}
+        />
       </div>
     </div>
   )
 }
 
 export default RevenueForecasting
+
 
 
 
