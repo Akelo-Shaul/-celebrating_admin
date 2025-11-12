@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Eye, Edit3, Trash2, Slash } from 'lucide-react'
+import ContextMenu from '../../../components/common/ContextMenu'
 
 const CategoryListTable = ({ categories }) => {
   const columns = [
@@ -75,6 +77,18 @@ const CategoryListTable = ({ categories }) => {
     }
   ];
 
+  const [context, setContext] = useState(null)
+
+  const handleContext = (e, category) => {
+    e.preventDefault()
+    setContext({
+      position: { x: e.clientX, y: e.clientY },
+      category,
+    })
+  }
+
+  const closeContext = () => setContext(null)
+
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Header */}
@@ -139,7 +153,7 @@ const CategoryListTable = ({ categories }) => {
           </thead>
           <tbody className="bg-gray-100 divide-y divide-gray-200">
             {sampleCategories.map((category, index) => (
-              <tr key={category.id} className="hover:bg-gray-50">
+              <tr key={category.id} className="hover:bg-gray-50" onContextMenu={(e) => handleContext(e, category)}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div>
                     <div className="text-sm font-medium text-gray-900">{category.name}</div>
@@ -188,6 +202,20 @@ const CategoryListTable = ({ categories }) => {
           </tbody>
         </table>
       </div>
+      {/* Context Menu for row actions */}
+      {context && (
+        <ContextMenu
+          position={context.position}
+          onOutsideClick={closeContext}
+          header={{ title: context.category.name, subtitle: context.category.description }}
+          items={[
+            { label: 'View Category', icon: Eye, onClick: () => { /* navigate/view logic */ console.log('view', context.category) } },
+            { label: 'Edit Category', icon: Edit3, onClick: () => { /* edit logic */ console.log('edit', context.category) } },
+            { label: 'Disable Category', icon: Slash, onClick: () => { console.log('disable', context.category) } },
+            { label: 'Delete Category', icon: Trash2, labelColor: 'text-red-600', onClick: () => { console.log('delete', context.category) } },
+          ]}
+        />
+      )}
     </div>
   );
 };

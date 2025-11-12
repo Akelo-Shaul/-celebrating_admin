@@ -64,6 +64,8 @@ import PromotionDetail from './pages/financial/PromotionDetail'
 import AllReviews from './pages/reviews/AllReviews'
 import AllRatings from './pages/reviews/AllRatings'
 import Rankings from './pages/reviews/Rankings'
+import RatingAnalytics from './pages/reviews/RatingAnalytics'
+import AuthenticityAnalysis from './pages/reviews/AuthenticityAnalysis'
 
 // Social Pages
 import PostManagement from './pages/social/PostManagement'
@@ -73,11 +75,15 @@ import CelebrationAnalytics from './pages/social/CelebrationAnalytics'
 import ContentModeration from './pages/social/ContentModeration'
 import UserEngagement from './pages/social/UserEngagement'
 import CategoryList from './pages/social/CategoryList'
+import CategoryAnalytics from './pages/social/CategoryAnalytics'
+import ContentTags from './pages/social/ContentTags'
+import CategoryManagement from './pages/social/CategoryManagement'
 
 // Streaming Pages
 import ActiveStreams from './pages/streaming/ActiveStreams'
 import StreamAnalytics from './pages/streaming/StreamAnalytics'
 import ScheduledStreams from './pages/streaming/ScheduledStreams'
+import StreamSettings from './pages/streaming/StreamSettings'
 
 // Events Pages
 import EventAnalytics from './pages/events/EventAnalytics'
@@ -87,6 +93,10 @@ import EventCategories from './pages/events/EventCategories'
 
 // Ticket Sales Pages
 import TicketSales from './pages/tickets/TicketSales'
+import ActiveTickets from './pages/tickets/ActiveTickets'
+import SalesAnalytics from './pages/tickets/SalesAnalytics'
+import PricingTiers from './pages/tickets/PricingTiers'
+import TicketReports from './pages/tickets/TicketReports'
 
 // Entity Pages
 import UserProfile from './pages/entities/UserProfile'
@@ -264,6 +274,7 @@ const AppContent = () => {
               <Route path="/active-streams" element={<ActiveStreams />} />
               <Route path="/stream-analytics" element={<StreamAnalytics />} />
               <Route path="/scheduled-streams" element={<ScheduledStreams />} />
+              <Route path="/stream-settings" element={<StreamSettings />} />
 
               {/* Events Routes */}
               <Route path="/event-analytics" element={<EventAnalytics />} />
@@ -273,10 +284,10 @@ const AppContent = () => {
 
               {/* Ticket Sales Routes */}
               <Route path="/ticket-sales" element={<TicketSales />} />
-              <Route path="/active-tickets" element={<TicketSales />} />
-              <Route path="/sales-analytics" element={<TicketSales />} />
-              <Route path="/pricing-tiers" element={<PageContainer title="Pricing Tiers" />} />
-              <Route path="/ticket-reports" element={<PageContainer title="Ticket Reports" />} />
+              <Route path="/active-tickets" element={<ActiveTickets />} />
+              <Route path="/sales-analytics" element={<SalesAnalytics />} />
+              <Route path="/pricing-tiers" element={<PricingTiers />} />
+              <Route path="/ticket-reports" element={<TicketReports />} />
 
               {/* Entity routes */}
               <Route path="/profile/:id" element={<UserProfile />} />
@@ -297,8 +308,8 @@ const AppContent = () => {
               <Route path="/all-reviews" element={<AllReviews />} />
               <Route path="/all-ratings" element={<AllRatings />} />
               <Route path="/rankings" element={<Rankings />} />
-              <Route path="/rating-analytics" element={<PageContainer title="Rating Analytics" />} />
-              <Route path="/authenticity-analysis" element={<PageContainer title="Authenticity Analysis" />} />
+              <Route path="/rating-analytics" element={<RatingAnalytics />} />
+              <Route path="/authenticity-analysis" element={<AuthenticityAnalysis />} />
 
               {/* Social Routes */}
               <Route path="/post-management" element={<PostManagement />} />
@@ -318,6 +329,9 @@ const AppContent = () => {
 
               {/* Content Categories Routes */}
               <Route path="/category-list" element={<CategoryList />} />
+              <Route path="/category-analytics" element={<CategoryAnalytics />} />
+              <Route path="/content-tags" element={<ContentTags />} />
+              <Route path="/category-management" element={<CategoryManagement />} />
 
               {/* Catch all route */}
               <Route path="*" element={<PageContainer title="Page Not Found" />} />
