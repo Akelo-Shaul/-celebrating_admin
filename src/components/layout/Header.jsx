@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Menu, Search, Bell, ChevronDown, Mail, Edit2, HelpCircle, Lock, LogOut, MessageSquare, User } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { findSubItems, isMainMenuItem, findParentMenuItem } from '../../config/menuItems'
 import { useMessaging } from '../../contexts/MessagingContext'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
   const { openMessage } = useMessaging()
+  const { logout } = useAuth()
+  const navigate = useNavigate()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -285,9 +289,9 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
                   <li>
                     <button
                       onClick={() => {
-                        // placeholder logout behavior
+                        logout()
                         setIsProfileOpen(false)
-                        // you can call a logout handler here
+                        navigate('/login', { replace: true })
                       }}
                       className="w-full text-left px-3 py-2 rounded text-red-600 hover:bg-gray-50 flex items-center gap-3"
                     >

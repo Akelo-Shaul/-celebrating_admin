@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import './App.css'
 import 'leaflet/dist/leaflet.css'
 import Header from './components/layout/Header'
@@ -7,6 +7,9 @@ import Sidebar from './components/layout/Sidebar'
 import PageContainer from './components/PageContainer'
 import { MessagingProvider } from './contexts/MessagingContext'
 import { NotificationProvider } from './contexts/NotificationContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import Login from './pages/auth/Login'
 
 // Dashboard Pages
 import DashboardOverview from './pages/dashboard/DashboardOverview'
@@ -112,6 +115,7 @@ const AppContent = () => {
   const location = useLocation()
   const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 768)
   const [activeItem, setActiveItem] = useState('Dashboard')
+  const { isAuthenticated, loading } = useAuth()
 
   const handleItemSelect = (item) => {
     setActiveItem(item)
@@ -124,6 +128,7 @@ const AppContent = () => {
     }
   }
 
+  // All hooks must be called before any conditional returns
   React.useEffect(() => {
     const handleResize = () => {
       const shouldCollapse = window.innerWidth < 768
@@ -137,6 +142,13 @@ const AppContent = () => {
   // Set active item based on current route when page loads
   React.useEffect(() => {
     const path = location.pathname.slice(1).replace(/-/g, ' ').trim()
+
+    // Handle root path
+    if (location.pathname === '/') {
+      setActiveItem('Dashboard')
+      return
+    }
+
     if (path) {
       // Title-case each word so it matches labels in menuItems
       if (location.pathname.startsWith('/profile/')) {
@@ -178,22 +190,48 @@ const AppContent = () => {
     }
   }, [location])
 
+  // Authentication check - after all hooks are called
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-yellow-50">
+        <div className="text-gray-600 text-lg">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated && location.pathname !== '/login') {
+    return <Navigate to="/login" replace />
+  }
+
+  if (isAuthenticated && location.pathname === '/login') {
+    return <Navigate to="/" replace />
+  }
+
+  // If on login page, render only the login route without dashboard layout
+  if (location.pathname === '/login') {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    )
+  }
+
   return (
     <div className="min-h-screen">
       <div className="relative flex h-screen overflow-hidden">
         {/* Backdrop for mobile */}
-        <div 
+        <div
           className={`fixed inset-0 bg-gray-900/50 transition-opacity duration-300 md:hidden ${
             !isCollapsed ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
           onClick={() => setIsCollapsed(true)}
         />
-        
+
         {/* Sidebar with overlay on mobile */}
         <div className={`absolute md:relative z-20 h-full ${
           isCollapsed ? '-translate-x-full md:translate-x-0' : 'translate-x-0'
         } transition-transform duration-300`}>
-          <Sidebar 
+          <Sidebar
             isCollapsed={isCollapsed}
             activeItem={activeItem}
             onItemSelect={handleItemSelect}
@@ -201,8 +239,8 @@ const AppContent = () => {
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header 
-            isCollapsed={isCollapsed} 
+          <Header
+            isCollapsed={isCollapsed}
             onToggleMenu={() => setIsCollapsed(!isCollapsed)}
             title={activeItem}
             onItemSelect={handleItemSelect}
@@ -345,12 +383,14 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <NotificationProvider>
-        <MessagingProvider>
-          <AppContent />
-        </MessagingProvider>
-      </NotificationProvider>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <AuthProvider>
+        <NotificationProvider>
+          <MessagingProvider>
+            <AppContent />
+          </MessagingProvider>
+        </NotificationProvider>
+      </AuthProvider>
     </Router>
   )
 }
