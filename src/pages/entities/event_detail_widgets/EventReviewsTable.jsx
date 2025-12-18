@@ -46,12 +46,18 @@ const EventReviewsTable = () => {
   return (
     <div className="bg-white rounded-lg shadow h-full">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between gap-4">
-          <h2 className="text-lg font-bold text-gray-900 whitespace-nowrap">Reviews</h2>
-          
-          {/* Search Bar */}
-          <div className="relative flex-1">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="space-y-3">
+          {/* Title and Filter Button Row */}
+          <div className="flex items-center justify-between">
+            <h2 className="text-base md:text-lg font-bold text-gray-900">Reviews</h2>
+            <button className="p-2 hover:bg-gray-100 rounded-md transition-colors flex-shrink-0">
+              <Filter className="w-4 h-4 text-gray-500" />
+            </button>
+          </div>
+
+          {/* Search Bar Row */}
+          <div className="relative">
             <input
               type="text"
               placeholder="Search Reviews ..."
@@ -60,10 +66,6 @@ const EventReviewsTable = () => {
               className="w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
             />
           </div>
-          
-          <button className="p-2 hover:bg-gray-100 rounded-md transition-colors flex-shrink-0">
-            <Filter className="w-4 h-4 text-gray-500" />
-          </button>
         </div>
       </div>
 

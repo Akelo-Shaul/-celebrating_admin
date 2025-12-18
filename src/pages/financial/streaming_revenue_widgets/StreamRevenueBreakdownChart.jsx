@@ -61,26 +61,26 @@ const StreamRevenueBreakdownChart = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Stream Revenue Breakdown</h3>
-      
-      <div style={{ height: '200px' }} className="mb-4">
+    <div className="bg-white rounded-lg shadow p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4 md:mb-6">Stream Revenue Breakdown</h3>
+
+      <div style={{ height: '180px' }} className="mb-4 md:mb-6">
         <Doughnut data={chartData} options={options} />
       </div>
-      
+
       {/* Stats Legend */}
-      <div className="space-y-3 mt-4">
+      <div className="space-y-2 md:space-y-3">
         {data.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full flex-shrink-0" 
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div
+                className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-gray-600">{item.label}</span>
+              <span className="text-xs md:text-sm text-gray-600 truncate">{item.label}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold text-gray-900">{item.amount}</span>
+            <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+              <span className="text-xs md:text-sm font-semibold text-gray-900">{item.amount}</span>
               <span className="text-xs text-gray-500">{item.value}%</span>
             </div>
           </div>

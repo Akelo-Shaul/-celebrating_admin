@@ -8,10 +8,10 @@ const WithdrawalRequests = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Withdrawal Requests</h1>
-        <p className="text-gray-600">Manage and process user withdrawal requests</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Withdrawal Requests</h1>
+        <p className="text-sm md:text-base text-gray-600 mt-1">Manage and process user withdrawal requests</p>
       </div>
 
       {/* Stats Cards */}

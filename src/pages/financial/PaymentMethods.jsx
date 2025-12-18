@@ -85,20 +85,20 @@ const PaymentMethods = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       {/* Header with Save Button */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Payment Methods</h1>
-          <p className="text-gray-600">Configure payment methods and transaction settings</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Payment Methods</h1>
+          <p className="text-sm md:text-base text-gray-600">Configure payment methods and transaction settings</p>
         </div>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+        <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-medium transition-colors whitespace-nowrap">
           Save Settings
         </button>
       </div>
 
       {/* Settings Grid */}
-      <div className="grid grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Left Column */}
         <div className="space-y-6">
           {/* Currency Settings */}
@@ -194,12 +194,12 @@ const PaymentMethods = () => {
       </div>
 
       {/* Payment Methods Section */}
-      <div className="bg-gray-50 rounded-lg p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-semibold text-gray-800">Payment Methods</h2>
+      <div className="bg-gray-50 rounded-lg p-4 md:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h2 className="text-base md:text-lg font-semibold text-gray-800">Payment Methods</h2>
           <button
             onClick={handleAddMethod}
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2 transition-colors"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg font-medium flex items-center space-x-2 transition-colors text-sm md:text-base"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

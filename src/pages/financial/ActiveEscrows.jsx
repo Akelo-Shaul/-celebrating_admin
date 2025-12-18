@@ -94,14 +94,14 @@ const ActiveEscrows = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Active Escrows</h1>
-        <p className="text-gray-600 mt-1">Monitor and manage active escrow transactions</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Active Escrows</h1>
+        <p className="text-sm md:text-base text-gray-600 mt-1">Monitor and manage active escrow transactions</p>
       </div>
 
-      {/* Top Section - Statistical Cards (3x3 Grid) */}
-      <div className="grid grid-cols-3 gap-6 mb-6">
+      {/* Top Section - Statistical Cards (Responsive Grid) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
         <div className="col-span-1">
           <StatCard 
             title="Total Active Escrows"
@@ -211,9 +211,9 @@ const ActiveEscrows = () => {
       </div>
 
       {/* Additional Row for Release Success Rate */}
-      <div className="grid grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
         <div className="col-span-1">
-          <StatCard 
+          <StatCard
             title="Release Success rate"
             value="98%"
             change="-0.54%"
@@ -224,7 +224,7 @@ const ActiveEscrows = () => {
             comparisonText="compared to yesterday"
           />
         </div>
-        <div className="col-span-2"></div>
+        <div className="hidden lg:block lg:col-span-2"></div>
       </div>
 
       {/* Middle Section - Alerts & Monitoring */}

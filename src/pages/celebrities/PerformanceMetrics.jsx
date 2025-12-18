@@ -102,14 +102,21 @@ const PerformanceMetrics = () => {
   // Table renderers
   const renderRow = (item) => (
     <tr key={item.id} className="hover:bg-gray-50 cursor-pointer" onContextMenu={(e) => openContextMenu(e, item)}>
-      <td className="px-6 py-3">
-        <div className="font-medium text-gray-900">{item.name}</div>
-        <div className="text-xs text-gray-500">@{item.handle}</div>
+      <td className="px-6 py-3 align-middle">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+            {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+          </div>
+          <div>
+            <div className="font-medium text-gray-900">{item.name}</div>
+            <div className="text-xs text-gray-500">@{item.handle}</div>
+          </div>
+        </div>
       </td>
-      <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
-      <td className="px-6 py-3 text-center">{computeEngagement(item).toLocaleString()}</td>
-      <td className="px-6 py-3 text-center">{item.rating}</td>
-      <td className="px-6 py-3 text-center">{item.connections.toLocaleString()}</td>
+      <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
+      <td className="px-6 py-3 align-middle">{computeEngagement(item).toLocaleString()}</td>
+      <td className="px-6 py-3 align-middle">{item.rating}</td>
+      <td className="px-6 py-3 align-middle">{item.connections.toLocaleString()}</td>
     </tr>
   )
 
@@ -137,21 +144,21 @@ const PerformanceMetrics = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">Top Interactions</h3>
-              <div className="flex items-center gap-2">
-                <button onClick={() => setActiveTab('salutes')} className={`px-3 py-1 rounded ${activeTab==='salutes' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top Salutes</button>
-                <button onClick={() => setActiveTab('comments')} className={`px-3 py-1 rounded ${activeTab==='comments' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top Comments</button>
-                <button onClick={() => setActiveTab('recelebrations')} className={`px-3 py-1 rounded ${activeTab==='recelebrations' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top ReCelebrations</button>
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold mb-3">Top Interactions</h3>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button onClick={() => setActiveTab('salutes')} className={`px-3 py-1 rounded text-sm ${activeTab==='salutes' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top Salutes</button>
+                <button onClick={() => setActiveTab('comments')} className={`px-3 py-1 rounded text-sm ${activeTab==='comments' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top Comments</button>
+                <button onClick={() => setActiveTab('recelebrations')} className={`px-3 py-1 rounded text-sm ${activeTab==='recelebrations' ? 'bg-[#F19534] text-white' : 'bg-gray-100 text-gray-700'}`}>Top ReCelebrations</button>
               </div>
-              {/* Right-click context menu for rows */}
-              <ContextMenu
-                items={contextMenuItems}
-                position={contextMenuPos}
-                header={contextMenuHeader}
-                onOutsideClick={() => { setContextMenuHeader(null); closeContextMenu(); }}
-              />
             </div>
+            {/* Right-click context menu for rows */}
+            <ContextMenu
+              items={contextMenuItems}
+              position={contextMenuPos}
+              header={contextMenuHeader}
+              onOutsideClick={() => { setContextMenuHeader(null); closeContextMenu(); }}
+            />
 
             <StandardTable
               title={tabDataMap[activeTab].label}
@@ -161,13 +168,20 @@ const PerformanceMetrics = () => {
               data={tabDataMap[activeTab].rows}
               renderRow={(item) => (
                 <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-3">
-                    <div className="font-medium text-gray-900">{item.name}</div>
-                    <div className="text-xs text-gray-500">@{item.handle}</div>
+                  <td className="px-6 py-3 align-middle">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                        {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">{item.name}</div>
+                        <div className="text-xs text-gray-500">@{item.handle}</div>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-6 py-3 text-center">{(activeTab === 'salutes' ? item.salutes : activeTab === 'comments' ? item.comments : item.recelebrations).toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{computeEngagement(item).toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{(activeTab === 'salutes' ? item.salutes : activeTab === 'comments' ? item.comments : item.recelebrations).toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{computeEngagement(item).toLocaleString()}</td>
                 </tr>
               )}
               maxHeight={360}
@@ -210,9 +224,16 @@ const PerformanceMetrics = () => {
               data={topByFollowers}
               renderRow={(item) => (
                 <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-3">{item.name}</td>
-                  <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{item.connections.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                        {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                      </div>
+                      <span className="font-medium text-gray-900">{item.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{item.connections.toLocaleString()}</td>
                 </tr>
               )}
               maxHeight={320}
@@ -229,9 +250,16 @@ const PerformanceMetrics = () => {
               data={topByEngagement}
               renderRow={(item) => (
                 <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-3">{item.name}</td>
-                  <td className="px-6 py-3 text-center">{computeEngagement(item).toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                        {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                      </div>
+                      <span className="font-medium text-gray-900">{item.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-3 align-middle">{computeEngagement(item).toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
                 </tr>
               )}
               maxHeight={320}
@@ -248,9 +276,16 @@ const PerformanceMetrics = () => {
               data={topByReach}
               renderRow={(item) => (
                 <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-3">{item.name}</td>
-                  <td className="px-6 py-3 text-center">{item.reach.toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{item.profileVisits.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                        {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                      </div>
+                      <span className="font-medium text-gray-900">{item.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-3 align-middle">{item.reach.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{item.profileVisits.toLocaleString()}</td>
                 </tr>
               )}
               maxHeight={320}
@@ -267,9 +302,16 @@ const PerformanceMetrics = () => {
               data={topByConnections}
               renderRow={(item) => (
                 <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                  <td className="px-6 py-3">{item.name}</td>
-                  <td className="px-6 py-3 text-center">{item.connections.toLocaleString()}</td>
-                  <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                        {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                      </div>
+                      <span className="font-medium text-gray-900">{item.name}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-3 align-middle">{item.connections.toLocaleString()}</td>
+                  <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
                 </tr>
               )}
               maxHeight={320}
@@ -288,9 +330,16 @@ const PerformanceMetrics = () => {
             data={topByFollowers.map((c, idx) => ({ ...c, growth: Math.round((idx + 1) * 2.3) }))}
             renderRow={(item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-6 py-3">{item.name}</td>
-                <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
-                <td className="px-6 py-3 text-center">{item.growth}%</td>
+                <td className="px-6 py-3 align-middle">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                      {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                    </div>
+                    <span className="font-medium text-gray-900">{item.name}</span>
+                  </div>
+                </td>
+                <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
+                <td className="px-6 py-3 align-middle">{item.growth}%</td>
               </tr>
             )}
             maxHeight={260}
@@ -306,9 +355,16 @@ const PerformanceMetrics = () => {
             data={topByRating}
             renderRow={(item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-6 py-3">{item.name}</td>
-                <td className="px-6 py-3 text-center">{item.rating}</td>
-                <td className="px-6 py-3 text-center">{item.followers.toLocaleString()}</td>
+                <td className="px-6 py-3 align-middle">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center border-4 border-orange-500 bg-gray-100 text-gray-700 font-semibold text-sm flex-shrink-0">
+                      {item.name.split(' ').map(n => n[0]).slice(0,2).join('')}
+                    </div>
+                    <span className="font-medium text-gray-900">{item.name}</span>
+                  </div>
+                </td>
+                <td className="px-6 py-3 align-middle">{item.rating}</td>
+                <td className="px-6 py-3 align-middle">{item.followers.toLocaleString()}</td>
               </tr>
             )}
             maxHeight={260}

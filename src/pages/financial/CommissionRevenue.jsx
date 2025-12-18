@@ -7,14 +7,14 @@ import CommissionTrends from './commission_revenue_widgets/CommissionTrends'
 
 const CommissionRevenue = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Commission Revenue (Marketplace)</h1>
-        <p className="text-gray-600">Revenue from shop sales commissions</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Commission Revenue (Marketplace)</h1>
+        <p className="text-sm md:text-base text-gray-600">Revenue from shop sales commissions</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
         <StatCard
           title="Total Commission Revenue"
           value="$600K"
@@ -65,11 +65,11 @@ const CommissionRevenue = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-12 gap-6 mb-6">
-        <div className="col-span-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6">
+        <div className="col-span-1 lg:col-span-5">
           <CommissionBreakdownChart />
         </div>
-        <div className="col-span-7">
+        <div className="col-span-1 lg:col-span-7">
           <CommissionTrends />
         </div>
       </div>

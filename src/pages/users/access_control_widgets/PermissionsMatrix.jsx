@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Check, X, Search, ChevronDown, ChevronRight } from 'lucide-react'
+import { Check, X, Search, ChevronDown, ChevronRight, Filter } from 'lucide-react'
 
 const PermissionsMatrix = () => {
   const [expandedCategories, setExpandedCategories] = useState(['Dashboard', 'Users', 'Financial'])
@@ -93,7 +93,7 @@ const PermissionsMatrix = () => {
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-lg font-bold text-gray-900">Permissions Matrix</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -102,7 +102,7 @@ const PermissionsMatrix = () => {
               placeholder="Search permissions..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>

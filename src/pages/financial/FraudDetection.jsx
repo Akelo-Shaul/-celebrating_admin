@@ -6,15 +6,15 @@ import FlaggedAccounts from './fraud_detection_widgets/FlaggedAccounts';
 
 const FraudDetection = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Fraud Detection and Alerts</h1>
-        <p className="text-gray-600">Monitor and manage fraud detection alerts and flagged accounts</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Fraud Detection and Alerts</h1>
+        <p className="text-sm md:text-base text-gray-600">Monitor and manage fraud detection alerts and flagged accounts</p>
       </div>
 
       {/* Summary Cards Section */}
       <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <StatCard
             title="High Risk Alerts"
             value="7"

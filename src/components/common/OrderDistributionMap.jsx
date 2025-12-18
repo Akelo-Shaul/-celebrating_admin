@@ -19,31 +19,61 @@ const HeatMapLayer = ({ data }) => {
   useEffect(() => {
     if (!map || !data || data.length === 0) return
 
-    // Convert data to heat map format [lat, lng, intensity]
-    const heatData = data.map(point => [
-      point.lat,
-      point.lng,
-      point.orders / 50 // Normalize intensity based on orders
-    ])
-
-    // Create heat layer with color scheme
-    const heat = L.heatLayer(heatData, {
-      radius: 20,
-      blur: 25,
-      maxZoom: 10,
-      max: 100,
-      gradient: {
-        0.0: '#3b82f6', // Blue - low orders
-        0.5: '#8b5cf6', // Purple - medium orders  
-        0.8: '#10b981', // Green - high orders
-        1.0: '#ef4444'  // Red - very high orders
+    // Wait for map to be ready and have dimensions
+    const initHeatmap = () => {
+      const container = map.getContainer()
+      if (!container || container.offsetWidth === 0 || container.offsetHeight === 0) {
+        // Map container not ready yet, try again in a moment
+        setTimeout(initHeatmap, 100)
+        return
       }
-    })
 
-    heat.addTo(map)
+      // Convert data to heat map format [lat, lng, intensity]
+      const heatData = data.map(point => [
+        point.lat,
+        point.lng,
+        point.orders / 50 // Normalize intensity based on orders
+      ])
 
-    return () => {
-      map.removeLayer(heat)
+      // Create heat layer with color scheme
+      const heat = L.heatLayer(heatData, {
+        radius: 20,
+        blur: 25,
+        maxZoom: 10,
+        max: 100,
+        gradient: {
+          0.0: '#3b82f6', // Blue - low orders
+          0.5: '#8b5cf6', // Purple - medium orders
+          0.8: '#10b981', // Green - high orders
+          1.0: '#ef4444'  // Red - very high orders
+        }
+      })
+
+      try {
+        heat.addTo(map)
+      } catch (error) {
+        console.warn('Failed to add heatmap layer:', error)
+      }
+
+      // Cleanup function
+      return () => {
+        try {
+          if (map.hasLayer(heat)) {
+            map.removeLayer(heat)
+          }
+        } catch (error) {
+          console.warn('Failed to remove heatmap layer:', error)
+        }
+      }
+    }
+
+    // Use whenReady to ensure map is initialized
+    if (map.whenReady) {
+      map.whenReady(() => {
+        setTimeout(initHeatmap, 50)
+      })
+    } else {
+      setTimeout(initHeatmap, 100)
     }
   }, [map, data])
 

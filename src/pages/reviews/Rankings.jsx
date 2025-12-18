@@ -9,15 +9,15 @@ import BiggestFallersList from './rankings_widgets/BiggestFallersList';
 
 const Rankings = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Rankings</h1>
-        <p className="text-gray-600">Track performance metrics and rankings across the platform</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Rankings</h1>
+        <p className="text-sm md:text-base text-gray-600">Track performance metrics and rankings across the platform</p>
       </div>
 
       {/* Stats Cards Grid - 3 rows of 4 cards each */}
       <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="#1 Celebrity"
             value="@Hank Mcoy"
@@ -136,21 +136,22 @@ const Rankings = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Left Column */}
-        <div className="col-span-1 space-y-6">
+        <div className="col-span-1 space-y-4 md:space-y-6">
           {/* Live Feed */}
           <LiveFeed />
-          
+
           {/* Trending in the Past 24 Hours */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Trending in the Past 24 Hours</h3>
-            <div className="space-y-4">
+            <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">Trending in the Past 24 Hours</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <TrendingCard />
               <TrendingCard />
               <TrendingCard />
             </div>
           </div>
-          
+
           {/* Top Gainers */}
           <TopGainersList />
         </div>

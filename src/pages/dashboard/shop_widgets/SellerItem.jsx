@@ -31,7 +31,8 @@ const SellerItem = ({ product, orders, owner, country, sales, onProductClick, on
         onContextMenu={handleContextMenu}
       >
         {/* Desktop layout */}
-        <div className="hidden md:grid grid-cols-[1fr_72px_56px_96px] items-center gap-4">
+        <div className="hidden md:grid grid-cols-[minmax(200px,1fr)_80px_80px_140px] items-center gap-4">
+          {/* Product Name Column */}
           <div>
             <div className="font-semibold text-gray-800 truncate">{product}</div>
             <div className="mt-2 inline-flex items-center text-xs text-gray-600 bg-gray-200 rounded-full px-2 py-1">
@@ -39,40 +40,64 @@ const SellerItem = ({ product, orders, owner, country, sales, onProductClick, on
               <span>{orders} orders</span>
             </div>
           </div>
-          <div 
-            className="flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity" 
-            onClick={handleOwnerClick}
-          >
-            <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-700">
-              {owner.split(' ').map(n=>n[0]).slice(0,2).join('')}
-            </div>
-          </div>
-          <div className="flex items-center justify-center">
-            {country && React.createElement(Flags[countryToCode(country)], { className: 'w-6 h-4' })}
-          </div>
-          <div className="text-right font-medium text-gray-800">{sales.toLocaleString()}</div>
-        </div>
 
-        {/* Mobile stacked layout */}
-        <div className="md:hidden">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="font-semibold text-gray-800">{product}</div>
-              <div className="text-xs text-gray-500">{orders} orders</div>
-            </div>
-            <div className="text-sm font-medium text-gray-800">{sales.toLocaleString()}</div>
-          </div>
-          <div className="mt-2 flex items-center gap-3">
-            <div 
-              className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-700 cursor-pointer hover:opacity-80 transition-opacity" 
+          {/* Owner Column - Centered */}
+          <div className="flex items-center justify-center">
+            <div
+              className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-700 font-medium cursor-pointer hover:opacity-80 transition-opacity"
               onClick={handleOwnerClick}
             >
               {owner.split(' ').map(n=>n[0]).slice(0,2).join('')}
             </div>
-            <div className="text-xs text-gray-600 flex items-center gap-2">
-              {country && React.createElement(Flags[countryToCode(country)], { className: 'w-4 h-3' })}
-              <span>{country}</span>
+          </div>
+
+          {/* Country Column - Centered */}
+          <div className="flex items-center justify-center">
+            {country && React.createElement(Flags[countryToCode(country)], { className: 'w-8 h-5' })}
+          </div>
+
+          {/* Sales Volume Column - Right Aligned */}
+          <div className="text-right font-medium text-gray-800 pr-2">{sales.toLocaleString()}</div>
+        </div>
+
+        {/* Mobile Card Layout */}
+        <div className="md:hidden">
+          {/* Product Name and Orders */}
+          <div className="mb-3">
+            <div className="font-semibold text-gray-900 text-base mb-1">{product}</div>
+            <div className="inline-flex items-center text-xs text-gray-600 bg-gray-200 rounded-full px-2 py-1">
+              <span className="w-2 h-2 bg-green-500 rounded-full inline-block mr-2"></span>
+              <span>{orders} orders</span>
             </div>
+          </div>
+
+          {/* Owner and Country Section */}
+          <div className="mb-3 pb-3 border-b border-gray-200">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xs text-gray-500 font-medium min-w-[50px]">Owner</span>
+                <div
+                  className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-700 font-medium cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={handleOwnerClick}
+                >
+                  {owner.split(' ').map(n=>n[0]).slice(0,2).join('')}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <span className="text-xs text-gray-500 font-medium min-w-[50px]">Country</span>
+                <div className="flex items-center gap-2">
+                  {country && React.createElement(Flags[countryToCode(country)], { className: 'w-7 h-5' })}
+                  <span className="text-sm text-gray-700">{country}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sales Volume */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500 font-medium">Sales Volume</span>
+            <span className="text-base font-semibold text-gray-900">${sales.toLocaleString()}</span>
           </div>
         </div>
       </div>

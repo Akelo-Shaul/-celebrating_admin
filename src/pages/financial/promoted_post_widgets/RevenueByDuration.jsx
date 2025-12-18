@@ -49,12 +49,12 @@ const RevenueByDuration = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue by Promotion Duration</h3>
-      
+    <div className="bg-white rounded-lg shadow p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4 md:mb-6">Revenue by Promotion Duration</h3>
+
       {/* Donut Chart */}
-      <div className="flex items-center justify-center mb-6">
-        <svg width="200" height="200" className="transform -rotate-90">
+      <div className="flex items-center justify-center mb-4 md:mb-6">
+        <svg width="180" height="180" viewBox="0 0 200 200" className="transform -rotate-90 w-full max-w-[180px]">
           {/* Background circle */}
           <circle cx="100" cy="100" r="60" fill="white" />
           {data.map((item, index) => createSlice(item, index))}
@@ -62,21 +62,21 @@ const RevenueByDuration = () => {
           <circle cx="100" cy="100" r="50" fill="white" />
         </svg>
       </div>
-      
+
       {/* Legend */}
-      <div className="space-y-3">
+      <div className="space-y-2 md:space-y-3">
         {data.map((item, index) => (
           <div key={index} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full" 
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <div
+                className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-gray-600">{item.duration}</span>
+              <span className="text-xs md:text-sm text-gray-600 truncate">{item.duration}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500">{item.count} posts</span>
-              <span className="text-sm font-semibold text-gray-900">{item.revenue}</span>
+            <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
+              <span className="text-xs text-gray-500 hidden sm:inline">{item.count} posts</span>
+              <span className="text-xs md:text-sm font-semibold text-gray-900">{item.revenue}</span>
               <span className="text-xs text-gray-500">{item.percentage}%</span>
             </div>
           </div>

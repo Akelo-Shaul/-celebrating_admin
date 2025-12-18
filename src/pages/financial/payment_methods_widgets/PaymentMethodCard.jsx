@@ -55,60 +55,67 @@ const PaymentMethodCard = ({ method, onEdit, onDelete }) => {
   };
 
   return (
-  <div className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-center space-x-4 flex-1">
-        <div className="flex-shrink-0">
-          {getIcon(method.name)}
-        </div>
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center space-x-3 mb-2">
-            <h4 className="text-sm font-semibold text-gray-900 truncate">{method.name}</h4>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Active
-            </span>
+  <div className="bg-white rounded-lg p-3 md:p-4 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        {/* Main Content */}
+        <div className="flex items-start md:items-center space-x-3 md:space-x-4 flex-1">
+          <div className="flex-shrink-0 mt-1 md:mt-0">
+            {getIcon(method.name)}
           </div>
-          
-          <p className="text-xs text-gray-600 mb-2">{method.description}</p>
-          
-          <div className="flex items-center space-x-6 text-xs text-gray-500">
-            <div>
-              <span className="text-gray-400">Fee</span>
-              <span className="ml-1 font-medium">{method.fee}</span>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center space-x-2 md:space-x-3 mb-1 md:mb-2">
+              <h4 className="text-sm md:text-base font-semibold text-gray-900 truncate">{method.name}</h4>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 flex-shrink-0">
+                Active
+              </span>
             </div>
-            <div>
-              <span className="text-gray-400">Processing</span>
-              <span className="ml-1 font-medium">{method.processing}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Min Amount</span>
-              <span className="ml-1 font-medium">{method.minAmount}</span>
-            </div>
-            <div>
-              <span className="text-gray-400">Max Amount</span>
-              <span className="ml-1 font-medium">{method.maxAmount}</span>
+
+            <p className="text-xs md:text-sm text-gray-600 mb-2 md:mb-3">{method.description}</p>
+
+            {/* Responsive Grid for Details */}
+            <div className="grid grid-cols-2 md:flex md:items-center md:space-x-6 gap-2 md:gap-0 text-xs text-gray-500">
+              <div>
+                <span className="text-gray-400 block md:inline">Fee</span>
+                <span className="ml-0 md:ml-1 font-medium block md:inline">{method.fee}</span>
+              </div>
+              <div>
+                <span className="text-gray-400 block md:inline">Processing</span>
+                <span className="ml-0 md:ml-1 font-medium block md:inline">{method.processing}</span>
+              </div>
+              <div>
+                <span className="text-gray-400 block md:inline">Min Amount</span>
+                <span className="ml-0 md:ml-1 font-medium block md:inline">{method.minAmount}</span>
+              </div>
+              <div>
+                <span className="text-gray-400 block md:inline">Max Amount</span>
+                <span className="ml-0 md:ml-1 font-medium block md:inline">{method.maxAmount}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => onEdit(method)}
-          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-        </button>
-        <button
-          onClick={() => onDelete(method)}
-          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
+
+        {/* Action Buttons */}
+        <div className="flex items-center space-x-2 self-end md:self-auto">
+          <button
+            onClick={() => onEdit(method)}
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+            aria-label="Edit payment method"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </button>
+          <button
+            onClick={() => onDelete(method)}
+            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+            aria-label="Delete payment method"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

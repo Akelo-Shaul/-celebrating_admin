@@ -15,14 +15,14 @@ const CelebrationsTable = ({ celebrations }) => {
   return (
     <div className="bg-white rounded-lg shadow mt-6">
       {/* Header Section */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">All Celebrations</h2>
-          <div className="flex items-center space-x-4">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <h2 className="text-base md:text-lg font-bold text-gray-900">{selectedFilter}</h2>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-2 bg-white border border-gray-200 rounded px-3 py-2 text-sm hover:bg-gray-50"
+                className="w-full sm:w-auto flex items-center justify-between sm:justify-start space-x-2 bg-white border border-gray-200 rounded px-3 py-2 text-xs md:text-sm hover:bg-gray-50"
               >
                 <span>{selectedFilter}</span>
                 <svg
@@ -48,7 +48,7 @@ const CelebrationsTable = ({ celebrations }) => {
                         setSelectedFilter(option);
                         setDropdownOpen(false);
                       }}
-                      className="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 first:rounded-t-md last:rounded-b-md"
+                      className="w-full px-3 py-2 text-xs md:text-sm text-left hover:bg-gray-50 first:rounded-t-md last:rounded-b-md"
                     >
                       {option}
                     </button>
@@ -56,42 +56,44 @@ const CelebrationsTable = ({ celebrations }) => {
                 </div>
               )}
             </div>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search Celebration ..."
-                className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-200"
-              />
-              <svg
-                className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="Search Celebration ..."
+                  className="w-full pl-8 pr-4 py-2 border rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-gray-200"
                 />
-              </svg>
+                <svg
+                  className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <button className="px-3 md:px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center justify-center space-x-1 hover:bg-gray-200 text-xs md:text-sm flex-shrink-0">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
+                </svg>
+                <span className="hidden md:inline">Filter</span>
+              </button>
             </div>
-            <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                />
-              </svg>
-              <span>Filter</span>
-            </button>
           </div>
         </div>
       </div>

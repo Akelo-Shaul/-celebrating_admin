@@ -18,10 +18,10 @@ const ContentModeration = () => {
   ]
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Content Moderation</h1>
-        <p className="text-gray-600">Review and moderate user-generated content</p>
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Content Moderation</h1>
+        <p className="text-sm md:text-base text-gray-600">Review and moderate user-generated content</p>
       </div>
 
       {/* Stats Cards */}
@@ -75,13 +75,13 @@ const ContentModeration = () => {
 
       {/* Tabs */}
       <div className="bg-white rounded-lg shadow mb-6">
-        <div className="border-b border-gray-200">
-          <nav className="flex -mb-px">
+        <div className="border-b border-gray-200 overflow-x-auto">
+          <nav className="flex gap-2 md:gap-0 -mb-px min-w-max md:min-w-0 px-2 md:px-0">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+                className={`px-4 md:px-6 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -103,7 +103,7 @@ const ContentModeration = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="p-6">
+        <div className="p-4 md:p-6">
           {activeTab === 'queue' && <ModerationQueue />}
           {activeTab === 'flagged' && <FlaggedContent />}
           {activeTab === 'auto-mod' && <AutoModActions />}

@@ -276,15 +276,17 @@ const TopCelebrities = () => {
         </div>
       </div>
 
-      <div className="text-sm text-gray-600 bg-gray-50 rounded-t px-3 py-2 grid gap-2 items-center font-medium" style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr auto' }}>
-        <div className="col-span-1">Name</div>
-        <div>Country</div>
-        <div>Followers</div>
-        <div>Rating</div>
-        <div className="text-right">Trend</div>
-      </div>
+      <div className="overflow-x-auto">
+        <div className="min-w-[600px] md:min-w-full">
+          <div className="text-sm text-gray-600 bg-gray-50 rounded-t px-3 py-2 grid gap-2 items-center font-medium" style={{ gridTemplateColumns: '2fr 1fr 1fr 1fr auto' }}>
+            <div className="col-span-1 pl-11">Name</div>
+            <div className="flex items-center">Country</div>
+            <div className="flex items-center">Followers</div>
+            <div className="flex items-center">Rating</div>
+            <div className="text-right flex items-center justify-end">Trend</div>
+          </div>
 
-      <div className="max-h-64 overflow-auto">
+          <div className="max-h-64 overflow-auto">
         {filtered.length === 0 && (
           <div className="p-4 text-center text-gray-500">No results</div>
         )}
@@ -296,7 +298,7 @@ const TopCelebrities = () => {
             onContextMenu={(e) => handleContextMenu(e, item)}
           >
             <div
-              className="flex items-center gap-3 min-w-0 cursor-pointer"
+              className="flex items-center gap-3 min-w-0 cursor-pointer h-full"
               onClick={() => navigate(`/profile/${encodeURIComponent(item.name)}`, { state: { role: tab === 'celebrities' ? 'celebrity' : 'member' } })}
             >
               <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm text-gray-600 flex-shrink-0">{item.name.split(' ').map(n=>n[0]).slice(0,2).join('')}</div>
@@ -305,17 +307,19 @@ const TopCelebrities = () => {
                 <div className="text-xs text-gray-500 truncate">{item.posts ? `${item.posts} posts` : ''}</div>
               </div>
             </div>
-            <div className='flex flex-row gap-2 items-center'>
-                {React.createElement(Flags[countryToFlag(item.country)], { 
+            <div className='flex flex-row gap-2 items-center h-full'>
+                {React.createElement(Flags[countryToFlag(item.country)], {
                     className: "w-4 h-4"
                 })}
                 <div className="text-sm">{item.country}</div>
             </div>
-            <div className="text-sm">{item.followers.toLocaleString()}</div>
-            <div className="text-sm">{item.rating ?? '-'}</div>
-            <div className="text-right text-green-500">▴</div>
+            <div className="text-sm flex items-center h-full">{item.followers.toLocaleString()}</div>
+            <div className="text-sm flex items-center h-full">{item.rating ?? '-'}</div>
+            <div className="text-right text-green-500 flex items-center justify-end h-full">▴</div>
           </div>
         ))}
+          </div>
+        </div>
       </div>
 
       <ContextMenu

@@ -88,12 +88,12 @@ const ProfileDataTabs = ({ profile }) => {
 
   return (
     <div>
-      <div className="flex items-center gap-6 mb-4">
+      <div className="flex items-center gap-4 md:gap-6 mb-4 overflow-x-auto pb-2">
         {tabs.map(tab => (
           <button
             key={tab}
             onClick={() => setActive(tab)}
-            className={`text-sm font-semibold ${active === tab ? 'text-[#F19534]' : 'text-gray-700'}`}
+            className={`text-xs md:text-sm font-semibold whitespace-nowrap ${active === tab ? 'text-[#F19534]' : 'text-gray-700'}`}
           >
             {tab}
             {active === tab && <div className="h-0.5 bg-[#F19534] mt-2 rounded w-full" />}
@@ -101,7 +101,7 @@ const ProfileDataTabs = ({ profile }) => {
         ))}
       </div>
 
-      <div className="h-64 overflow-y-auto pr-3">
+      <div className="h-64 overflow-y-auto pr-2 md:pr-3">
         {active === 'Personal' && (
           <div>
             <h4 className="text-sm font-semibold mb-2">Family</h4>
@@ -778,16 +778,16 @@ const NetworkSection = ({ users = [], title = 'Following' }) => {
   }
 
   return (
-    <div className="bg-gray-200 rounded-lg p-4 h-[600px] flex flex-col">
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
-      
+    <div className="bg-gray-200 rounded-lg p-4 h-[500px] md:h-[600px] flex flex-col">
+      <h2 className="text-lg md:text-xl font-bold mb-4">{title}</h2>
+
       {/* Tabs */}
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-2 md:gap-4 mb-4">
         <button
           onClick={() => setActiveTab('Celebrities')}
-          className={`px-4 py-2 rounded ${
-            activeTab === 'Celebrities' 
-              ? 'bg-white text-black font-semibold' 
+          className={`px-3 md:px-4 py-2 rounded text-sm md:text-base ${
+            activeTab === 'Celebrities'
+              ? 'bg-white text-black font-semibold'
               : 'bg-transparent text-gray-700'
           }`}
         >
@@ -795,9 +795,9 @@ const NetworkSection = ({ users = [], title = 'Following' }) => {
         </button>
         <button
           onClick={() => setActiveTab('Members')}
-          className={`px-4 py-2 rounded ${
-            activeTab === 'Members' 
-              ? 'bg-white text-black font-semibold' 
+          className={`px-3 md:px-4 py-2 rounded text-sm md:text-base ${
+            activeTab === 'Members'
+              ? 'bg-white text-black font-semibold'
               : 'bg-transparent text-gray-700'
           }`}
         >
@@ -1271,55 +1271,50 @@ const UserProfile = () => {
   const progressPercent = Math.max(0, Math.min(100, rawProgress))
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="grid grid-cols-4 gap-6">
+    <div className="p-3 md:p-6 bg-gray-100 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
         {/* Header with Profile Details */}
-        <div className="col-span-3">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex  w-full gap-6">
+        <div className="col-span-1 md:col-span-3 order-1">
+          <div className="flex flex-col md:flex-row md:items-start justify-between mb-6">
+            <div className="flex flex-col md:flex-row w-full gap-4 md:gap-6">
               <div className="flex flex-col gap-4">
 
-                <img 
-                  src={profile.imageUrl || 'https://plus.unsplash.com/premium_photo-1760269681484-978f862fbc23?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870'} 
+                <img
+                  src={profile.imageUrl || 'https://plus.unsplash.com/premium_photo-1760269681484-978f862fbc23?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870'}
                   alt={profile.name}
-                  className="w-40 h-40 rounded-lg object-cover"
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-lg object-cover mx-auto md:mx-0"
                 />
-                <div className="flex item-center gap-1 px-4 py-2 bg-gray-400 rounded-full w-fit">
+                <div className="flex item-center gap-1 px-4 py-2 bg-gray-400 rounded-full w-fit mx-auto md:mx-0">
                   {Array.from({ length: 5}).map((_, index) => {
                     return <svg
-                    // key={index}
+                    key={index}
                     width='20'
                     height='20'
                     viewBox="0 0 24 24"
-                    // fill={isFilled ? '#FF6B35' : '#8B7355'}
-                    // className={editable ? 'cursor-pointer transition-all' : ''}
-                    // onClick={() => handleClick(starIndex)}
-                    // onMouseEnter={() => handleMouseEnter(starIndex)}
-                    // onMouseLeave={handleMouseLeave}
                   >
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                   })}
                 </div>
-                
+
               </div>
 
               <div className="flex flex-col gap-2 flex-1">
 
                 <div className="flex flex-col">
-                  <div className="flex justify-between">
+                  <div className="flex flex-col md:flex-row md:justify-between gap-4">
                     <div className="flex flex-col gap-3">
-                      <h1 className="text-2xl font-bold">{profile.name}</h1>
+                      <h1 className="text-xl md:text-2xl font-bold text-center md:text-left">{profile.name}</h1>
                       {profile.verified && (
-                        <div className="flex items-center gap-2 bg-[#FFCA28] w-fit px-3 py-1 rounded-full">
+                        <div className="flex items-center gap-2 bg-[#FFCA28] w-fit px-3 py-1 rounded-full mx-auto md:mx-0">
                           <BadgeCheck className="w-4 h-4 font-bold text-[#FB6C1E]" strokeWidth={3}/>
                           <span className="text-xs font-bold text-[#FB6C1E]">Verified</span>
                         </div>
                       )}
-                      <div className="text-gray-600 mt-1">{profile.occupation}</div>
-                      
-                      <div className='flex flex-row gap-2 items-center'>
-                        {React.createElement(Flags[countryToFlag(profile.country)], { 
+                      <div className="text-gray-600 mt-1 text-center md:text-left">{profile.occupation}</div>
+
+                      <div className='flex flex-row gap-2 items-center justify-center md:justify-start'>
+                        {React.createElement(Flags[countryToFlag(profile.country)], {
                             className: "w-6 h-6"
                         })}
                         <div className="text-md ">{profile.country}</div>
@@ -1333,7 +1328,7 @@ const UserProfile = () => {
                       </div>
                       <div>
                         <div className="text-xs text-gray-500">Registered On</div>
-                        <div className="font-bold text-[20px]">{profile.registeredOn}</div>
+                        <div className="font-bold text-lg md:text-[20px]">{profile.registeredOn}</div>
                       </div>
                       <div>
                       <div className="flex gap-0.3 items-center gap-3">
@@ -1342,11 +1337,11 @@ const UserProfile = () => {
                             <option>Today</option>
                           </select>
                         </div>
-                        <h3 className="text-[20px] font-bold">{profile.profileVisits}</h3>
+                        <h3 className="text-lg md:text-[20px] font-bold">{profile.profileVisits}</h3>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-4">
-                      
+                    <div className="flex flex-col gap-4 items-center md:items-start">
+
                       <div className="flex items-center gap-1 bg-[#F19534] w-fit px-3 py-1 rounded-md">
                         <span className="text-[12px] font-bold uppercase">Celebrity</span>
                       </div>
@@ -1360,107 +1355,109 @@ const UserProfile = () => {
 
 
                 </div>
-                <div className="mt-3 text-gray-700">{profile.bio}</div>
+                <div className="mt-3 text-gray-700 text-center md:text-left text-sm md:text-base">{profile.bio}</div>
 
-                <div className="grid grid-cols-2">
-                  <div className="flex items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div className="flex items-center justify-center md:justify-start">
                     <CalendarCheck className="mr-2 h-4 w-4 text-gray-600"/>
-                    <div className="font-medium">{profile.dob}</div>
+                    <div className="font-medium text-sm md:text-base">{profile.dob}</div>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-center md:justify-start">
                     <Phone className="mr-2 h-4 w-4 text-gray-600"/>
-                    <div className="font-medium">{profile.phone}</div>
+                    <div className="font-medium text-sm md:text-base">{profile.phone}</div>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-center md:justify-start">
                     <MapPin className="mr-2 h-4 w-4 text-gray-600"/>
-                    <div className="font-medium">{profile.nationality}</div>
+                    <div className="font-medium text-sm md:text-base">{profile.nationality}</div>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-center md:justify-start">
                     <Mail className="mr-2 h-4 w-4 text-gray-600"/>
-                    <div className="font-medium">{profile.email}</div>
+                    <div className="font-medium text-sm md:text-base">{profile.email}</div>
                   </div>
 
                 </div>
               </div>
 
             </div>
-      
+
           </div>
-          <div className="grid grid-cols-5">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-0">
+            <div className="text-center md:text-left">
               <p className='font-sm text-[12px]'>Followers</p>
-              <h3 className="text-[28px] font-bold">{profile.followersCount}</h3>
+              <h3 className="text-xl md:text-[28px] font-bold">{profile.followersCount}</h3>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <p className='font-sm text-[12px]'>Following</p>
-              <h3 className="text-[28px] font-bold">{profile.followingCount}</h3>
+              <h3 className="text-xl md:text-[28px] font-bold">{profile.followingCount}</h3>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <p className='font-sm text-[12px]'>Connections</p>
-              <h3 className="text-[28px] font-bold">{profile.connections}</h3>
+              <h3 className="text-xl md:text-[28px] font-bold">{profile.connections}</h3>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <p className='font-sm text-[12px]'>Revenue</p>
-              <h3 className="text-[28px] font-bold">{profile.revenue}</h3>
+              <h3 className="text-xl md:text-[28px] font-bold">{profile.revenue}</h3>
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <p className='font-sm text-[12px]'>Wallet Balance</p>
-              <h3 className="text-[28px] font-bold">{profile.walletBalance}</h3>
+              <h3 className="text-xl md:text-[28px] font-bold">{profile.walletBalance}</h3>
             </div>
           </div>
 
-          <div className="w-full px-6 py-4">
+          <div className="w-full px-3 md:px-6 py-4">
             {/* Percentage text */}
             <div className="flex justify-end mt-2 text-sm font-semibold text-gray-700">
               {Math.round(progressPercent)}%
             </div>
-            <div className="relative flex items-center justify-between">
-              {/* Line behind all steps */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 rounded-full -translate-y-2" />
+            <div className="relative w-full overflow-x-auto md:overflow-visible pb-2">
+              <div className="relative flex items-center justify-between min-w-full md:w-full" style={{ minWidth: '600px' }}>
+                {/* Line behind all steps */}
+                <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 rounded-full -translate-y-1 md:-translate-y-2 z-0" />
 
-              {/* Progress line (filled portion) */}
-              <div
-                className="absolute top-1/2 left-0 h-1 bg-green-500 rounded-full -translate-y-2 transition-all duration-500"
-                style={{ width: `${progressPercent}%` }}
-              />
+                {/* Progress line (filled portion) */}
+                <div
+                  className="absolute top-1/2 left-0 h-1 bg-green-500 rounded-full -translate-y-1 md:-translate-y-2 transition-all duration-500 z-0"
+                  style={{ width: `${progressPercent}%` }}
+                />
 
-              {/* Step indicators */}
-              {profile.completionSteps && profile.completionSteps.map((step, index) => {
-                const isCompleted = !!step.completed
-                return (
-                  <div
-                    key={step.label}
-                    className="relative flex-1 flex flex-col items-center gap-3 text-center"
-                  >
-                    {/* Diamond shape (with inner circle for completed) */}
-                    <div className="relative">
-                      <div className={`w-9 h-9 rotate-45 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'} transition-colors translate-y-3.5 duration-300 rounded-md`}></div>
+                {/* Step indicators */}
+                {profile.completionSteps && profile.completionSteps.map((step, index) => {
+                  const isCompleted = !!step.completed
+                  return (
+                    <div
+                      key={step.label}
+                      className="relative flex-1 flex flex-col items-center gap-2 md:gap-3 text-center z-10 min-w-[80px]"
+                    >
+                      {/* Diamond shape (with inner circle for completed) */}
+                      <div className="relative">
+                        <div className={`w-7 h-7 md:w-9 md:h-9 rotate-45 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'} transition-colors translate-y-3.5 duration-300 rounded-md`}></div>
+                      </div>
+                      <span className="mt-3 text-[10px] md:text-xs font-medium text-gray-700 whitespace-nowrap px-1">
+                        {step.label}
+                      </span>
                     </div>
-                    <span className="mt-3 text-xs font-medium text-gray-700">
-                      {step.label}
-                    </span>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
 
           </div>
         </div>
 
-        {/* Right Column: Rankings and Shops */}  
-        <div className="flex flex-col gap-4">
+        {/* Right Column: Rankings and Shops */}
+        <div className="flex flex-col gap-4 col-span-1 md:col-span-1 order-2">
           {/* Rankings section */}
           <div className='bg-white rounded-lg shadow gap-2 p-4'>
-            <h3 className="font-semibold">Rankings</h3>
-            <div>
+            <h3 className="font-semibold text-lg">Rankings</h3>
+            <div className="space-y-2">
               <div className="flex items-center mb-2">
                 <Globe className="mr-2 h-5 w-5 text-gray-600"/>
-                <div className="text-md text-gray-600">#1,234 Global</div>
+                <div className="text-sm md:text-md text-gray-600">#1,234 Global</div>
               </div>
               <div className="flex items-center gap-2 mb-2">
                 {/* Africa map image (use public asset) */}
                 <img src="/assets/Africa_Flag_Map.png" alt="Africa map" className="w-6 h-6 object-fit" />
-                <div className="text-md text-gray-600">#1,234 Africa</div>
+                <div className="text-sm md:text-md text-gray-600">#1,234 Africa</div>
               </div>
               <div className="flex items-center gap-2 mb-2">
                 {/* East Africa (EAC flag) */}
@@ -1468,7 +1465,7 @@ const UserProfile = () => {
                   const code = countryToFlag('East Africa')
                   return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
                 })()}
-                <div className="text-md text-gray-600">#1,234 East Africa</div>
+                <div className="text-sm md:text-md text-gray-600">#1,234 East Africa</div>
               </div>
               <div className="flex items-center gap-2">
                 {/* Kenya */}
@@ -1476,7 +1473,7 @@ const UserProfile = () => {
                   const code = countryToFlag('Kenya')
                   return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
                 })()}
-                <div className="text-md text-gray-600">#1,234 Kenya</div>
+                <div className="text-sm md:text-md text-gray-600">#1,234 Kenya</div>
               </div>
             </div>
           </div>
@@ -1487,23 +1484,22 @@ const UserProfile = () => {
               showSearch={false}
               showFilter={false}
               columns={["Shop Name", "Sales Volume ($)"]}
-              // columnWidths={["65%","35%"]}
               data={profile.shops}
               renderRow={(item, idx) => (
-                <tr 
-                  key={idx} 
+                <tr
+                  key={idx}
                   className="hover:bg-gray-50 cursor-pointer transition-colors"
                   onClick={() => navigate(`/store/${encodeURIComponent(item.name)}`)}
                 >
-                  <td className="px-6 py-3">
+                  <td className="px-4 md:px-6 py-3">
                     <div className="flex items-center justify-between">
-                      <div className="flex flex-col items-start gap-3">
-                        <div className="text-[12px] font-medium truncate max-w-[140px] whitespace-nowrap">{item.name}</div>
+                      <div className="flex flex-col items-start gap-2 md:gap-3">
+                        <div className="text-[12px] font-medium truncate max-w-[100px] md:max-w-[140px] whitespace-nowrap">{item.name}</div>
                         <span className="text-xs bg-gray-100 px-2 py-0.5 rounded">{item.orders} orders</span>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-3 text-sm text-center align-top whitespace-nowrap">{item.sales}</td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-center align-top whitespace-nowrap">{item.sales}</td>
                 </tr>
               )}
             />
@@ -1511,13 +1507,13 @@ const UserProfile = () => {
         </div>
 
         {/* Profile Data Section */}
-        <div className="w-full bg-white rounded-lg shadow p-6 col-span-2">
+        <div className="w-full bg-white rounded-lg shadow p-4 md:p-6 col-span-1 md:col-span-2 order-3">
           {/* Profile Data tabs */}
           <ProfileDataTabs profile={profile} />
         </div>
 
         {/* Comments Section */}
-        <div className="w-full bg-white rounded-lg col-span-2">
+        <div className="w-full bg-white rounded-lg col-span-1 md:col-span-2 order-4">
           <StandardTable
             title="Comments"
             showSearch={true}
@@ -1569,7 +1565,7 @@ const UserProfile = () => {
         </div>
 
         {/* Posts Section */}
-        <div className="w-full bg-white rounded-lg col-span-4">
+        <div className="w-full bg-white rounded-lg col-span-1 md:col-span-4 order-5">
           <StandardTable
             title={<div className="flex gap-5 items-center justify-between w-full">
               <div className="text-lg font-medium">Posts</div>
@@ -1731,7 +1727,7 @@ const UserProfile = () => {
           />
         </div>
 
-        <div className="col-span-3">
+        <div className="col-span-1 md:col-span-3 order-6">
           {/* Platform activity section */}
           <PlatformActivity initialYear={2025} activityMap={profile.activityMap} />
            {/* Live Stream Section */}
@@ -1796,8 +1792,8 @@ const UserProfile = () => {
         </div>
 
         {/* User Achievements */}
-        <div className="col-span-1">
-          <div className="rounded-lg shadow p-4" style={{ backgroundColor: '#B88080' }}>
+        <div className="col-span-1 md:col-span-1 order-7">
+          <div className="rounded-lg shadow p-4 mt-6" style={{ backgroundColor: '#B88080' }}>
             <h3 className="font-bold text-black text-lg mb-4">Achievements</h3>
             <div className="space-y-3">
               {(profile.achievements || []).map((achievement) => (
@@ -1823,17 +1819,17 @@ const UserProfile = () => {
         </div>
 
         {/* Following Section */}
-        <div className="col-span-4">
+        <div className="col-span-1 md:col-span-4 order-8">
           <NetworkSection users={profile.following} title="Following" />
         </div>
 
         {/* Followers Section */}
-        <div className="col-span-2">
+        <div className="col-span-1 md:col-span-2 order-9">
           <NetworkSection users={profile.followers} title="Followers" />
         </div>
 
         {/* Connections Section */}
-        <div className="col-span-2">
+        <div className="col-span-1 md:col-span-2 order-10">
           <NetworkSection users={profile.connectionsData} title="Connections" />
         </div>
 

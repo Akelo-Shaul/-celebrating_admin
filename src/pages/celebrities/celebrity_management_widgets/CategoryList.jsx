@@ -4,13 +4,13 @@ const CategoryButton = ({ category, icon, isSelected, onClick }) => {
   return (
     <button
       onClick={() => onClick(category)}
-      className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-colors
-        ${isSelected 
-          ? 'bg-orange-400 text-white' 
+      className={`flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-colors text-sm md:text-base
+        ${isSelected
+          ? 'bg-orange-400 text-white'
           : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}
     >
-      <span className="text-xl">{icon}</span>
-      <span>{category}</span>
+      <span className="text-base md:text-xl">{icon}</span>
+      <span className="whitespace-nowrap">{category}</span>
     </button>
   );
 };
@@ -43,7 +43,7 @@ const CategoryList = ({ selectedCategory, onCategoryChange }) => {
   ];
 
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-wrap gap-2 md:gap-3">
       {categories.map((category) => (
         <CategoryButton
           key={category.name}

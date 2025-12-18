@@ -62,55 +62,55 @@ const ModerationHistory = () => {
 
   return (
     <div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
+      <div className="overflow-x-auto -mx-2 md:mx-0">
+        <table className="w-full min-w-max">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Mod ID</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Post / User</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Content</th>
-              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Action</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Moderator</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Reason</th>
-              <th className="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Processing Time</th>
-              <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Timestamp</th>
+              <th className="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Mod ID</th>
+              <th className="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Post / User</th>
+              <th className="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Content</th>
+              <th className="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Action</th>
+              <th className="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Moderator</th>
+              <th className="px-3 md:px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Reason</th>
+              <th className="px-3 md:px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Processing Time</th>
+              <th className="px-3 md:px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Timestamp</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
             {historyItems.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.id}</td>
-                <td className="px-6 py-4">
-                  <div className="text-sm">
+                <td className="px-3 md:px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{item.id}</td>
+                <td className="px-3 md:px-6 py-4">
+                  <div className="text-sm whitespace-nowrap">
                     <div className="font-medium text-gray-900">{item.user}</div>
                     <div className="text-gray-500">{item.postId}</div>
                   </div>
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-3 md:px-6 py-4">
                   <div className="text-sm text-gray-900 max-w-xs truncate">{item.content}</div>
                 </td>
-                <td className="px-6 py-4 text-center">
+                <td className="px-3 md:px-6 py-4 text-center">
                   {item.action === 'Approved' ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800 whitespace-nowrap">
                       <CheckCircle className="w-3 h-3" />
                       Approved
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded bg-red-100 text-red-800">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded bg-red-100 text-red-800 whitespace-nowrap">
                       <XCircle className="w-3 h-3" />
                       Rejected
                     </span>
                   )}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-900">{item.moderator}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{item.reason}</td>
-                <td className="px-6 py-4 text-center">
-                  <span className="inline-flex items-center gap-1 text-xs text-gray-600">
+                <td className="px-3 md:px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{item.moderator}</td>
+                <td className="px-3 md:px-6 py-4 text-sm text-gray-600">{item.reason}</td>
+                <td className="px-3 md:px-6 py-4 text-center">
+                  <span className="inline-flex items-center gap-1 text-xs text-gray-600 whitespace-nowrap">
                     <Clock className="w-3 h-3" />
                     {item.processingTime}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-500 text-right">{item.timestamp}</td>
+                <td className="px-3 md:px-6 py-4 text-sm text-gray-500 text-right whitespace-nowrap">{item.timestamp}</td>
               </tr>
             ))}
           </tbody>
@@ -118,11 +118,11 @@ const ModerationHistory = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
         <div className="text-sm text-gray-600">
           Showing 1 to 5 of 1,234 results
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-center">
           <button className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
             Previous
           </button>

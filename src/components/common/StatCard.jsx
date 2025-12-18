@@ -44,13 +44,13 @@ const StatCard = ({
   }
 
   return (
-    <div className={`${bgColor} rounded-lg shadow-sm p-6 border border-gray-200`}>
+    <div className={`${bgColor} rounded-lg shadow-sm p-4 md:p-6 border border-gray-200`}>
       {/* Header Row */}
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-3 md:mb-4">
         {/* Icon */}
         {Icon && (
-          <div className={`${iconBgColor} ${iconColor} p-3 rounded-lg`}>
-            <Icon size={24} />
+          <div className={`${iconBgColor} ${iconColor} p-2 md:p-3 rounded-lg`}>
+            <Icon className="w-5 h-5 md:w-6 md:h-6" />
           </div>
         )}
 
@@ -114,9 +114,9 @@ const StatCard = ({
 
       {/* Value */}
       <div className="flex items-baseline gap-1">
-        {prefix && <span className="text-2xl font-bold text-gray-900">{prefix}</span>}
-        <p className="text-3xl font-bold text-gray-900">{value}</p>
-        {suffix && <span className="text-xl font-semibold text-gray-700">{suffix}</span>}
+        {prefix && <span className="text-xl md:text-2xl font-bold text-gray-900">{prefix}</span>}
+        <p className="text-2xl md:text-3xl font-bold text-gray-900">{value}</p>
+        {suffix && <span className="text-lg md:text-xl font-semibold text-gray-700">{suffix}</span>}
       </div>
 
       {/* Subtitle or Change (if dropdown is present) */}

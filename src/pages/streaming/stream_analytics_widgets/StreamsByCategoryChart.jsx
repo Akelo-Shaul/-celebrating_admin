@@ -63,11 +63,11 @@ const StreamsByCategoryChart = () => {
   }), [])
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 h-full">
-      <div className="flex items-start justify-between mb-4">
+    <div className="bg-white rounded-lg shadow p-4 md:p-6 h-full">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Streams by Category</h3>
-          <p className="text-sm text-gray-500">Monthly streams vs viewers</p>
+          <h3 className="text-base md:text-lg font-semibold text-gray-900">Streams by Category</h3>
+          <p className="text-xs md:text-sm text-gray-500">Monthly streams vs viewers</p>
         </div>
 
         <div className="flex items-center space-x-2">

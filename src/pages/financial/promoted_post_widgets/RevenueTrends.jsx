@@ -188,24 +188,24 @@ const RevenueTrends = () => {
   const ChartComponent = chartType === 'line' ? Line : Bar
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Promotion Revenue Trends</h3>
-        <div className="flex items-center gap-4">
+    <div className="bg-white rounded-lg shadow p-4 md:p-6 h-full">
+      <div className="mb-4 md:mb-6">
+        <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Promotion Revenue Trends</h3>
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-purple-500 rounded-full" />
-            <span className="text-sm text-gray-600">Revenue</span>
+            <span className="text-xs md:text-sm text-gray-600">Revenue</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-blue-500 rounded-full" />
-            <span className="text-sm text-gray-600">Promotions Count</span>
+            <span className="text-xs md:text-sm text-gray-600">Promotions Count</span>
           </div>
-          
+
           {/* Chart Type Toggle */}
           <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
             <button
               onClick={() => setChartType('line')}
-              className={`px-3 py-1 text-sm rounded transition-colors ${
+              className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded transition-colors ${
                 chartType === 'line'
                   ? 'bg-white text-orange-600 shadow-sm font-medium'
                   : 'text-gray-600 hover:text-gray-900'
@@ -215,7 +215,7 @@ const RevenueTrends = () => {
             </button>
             <button
               onClick={() => setChartType('bar')}
-              className={`px-3 py-1 text-sm rounded transition-colors ${
+              className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded transition-colors ${
                 chartType === 'bar'
                   ? 'bg-white text-orange-600 shadow-sm font-medium'
                   : 'text-gray-600 hover:text-gray-900'
@@ -227,7 +227,7 @@ const RevenueTrends = () => {
         </div>
       </div>
 
-      <div style={{ height: '250px' }}>
+      <div style={{ height: '220px' }}>
         <ChartComponent
           ref={chartRef}
           options={options}

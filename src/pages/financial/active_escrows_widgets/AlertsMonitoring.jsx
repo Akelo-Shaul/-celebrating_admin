@@ -60,22 +60,24 @@ const AlertsMonitoring = () => {
   ];
 
   return (
-    <div className="bg-gray-100 rounded-lg p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Alerts & Monitoring</h2>
-      
-      <div className="space-y-4">
+    <div className="bg-white rounded-lg shadow">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <h2 className="text-base md:text-lg font-semibold text-gray-900">Alerts & Monitoring</h2>
+      </div>
+
+      <div className="divide-y divide-gray-200">
         {alerts.map((alert) => (
-          <div key={alert.id} className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm">
-            <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0">
+          <div key={alert.id} className="px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 hover:bg-gray-50 transition-colors">
+            <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
+              <div className="flex-shrink-0 mt-0.5 sm:mt-0">
                 {alert.icon}
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-medium text-gray-900">{alert.title}</h3>
-                <p className="text-sm text-gray-600">{alert.description}</p>
+                <p className="text-sm text-gray-600 mt-0.5">{alert.description}</p>
               </div>
             </div>
-            <button className="bg-gray-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">
+            <button className="bg-gray-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors whitespace-nowrap self-start sm:self-auto">
               {alert.buttonText}
             </button>
           </div>

@@ -109,7 +109,7 @@ const DisputeResolution = () => {
   const renderOverviewTab = () => (
     <>
       {/* Top Row - 4 KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
         <StatCard
           title="Resolution Rate"
           value="98%"
@@ -150,27 +150,27 @@ const DisputeResolution = () => {
       </div>
 
       {/* Middle Row - 2 Charts */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <div className="col-span-1">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+        <div>
           <DisputeOverview />
         </div>
-        <div className="col-span-1">
+        <div>
           <DisputesTypesChart />
         </div>
       </div>
 
       {/* Bottom Row - 2 Charts */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        <div className="col-span-1">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
+        <div>
           <ResolutionTimeChart />
         </div>
-        <div className="col-span-1">
+        <div>
           <AdminPerformance />
         </div>
       </div>
 
       {/* Pattern Analytics Table */}
-      <div className="mb-6">
+      <div className="mb-4 md:mb-6">
         <PatternAnalytics />
       </div>
     </>
@@ -179,7 +179,7 @@ const DisputeResolution = () => {
   const renderDisputesTab = () => (
     <>
       {/* Top Row - 12 KPI Cards (3x4 Grid) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
         <StatCard
           title="Active Disputes"
           value="156"
@@ -216,7 +216,7 @@ const DisputeResolution = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
         <StatCard
           title="Avg Resolution Time"
           value="4.5 days"
@@ -256,7 +256,7 @@ const DisputeResolution = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
         <StatCard
           title="Seller Win Rate"
           value="28%"
@@ -301,14 +301,14 @@ const DisputeResolution = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dispute Resolution</h1>
-        <p className="text-gray-600 mt-1">Monitor and manage dispute resolution processes</p>
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Dispute Resolution</h1>
+        <p className="text-sm md:text-base text-gray-600 mt-1">Monitor and manage dispute resolution processes</p>
       </div>
 
       {/* Tab Navigation */}
-      <div className="mb-6">
+      <div className="mb-4 md:mb-6">
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8">
             {tabs.map((tab) => (

@@ -134,9 +134,9 @@ const SalesReportChart = ({ salesData }) => {
   }, [salesData])
 
   return (
-    <div className="col-span-6 bg-gray-200 rounded-lg p-6 shadow">
-      <h2 className="text-xl font-bold mb-4">Sales Report</h2>
-      <div style={{ height: '350px' }}>
+    <div className="col-span-12 md:col-span-6 bg-gray-200 rounded-lg p-3 md:p-6 shadow">
+      <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Sales Report</h2>
+      <div className="h-[250px] md:h-[350px]">
         <Line
           ref={chartRef}
           options={options}
@@ -479,16 +479,16 @@ const StoreProfile = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="p-3 md:p-6 bg-gray-100 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6">
         {/* Left Section - Profile Info */}
         <div className="col-span-12">
-          <div className="mb-6">
-            <div className="flex gap-6 w-full">
+          <div className="mb-3 md:mb-6">
+            <div className="flex flex-col lg:flex-row gap-3 md:gap-6 w-full">
               {/* Left side - Banner, Rating, Name, Owner */}
               <div className="flex-1">
                 {/* Banner Image */}
-                <div className="w-full h-48 mb-4">
+                <div className="w-full h-40 md:h-48 mb-3 md:mb-4">
                   <img 
                     src={store.bannerUrl} 
                     alt={store.name}
@@ -496,27 +496,27 @@ const StoreProfile = () => {
                   />
                 </div>
 
-                <div className="flex items-start gap-10 justify-between">
+                <div className="flex flex-col md:flex-row items-start gap-4 md:gap-10 justify-between">
                     <div>
                         {/* Star Rating */}
-                        <div className="flex items-center gap-1 mb-4 bg-gray-300 px-4 py-2 rounded-full w-fit">
+                        <div className="flex items-center gap-1 mb-3 md:mb-4 bg-gray-300 px-3 md:px-4 py-1.5 md:py-2 rounded-full w-fit">
                         {[1, 2, 3, 4, 5].map((star) => (
-                            <Star 
-                            key={star} 
-                            className={`w-5 h-5 ${star <= 3 ? 'fill-orange-500 text-orange-500' : 'fill-gray-400 text-gray-400'}`}
+                            <Star
+                            key={star}
+                            className={`w-4 h-4 md:w-5 md:h-5 ${star <= 3 ? 'fill-orange-500 text-orange-500' : 'fill-gray-400 text-gray-400'}`}
                             />
                         ))}
                         </div>
 
                         {/* Store Name */}
-                        <h1 className="text-4xl font-bold mb-4">{store.name}</h1>
+                        <h1 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4">{store.name}</h1>
 
                         {/* Owner Info */}
-                        <div 
-                          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+                        <div
+                          className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-80 transition-opacity"
                           onClick={() => navigate(`/profile/${encodeURIComponent(store.owner)}`)}
                         >
-                        <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden flex-shrink-0">
                             <span className="text-xs text-gray-600">Owner</span>
                         </div>
                         <div className="flex flex-col">
@@ -530,77 +530,77 @@ const StoreProfile = () => {
                     </div>
 
                     {/* Right side - Contact Info and Stats */}
-                    <div className="flex-1 flex flex-col justify-between p-6">
+                    <div className="flex-1 flex flex-col justify-between p-3 md:p-6">
                         {/* Contact Information */}
-                        <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                            <MapPin className="w-5 h-5 text-gray-600" />
-                            <span className="text-base">{store.location}</span>
+                        <div className="space-y-2 md:space-y-3">
+                        <div className="flex items-center gap-2 md:gap-3">
+                            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
+                            <span className="text-sm md:text-base">{store.location}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <Mail className="w-5 h-5 text-gray-600" />
-                            <span className="text-base">{store.email}</span>
+                        <div className="flex items-center gap-2 md:gap-3">
+                            <Mail className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
+                            <span className="text-sm md:text-base break-all">{store.email}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <Phone className="w-5 h-5 text-gray-600" />
-                            <span className="text-base">{store.phone}</span>
+                        <div className="flex items-center gap-2 md:gap-3">
+                            <Phone className="w-4 h-4 md:w-5 md:h-5 text-gray-600" />
+                            <span className="text-sm md:text-base">{store.phone}</span>
                         </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Stats at Bottom */}
-                <div className="grid grid-cols-3 gap-8 mt-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-8 mt-6 md:mt-8">
                   <div>
-                    <div className="font-sm text-[12px]">Followers</div>
-                    <div className="text-3xl font-bold">{store.followers}</div>
+                    <div className="font-sm text-[12px] text-gray-600">Followers</div>
+                    <div className="text-2xl md:text-3xl font-bold">{store.followers}</div>
                   </div>
                   <div>
-                    <div className="font-sm text-[12px]">Revenue</div>
-                    <div className="text-3xl font-bold">{store.revenue}</div>
+                    <div className="font-sm text-[12px] text-gray-600">Revenue</div>
+                    <div className="text-2xl md:text-3xl font-bold">{store.revenue}</div>
                   </div>
                   <div>
                     <div className="flex gap-0.3 items-center gap-3 justify-between mb-1">
-                      <span className="font-sm text-[12px]">Profile Visits</span>
-                      <select className="text-[12px] border-0 bg-gray-400 rounded-md">
+                      <span className="font-sm text-[12px] text-gray-600">Profile Visits</span>
+                      <select className="text-[12px] border-0 bg-gray-400 rounded-md px-2 py-1">
                         <option>Today</option>
                         <option>This Week</option>
                         <option>This Month</option>
                       </select>
                     </div>
-                    <div className="text-3xl font-bold">{store.profileVisits}</div>
+                    <div className="text-2xl md:text-3xl font-bold">{store.profileVisits}</div>
                   </div>
                 </div>
               </div>
 
               {/* Cards Section - Grid Layout */}
-              <div className="grid grid-cols-2 gap-6 items-start flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start md:flex-1">
                 {/* Sales Volume Card */}
-                <div className="bg-white rounded-lg shadow p-4">
+                <div className="bg-white rounded-lg shadow p-3 md:p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <Package className="w-5 h-5 text-[#F19534]" />
-                    <select className="text-[12px] border-0 bg-gray-400 rounded-md">
+                    <Package className="w-4 h-4 md:w-5 md:h-5 text-[#F19534]" />
+                    <select className="text-[10px] md:text-[12px] border-0 bg-gray-400 rounded-md px-2 py-1">
                       <option>This Year</option>
                       <option>Last Year</option>
                     </select>
                   </div>
-                  <div className="text-xs text-gray-600 mb-1">Sales Volume</div>
-                  <div className="text-[30px] font-bold mb-1">{store.salesVolume}</div>
-                  <div className="text-xs">
+                  <div className="text-[10px] md:text-xs text-gray-600 mb-1">Sales Volume</div>
+                  <div className="text-[24px] md:text-[30px] font-bold mb-1">{store.salesVolume}</div>
+                  <div className="text-[10px] md:text-xs">
                     <span className="text-gray-600">compared to last year</span>
                   </div>
-                  <div className="mt-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
+                  <div className="mt-2 inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-[10px] md:text-xs font-semibold">
                     {store.salesGrowth}%
                   </div>
-                  <div className="mt-4 text-xs text-gray-600">
+                  <div className="mt-3 md:mt-4 text-[10px] md:text-xs text-gray-600">
                     <div className="mb-1">Created At</div>
-                    <div className="font-bold text-gray-900">{store.createdAt}</div>
+                    <div className="font-bold text-gray-900 text-sm md:text-base">{store.createdAt}</div>
                   </div>
                 </div>
 
                 {/* Order Distribution Map */}
-                <OrderDistributionMap 
-                  height="h-48"
+                <OrderDistributionMap
+                  height="h-64 md:h-48"
                   showLegend={true}
                   showStats={true}
                   darkMode={true}
@@ -649,9 +649,9 @@ const StoreProfile = () => {
           </div>
 
           {/* Reviews and Sales Report Side by Side */}
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 gap-4 md:gap-6">
             {/* Reviews */}
-            <div className="col-span-6 bg-white rounded-lg shadow">
+            <div className="col-span-12 md:col-span-6 bg-white rounded-lg shadow">
               <StandardTable
                 title="Reviews"
                 showSearch={true}

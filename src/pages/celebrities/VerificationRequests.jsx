@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { TrendingUp, TrendingDown, User, MessageCircle, Bell, CheckCircle, XCircle, Award, BarChart3, Edit } from 'lucide-react'
+import { TrendingUp, TrendingDown, User, MessageCircle, Bell, CheckCircle, XCircle, Award, BarChart3, Edit, Search, Filter } from 'lucide-react'
 import * as Flags from 'country-flag-icons/react/3x2'
 import { countryToCode } from '../dashboard/shop_widgets/countryUtils'
 import { useMessaging } from '../../contexts/MessagingContext'
@@ -67,6 +67,7 @@ const VerificationRequests = () => {
   const { openMessage } = useMessaging()
   const { openNotification } = useNotification()
   const [contextMenu, setContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, celebrity: null })
+  const [searchTerm, setSearchTerm] = useState('')
   const columns = [
     { header: 'Profile', key: 'profile' },
     { header: 'Followers', key: 'followers' },
@@ -240,44 +241,47 @@ const VerificationRequests = () => {
       </div>
       {/* Header with Search and Filter */}
       <div className="bg-white rounded-lg shadow">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
+        <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200">
+          {/* Mobile Layout: 2 rows */}
+          <div className="md:hidden space-y-3">
+            {/* Top Row: Title + Filter Button */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">Celebrity Verification Requests</h2>
+              <button className="px-3 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 transition-colors text-sm flex items-center gap-2">
+                <Filter size={18} />
+                <span>Filter</span>
+              </button>
+            </div>
+
+            {/* Bottom Row: Search Field (Full Width) */}
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" size={18} />
+              <input
+                type="text"
+                placeholder="Search Celebrities..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          {/* Desktop Layout: Single row */}
+          <div className="hidden md:flex items-center justify-between">
             <h2 className="text-lg font-bold text-gray-900">Celebrity Verification Requests</h2>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-3">
               <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10" size={18} />
                 <input
                   type="text"
                   placeholder="Search Celebrities..."
-                  className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64"
                 />
-                <svg
-                  className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
               </div>
-              <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                  />
-                </svg>
+              <button className="px-3 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 transition-colors text-sm flex items-center gap-2">
+                <Filter size={18} />
                 <span>Filter</span>
               </button>
             </div>

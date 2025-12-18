@@ -39,46 +39,46 @@ const EventDetail = () => {
   }), [id])
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
         {/* Left Section - Event Header */}
-        <div className="col-span-5">
+        <div className="lg:col-span-5">
           {/* Event Image */}
-          <div className="w-full h-48 mb-4">
-            <img 
-              src={event.image} 
+          <div className="w-full h-48 md:h-56 lg:h-48 mb-3 md:mb-4">
+            <img
+              src={event.image}
               alt={event.name}
               className="w-full h-full rounded-lg object-cover"
             />
           </div>
 
           {/* Star Rating */}
-          <div className="flex items-center gap-1 mb-4 bg-gray-300 px-4 py-2 rounded-full w-fit">
+          <div className="flex items-center gap-1 mb-3 md:mb-4 bg-gray-300 px-3 md:px-4 py-1.5 md:py-2 rounded-full w-fit">
             {[1, 2, 3, 4, 5].map((star) => (
-              <Star 
-                key={star} 
-                className={`w-5 h-5 ${star <= Math.floor(event.rating) ? 'fill-orange-500 text-orange-500' : 'fill-gray-400 text-gray-400'}`}
+              <Star
+                key={star}
+                className={`w-4 md:w-5 h-4 md:h-5 ${star <= Math.floor(event.rating) ? 'fill-orange-500 text-orange-500' : 'fill-gray-400 text-gray-400'}`}
               />
             ))}
           </div>
 
           {/* Event Name */}
-          <h1 className="text-4xl font-bold mb-4">{event.name}</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">{event.name}</h1>
 
           {/* Organizer Info */}
-          <div 
-            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity mb-6"
+          <div
+            className="flex items-center gap-2 md:gap-3 cursor-pointer hover:opacity-80 transition-opacity mb-4 md:mb-6"
             onClick={() => navigate(`/profile/${encodeURIComponent(event.organizer.name)}`)}
           >
-            <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center overflow-hidden">
-              <span className="text-white font-bold">{event.organizer.avatar}</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-500 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <span className="text-white font-bold text-sm md:text-base">{event.organizer.avatar}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               <span className="text-xs text-gray-600">Organizer</span>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold">{event.organizer.name}</span>
+              <div className="flex items-center gap-1 md:gap-2">
+                <span className="text-sm font-bold truncate">{event.organizer.name}</span>
                 {event.organizer.verified && (
-                  <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-3 h-3 md:w-4 md:h-4 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
                   </svg>
                 )}
@@ -87,7 +87,7 @@ const EventDetail = () => {
           </div>
 
           {/* Event Description */}
-          <div className="mb-6">
+          <div className="mb-4 md:mb-6">
             <h3 className="text-sm font-semibold text-gray-700 mb-2">About Event</h3>
             <p className="text-sm text-gray-600 leading-relaxed">
               {event.description}
@@ -95,7 +95,7 @@ const EventDetail = () => {
           </div>
 
           {/* Key Metrics - StatCards */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <StatCard
               title="Ticket Purchases"
               value={event.ticketPurchases.toString()}
@@ -128,48 +128,48 @@ const EventDetail = () => {
         </div>
 
         {/* Right Section - Event Details and Map */}
-        <div className="col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-4 md:space-y-6">
           {/* Event Info Card */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="space-y-4">
+          <div className="bg-white rounded-lg shadow p-4 md:p-6">
+            <div className="space-y-3 md:space-y-4">
               {/* Date & Time */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Calendar className="w-6 h-6 text-gray-700" />
+              <div className="flex items-start gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 bg-gray-100 rounded-lg flex-shrink-0">
+                  <Calendar className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="text-xs text-gray-600 mb-1">Date & Time</div>
-                  <div className="font-bold text-gray-900">{event.date}</div>
-                  <div className="text-sm text-gray-600">{event.startTime} - {event.endTime}</div>
+                  <div className="font-bold text-gray-900 text-sm md:text-base">{event.date}</div>
+                  <div className="text-xs md:text-sm text-gray-600">{event.startTime} - {event.endTime}</div>
                 </div>
               </div>
 
               {/* Location */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
+              <div className="flex items-start gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 bg-gray-100 rounded-lg flex-shrink-0">
                   {event.isPhysical ? (
-                    <MapPin className="w-6 h-6 text-gray-700" />
+                    <MapPin className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                   ) : (
-                    <Globe className="w-6 h-6 text-gray-700" />
+                    <Globe className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="text-xs text-gray-600 mb-1">Location</div>
-                  <div className="font-bold text-gray-900">{event.location}</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="font-bold text-gray-900 text-sm md:text-base break-words">{event.location}</div>
+                  <div className="text-xs md:text-sm text-gray-600">
                     {event.isPhysical ? 'Physical Event' : 'Online Event'}
                   </div>
                 </div>
               </div>
 
               {/* Capacity */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Users className="w-6 h-6 text-gray-700" />
+              <div className="flex items-start gap-2 md:gap-3">
+                <div className="p-1.5 md:p-2 bg-gray-100 rounded-lg flex-shrink-0">
+                  <Users className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="text-xs text-gray-600 mb-1">Capacity</div>
-                  <div className="font-bold text-gray-900">{event.capacity} Attendees</div>
+                  <div className="font-bold text-gray-900 text-sm md:text-base">{event.capacity} Attendees</div>
                 </div>
               </div>
             </div>
@@ -180,18 +180,18 @@ const EventDetail = () => {
         </div>
 
         {/* Full Width Sections */}
-        <div className="col-span-12">
+        <div className="lg:col-span-12">
           {/* Ticket Purchases Table */}
-          <div className="mb-6">
+          <div className="mb-4 md:mb-6">
             <TicketPurchasesTable />
           </div>
 
           {/* Reviews and Sales Report */}
-          <div className="grid grid-cols-12 gap-6 mb-6">
-            <div className="col-span-5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-4 md:mb-6">
+            <div className="lg:col-span-5">
               <EventReviewsTable />
             </div>
-            <div className="col-span-7">
+            <div className="lg:col-span-7">
               <EventSalesChart />
             </div>
           </div>

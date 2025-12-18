@@ -159,7 +159,28 @@ export default function ProductsGrowth() {
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <div className="flex items-center justify-between mb-4">
+      {/* Mobile Layout: 2 rows */}
+      <div className="md:hidden space-y-3 mb-4">
+        <div className="text-lg font-bold text-gray-900">Products Growth</div>
+        <div className="flex items-center gap-1">
+          {timeframes.map((tf) => (
+            <button
+              key={tf.key}
+              onClick={() => setActiveTimeframe(tf.key)}
+              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                activeTimeframe === tf.key
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {tf.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Layout: Single row */}
+      <div className="hidden md:flex items-center justify-between mb-4">
         <div className="text-lg font-bold text-gray-900">Products Growth</div>
         <div className="flex items-center gap-1">
           {timeframes.map((tf) => (

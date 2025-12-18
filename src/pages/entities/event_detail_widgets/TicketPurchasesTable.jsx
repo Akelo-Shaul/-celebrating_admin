@@ -110,21 +110,21 @@ const TicketPurchasesTable = () => {
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">Ticket Purchases</h2>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <h2 className="text-base md:text-lg font-bold text-gray-900">Ticket Purchases</h2>
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="relative flex-1 md:flex-initial">
               <input
                 type="text"
                 placeholder="Search Ticket, User..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                className="pl-8 pr-4 py-2 border rounded-md w-full md:w-64 text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
               />
               <Search className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5" />
             </div>
-            <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md flex items-center space-x-2 hover:bg-gray-300">
+            <button className="px-3 md:px-4 py-2 bg-gray-200 text-gray-700 rounded-md flex items-center space-x-2 hover:bg-gray-300 flex-shrink-0 text-sm">
               <Filter className="w-4 h-4" />
               <span>Filter</span>
             </button>

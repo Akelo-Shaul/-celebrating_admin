@@ -579,28 +579,28 @@ const PostDetail = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="p-3 md:p-6 bg-gray-100 min-h-screen">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
         {/* Main Content */}
-        <div className="col-span-8">
-          <div className="rounded-lg p-3">
-            <div className="grid grid-cols-12 gap-6 mb-6">
+        <div className="col-span-1 lg:col-span-8">
+          <div className="rounded-lg p-2 md:p-3">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 mb-6">
               {/* Post Image */}
-              <div className="col-span-5">
-                <img 
-                  src={postData.image} 
+              <div className="col-span-1 md:col-span-5">
+                <img
+                  src={postData.image}
                   alt={postData.title}
-                  className="w-full h-80 object-cover rounded-lg"
+                  className="w-full h-60 md:h-80 object-cover rounded-lg"
                 />
               </div>
 
               {/* Post Details */}
-              <div className="col-span-7">
+              <div className="col-span-1 md:col-span-7">
                 {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <h1 className="text-3xl font-bold">{postData.title}</h1>
-                  <div className="flex items-center gap-3">
-                    <span className="bg-[#F19534] text-white px-4 py-1 rounded-md font-semibold">
+                <div className="flex flex-col md:flex-row md:items-start justify-between mb-4 gap-3">
+                  <h1 className="text-2xl md:text-3xl font-bold">{postData.title}</h1>
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <span className="bg-[#F19534] text-white px-3 md:px-4 py-1 rounded-md font-semibold text-sm md:text-base">
                       {postData.status}
                     </span>
                     <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
@@ -629,19 +629,19 @@ const PostDetail = () => {
                 </div>
 
                 {/* Dates */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4">
                   <div>
-                    <div className="text-sm text-gray-600 mb-1">Posted On</div>
-                    <div className="font-semibold">{postData.postedOn}</div>
+                    <div className="text-xs md:text-sm text-gray-600 mb-1">Posted On</div>
+                    <div className="font-semibold text-sm md:text-base">{postData.postedOn}</div>
                   </div>
                   <div>
-                    <div className="text-sm text-gray-600 mb-1">Last Updated</div>
-                    <div className="font-semibold">{postData.lastUpdated}</div>
+                    <div className="text-xs md:text-sm text-gray-600 mb-1">Last Updated</div>
+                    <div className="font-semibold text-sm md:text-base">{postData.lastUpdated}</div>
                   </div>
                 </div>
 
                 {/* Rating */}
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 mb-4 justify-center md:justify-start">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <svg
                       key={star}
@@ -655,9 +655,9 @@ const PostDetail = () => {
                 </div>
 
                 {/* Categories */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-center md:justify-start">
                   {postData.categories.map((category, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="bg-[#F19534] text-white px-4 py-1 rounded-md font-semibold"
                     >
@@ -669,22 +669,22 @@ const PostDetail = () => {
             </div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-5 gap-4 mb-6 border-t border-b border-gray-200 py-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Salutes</div>
-                <div className="text-3xl font-bold">{postData.stats.salutes.toLocaleString()}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 border-t border-b border-gray-200 py-4">
+              <div className="text-center md:text-left">
+                <div className="text-xs md:text-sm text-gray-600 mb-1">Salutes</div>
+                <div className="text-xl md:text-3xl font-bold">{postData.stats.salutes.toLocaleString()}</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Comments</div>
-                <div className="text-3xl font-bold">{postData.stats.comments.toLocaleString()}</div>
+              <div className="text-center md:text-left">
+                <div className="text-xs md:text-sm text-gray-600 mb-1">Comments</div>
+                <div className="text-xl md:text-3xl font-bold">{postData.stats.comments.toLocaleString()}</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Reshares</div>
-                <div className="text-3xl font-bold">{postData.stats.reshares}</div>
+              <div className="text-center md:text-left">
+                <div className="text-xs md:text-sm text-gray-600 mb-1">Reshares</div>
+                <div className="text-xl md:text-3xl font-bold">{postData.stats.reshares}</div>
               </div>
-              <div>
-                <div className="text-sm text-gray-600 mb-1">Views</div>
-                <div className="text-3xl font-bold">{postData.stats.views}</div>
+              <div className="text-center md:text-left">
+                <div className="text-xs md:text-sm text-gray-600 mb-1">Views</div>
+                <div className="text-xl md:text-3xl font-bold">{postData.stats.views}</div>
               </div>
             </div>
 
@@ -692,43 +692,43 @@ const PostDetail = () => {
         </div>
 
         {/* Right Sidebar - Gifts */}
-        <div className="col-span-4">
-          <div className="bg-gray-200 rounded-lg p-4">
-            <h2 className="text-xl font-bold mb-4">Gifts</h2>
-            <div className="space-y-3">
+        <div className="col-span-1 lg:col-span-4">
+          <div className="bg-gray-200 rounded-lg p-3 md:p-4">
+            <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Gifts</h2>
+            <div className="space-y-2 md:space-y-3">
               {postData.gifts.map((gift) => (
-                <div key={gift.id} className="bg-gray-300 rounded-lg p-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                <div key={gift.id} className="bg-gray-300 rounded-lg p-2 md:p-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <div>
-                      <div className="font-semibold">{gift.name}</div>
+                      <div className="font-semibold text-sm md:text-base">{gift.name}</div>
                       <div className="text-xs text-gray-600">from</div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <img 
-                          src={gift.avatar} 
+                      <div className="flex items-center gap-1 md:gap-2 mt-1">
+                        <img
+                          src={gift.avatar}
                           alt={gift.from}
-                          className="w-5 h-5 rounded-full"
+                          className="w-4 h-4 md:w-5 md:h-5 rounded-full"
                         />
-                        <span className="text-sm font-medium">{gift.from}</span>
+                        <span className="text-xs md:text-sm font-medium truncate max-w-[120px]">{gift.from}</span>
                       </div>
                     </div>
                   </div>
-                  <div className="text-2xl font-bold text-green-600">${gift.amount}</div>
+                  <div className="text-lg md:text-2xl font-bold text-green-600">${gift.amount}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full bg-white rounded-lg p-6">
+      <div className="w-full bg-white rounded-lg p-3 md:p-6">
         {/* Tabs */}
-        <div className="mb-6">
-            <div className="flex items-center justify-between mb-6">
-            <div className="flex gap-0 border-b border-gray-300">
+        <div className="mb-4 md:mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 gap-3">
+            <div className="flex gap-0 border-b border-gray-300 overflow-x-auto">
                 {tabs.map((tab) => (
                 <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-6 py-3 font-semibold relative ${
+                    className={`px-4 md:px-6 py-2 md:py-3 font-semibold relative whitespace-nowrap text-sm md:text-base ${
                     activeTab === tab
                         ? 'text-gray-900'
                         : 'text-gray-500'
@@ -742,18 +742,21 @@ const PostDetail = () => {
                 ))}
             </div>
 
-            <div className="flex items-center gap-3">
-                <div className="relative">
+            <div className="flex items-center gap-2">
+                <div className="relative flex-1 md:flex-initial">
                 <input
                     type="text"
                     placeholder={`Search ${activeTab === 'Comments' ? 'Comment' : 'Users'}...`}
-                    className="pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm w-64"
+                    className="pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm w-full md:w-64"
                 />
                 <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg text-sm font-semibold">
+                <button className="hidden md:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg text-sm font-semibold">
                 <SlidersHorizontal className="w-5 h-5" />
                 Filter
+                </button>
+                <button className="md:hidden p-2 bg-gray-100 rounded-lg">
+                <SlidersHorizontal className="w-5 h-5" />
                 </button>
             </div>
             </div>
@@ -764,40 +767,40 @@ const PostDetail = () => {
                 <table className="w-full">
                 <thead className="bg-gray-300">
                     <tr>
-                    <th className="px-4 py-3 text-left font-semibold">Comment</th>
-                    <th className="px-4 py-3 text-left font-semibold">User</th>
-                    <th className="px-4 py-3 text-center font-semibold">Salutes</th>
-                    <th className="px-4 py-3 text-center font-semibold">Sentiment Analysis</th>
+                    <th className="px-6 py-4 text-left font-semibold min-w-[400px]">Comment</th>
+                    <th className="px-6 py-4 text-left font-semibold min-w-[250px]">User</th>
+                    <th className="px-6 py-4 text-center font-semibold min-w-[120px]">Salutes</th>
+                    <th className="px-6 py-4 text-center font-semibold min-w-[180px]">Sentiment Analysis</th>
                     </tr>
                 </thead>
                 <tbody>
                     {postData.comments.map((comment) => (
-                    <tr 
-                      key={comment.id} 
+                    <tr
+                      key={comment.id}
                       className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
                       onContextMenu={(e) => handleCommentContextMenu(e, comment)}
                     >
-                        <td className="px-4 py-4">
-                        <div className="text-sm text-gray-700">{comment.comment}</div>
+                        <td className="px-6 py-5 min-w-[400px]">
+                        <div className="text-sm text-gray-700 leading-relaxed">{comment.comment}</div>
                         </td>
-                        <td 
-                          className="px-4 py-4"
+                        <td
+                          className="px-6 py-5"
                           onClick={() => navigate(`/profile/${encodeURIComponent(comment.user.name)}`)}
                         >
-                        <div className="flex items-center gap-3">
-                            <img 
-                            src={comment.user.avatar} 
+                        <div className="flex items-center gap-4">
+                            <img
+                            src={comment.user.avatar}
                             alt="User"
-                            className="w-10 h-10 rounded-full"
+                            className="w-12 h-12 rounded-full flex-shrink-0"
                             />
-                            <div>
-                            <div className="font-semibold">{comment.user.name || '@User'}</div>
+                            <div className="min-w-0">
+                            <div className="font-semibold text-base mb-1">{comment.user.name || '@User'}</div>
                             <div className="text-sm text-gray-600">{comment.user.userId || 'ID'}</div>
                             </div>
                         </div>
                         </td>
-                        <td className="px-4 py-4 font-semibold text-center">{comment.salutes}</td>
-                        <td className="px-4 py-4 font-semibold text-center">{comment.sentimentAnalysis}</td>
+                        <td className="px-6 py-5 font-semibold text-center text-base">{comment.salutes}</td>
+                        <td className="px-6 py-5 font-semibold text-center text-base">{comment.sentimentAnalysis}</td>
                     </tr>
                     ))}
                 </tbody>
@@ -810,40 +813,40 @@ const PostDetail = () => {
                 <table className="w-full">
                 <thead className="bg-gray-300">
                     <tr>
-                    <th className="px-4 py-3 text-left font-semibold">User</th>
-                    <th className="px-4 py-3 text-center font-semibold">Followers</th>
-                    <th className="px-4 py-3 text-center font-semibold">Rating</th>
-                    <th className="px-4 py-3 text-center font-semibold">Country</th>
-                    <th className="px-4 py-3 text-center font-semibold">Timestamp</th>
+                    <th className="px-6 py-4 text-left font-semibold">User</th>
+                    <th className="px-6 py-4 text-center font-semibold">Followers</th>
+                    <th className="px-6 py-4 text-center font-semibold">Rating</th>
+                    <th className="px-6 py-4 text-center font-semibold">Country</th>
+                    <th className="px-6 py-4 text-center font-semibold">Timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
                     {postData.salutes.map((salute) => (
-                    <tr 
-                      key={salute.id} 
+                    <tr
+                      key={salute.id}
                       className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
                       onClick={() => navigate(`/profile/${encodeURIComponent(salute.name)}`)}
                       onContextMenu={(e) => handleUserContextMenu(e, salute)}
                     >
-                        <td className="px-4 py-4">
-                        <div className="flex items-center gap-3">
-                            <img 
-                            src={salute.avatar} 
+                        <td className="px-6 py-5">
+                        <div className="flex items-center gap-4">
+                            <img
+                            src={salute.avatar}
                             alt="User"
-                            className="w-10 h-10 rounded-full"
+                            className="w-12 h-12 rounded-full flex-shrink-0"
                             />
-                            <div>
-                            <div className="font-semibold">{salute.user}</div>
+                            <div className="min-w-0">
+                            <div className="font-semibold text-base mb-1">{salute.user}</div>
                             <div className="text-sm text-gray-600">{salute.userId}</div>
                             </div>
                         </div>
                         </td>
-                        <td className="px-4 py-4 font-semibold text-center">{salute.followers.toLocaleString()}</td>
-                        <td className="px-4 py-4 font-semibold text-center">{salute.rating}</td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-6 py-5 font-semibold text-center text-base">{salute.followers.toLocaleString()}</td>
+                        <td className="px-6 py-5 font-semibold text-center text-base">{salute.rating}</td>
+                        <td className="px-6 py-5 text-center">
                         {React.createElement(Flags[salute.country], { className: 'w-8 h-5' })}
                         </td>
-                        <td className="px-4 py-4 text-center">{salute.timestamp}</td>
+                        <td className="px-6 py-5 text-center text-sm">{salute.timestamp}</td>
                     </tr>
                     ))}
                 </tbody>
@@ -856,40 +859,40 @@ const PostDetail = () => {
                 <table className="w-full">
                 <thead className="bg-gray-300">
                     <tr>
-                    <th className="px-4 py-3 text-left font-semibold">User</th>
-                    <th className="px-4 py-3 text-center font-semibold">Followers</th>
-                    <th className="px-4 py-3 text-center font-semibold">Rating</th>
-                    <th className="px-4 py-3 text-center font-semibold">Country</th>
-                    <th className="px-4 py-3 text-center font-semibold">Timestamp</th>
+                    <th className="px-6 py-4 text-left font-semibold">User</th>
+                    <th className="px-6 py-4 text-center font-semibold">Followers</th>
+                    <th className="px-6 py-4 text-center font-semibold">Rating</th>
+                    <th className="px-6 py-4 text-center font-semibold">Country</th>
+                    <th className="px-6 py-4 text-center font-semibold">Timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
                     {postData.reshares.map((reshare) => (
-                    <tr 
-                      key={reshare.id} 
+                    <tr
+                      key={reshare.id}
                       className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors"
                       onClick={() => navigate(`/profile/${encodeURIComponent(reshare.name)}`)}
                       onContextMenu={(e) => handleUserContextMenu(e, reshare)}
                     >
-                        <td className="px-4 py-4">
-                        <div className="flex items-center gap-3">
-                            <img 
-                            src={reshare.avatar} 
+                        <td className="px-6 py-5">
+                        <div className="flex items-center gap-4">
+                            <img
+                            src={reshare.avatar}
                             alt="User"
-                            className="w-10 h-10 rounded-full"
+                            className="w-12 h-12 rounded-full flex-shrink-0"
                             />
-                            <div>
-                            <div className="font-semibold">{reshare.user}</div>
+                            <div className="min-w-0">
+                            <div className="font-semibold text-base mb-1">{reshare.user}</div>
                             <div className="text-sm text-gray-600">{reshare.userId}</div>
                             </div>
                         </div>
                         </td>
-                        <td className="px-4 py-4 font-semibold text-center">{reshare.followers.toLocaleString()}</td>
-                        <td className="px-4 py-4 font-semibold text-center">{reshare.rating}</td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-6 py-5 font-semibold text-center text-base">{reshare.followers.toLocaleString()}</td>
+                        <td className="px-6 py-5 font-semibold text-center text-base">{reshare.rating}</td>
+                        <td className="px-6 py-5 text-center">
                         {React.createElement(Flags[reshare.country], { className: 'w-8 h-5' })}
                         </td>
-                        <td className="px-4 py-4 text-center">{reshare.timestamp}</td>
+                        <td className="px-6 py-5 text-center text-sm">{reshare.timestamp}</td>
                     </tr>
                     ))}
                 </tbody>

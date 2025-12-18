@@ -7,14 +7,14 @@ import StreamRevenueTrends from './streaming_revenue_widgets/StreamRevenueTrends
 
 const StreamingRevenue = () => {
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Live Streaming Revenue</h1>
-        <p className="text-gray-600">Revenue from subscriptions, donations, and super chats</p>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Live Streaming Revenue</h1>
+        <p className="text-sm md:text-base text-gray-600">Revenue from subscriptions, donations, and super chats</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
         <StatCard
           title="Total Streaming Revenue"
           value="$168K"
@@ -65,11 +65,11 @@ const StreamingRevenue = () => {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-12 gap-6 mb-6">
-        <div className="col-span-5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6">
+        <div className="col-span-1 lg:col-span-5">
           <StreamRevenueBreakdownChart />
         </div>
-        <div className="col-span-7">
+        <div className="col-span-1 lg:col-span-7">
           <StreamRevenueTrends />
         </div>
       </div>

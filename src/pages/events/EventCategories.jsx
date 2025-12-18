@@ -114,7 +114,7 @@ const EventCategories = () => {
     switch (activeTab) {
       case 'overview':
         return (
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {categories.map((category) => (
               <CategoryCard
                 key={category.id}
@@ -127,7 +127,7 @@ const EventCategories = () => {
         );
       case 'performance':
         return (
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
             <CategoryDistribution />
             <RevenueByCategory />
             <GrowthLeaders />
@@ -141,15 +141,15 @@ const EventCategories = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Event Categories</h1>
-        <p className="text-gray-600">Manage and analyze event categories and their performance</p>
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Event Categories</h1>
+        <p className="text-sm md:text-base text-gray-600">Manage and analyze event categories and their performance</p>
       </div>
 
       {/* Stats Cards Section */}
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="mb-4 md:mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           <StatCard
             title="Total Categories"
             value="30"
@@ -186,54 +186,97 @@ const EventCategories = () => {
       </div>
 
       {/* Main Content Section */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-lg shadow p-4 md:p-6">
         {/* Header with Tabs */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-8">
-            <h2 className="text-lg font-semibold text-gray-900">Event Categories</h2>
-            
-            {/* Tab Navigation */}
-            <div className="flex space-x-6">
-              <button
-                onClick={() => setActiveTab('overview')}
-                className={`pb-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'overview'
-                    ? 'border-yellow-500 text-yellow-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Overview
-              </button>
-              <button
-                onClick={() => setActiveTab('performance')}
-                className={`pb-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'performance'
-                    ? 'border-yellow-500 text-yellow-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Performance
-              </button>
-              <button
-                onClick={() => setActiveTab('details')}
-                className={`pb-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'details'
-                    ? 'border-yellow-500 text-yellow-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Details
+        <div className="space-y-4 mb-4 md:mb-6">
+          {/* Title and Tabs Row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-8">
+              <h2 className="text-base md:text-lg font-semibold text-gray-900">Event Categories</h2>
+
+              {/* Tab Navigation */}
+              <div className="flex space-x-4 md:space-x-6 overflow-x-auto">
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className={`pb-2 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
+                    activeTab === 'overview'
+                      ? 'border-yellow-500 text-yellow-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Overview
+                </button>
+                <button
+                  onClick={() => setActiveTab('performance')}
+                  className={`pb-2 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
+                    activeTab === 'performance'
+                      ? 'border-yellow-500 text-yellow-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Performance
+                </button>
+                <button
+                  onClick={() => setActiveTab('details')}
+                  className={`pb-2 border-b-2 font-medium text-sm transition-colors whitespace-nowrap ${
+                    activeTab === 'details'
+                      ? 'border-yellow-500 text-yellow-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Details
+                </button>
+              </div>
+            </div>
+
+            {/* Search and Filter - hidden on mobile, shown on desktop */}
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search Category ..."
+                  className="pl-8 pr-4 py-2 border rounded-md w-64 text-sm focus:outline-none focus:ring-1 focus:ring-gray-200"
+                />
+                <svg
+                  className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200 text-sm">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
+                </svg>
+                <span>Filter</span>
               </button>
             </div>
           </div>
 
-          {/* Search and Filter */}
-          <div className="flex items-center space-x-4">
-            <div className="relative">
+          {/* Search and Filter Row - visible only on mobile */}
+          <div className="flex md:hidden items-center gap-2">
+            <div className="relative flex-1">
               <input
                 type="text"
                 placeholder="Search Category ..."
-                className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                className="pl-8 pr-4 py-2 border rounded-md w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-200"
               />
               <svg
                 className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
@@ -249,7 +292,7 @@ const EventCategories = () => {
                 />
               </svg>
             </div>
-            <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
+            <button className="px-3 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200 text-sm flex-shrink-0">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -269,7 +312,7 @@ const EventCategories = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="mt-6">
+        <div className="mt-4 md:mt-6">
           {renderTabContent()}
         </div>
       </div>

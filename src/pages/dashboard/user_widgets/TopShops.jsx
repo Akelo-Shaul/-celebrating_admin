@@ -102,52 +102,78 @@ const TopShops = () => {
   return (
     <div className="bg-white rounded-lg p-4 h-full flex flex-col shadow-sm">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Top Shops</h2>
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              placeholder="Search Shop..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-2 w-full bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
-            />
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+      <div className="mb-4">
+        {/* Mobile Layout: Title on top, Search + Filter below */}
+        <div className="md:hidden space-y-3">
+          <h2 className="text-lg font-semibold">Top Shops</h2>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search Shop..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-4 py-2 w-full bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+            </div>
+            <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+              <SlidersHorizontalIcon className="h-4 w-4 text-gray-600" />
+            </button>
           </div>
-          <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
-            <SlidersHorizontalIcon className="h-4 w-4 text-gray-600" />
-          </button>
+        </div>
+
+        {/* Desktop Layout: Title left, Search + Filter right */}
+        <div className="hidden md:flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Top Shops</h2>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                placeholder="Search Shop..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-4 py-2 w-full bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+            </div>
+            <button className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+              <SlidersHorizontalIcon className="h-4 w-4 text-gray-600" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Table Header */}
-      <div className="grid grid-cols-4 gap-4 px-4 py-2 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">
-        <div>Shop Name</div>
-        <div>Owner</div>
-        <div>Country</div>
-        <div className="text-right">Sales Volume ($)</div>
-      </div>
+      {/* Table Container */}
+      <div className="overflow-x-auto flex-1">
+        <div className="min-w-[600px] md:min-w-full">
+          {/* Table Header */}
+          <div className="grid grid-cols-4 gap-4 px-4 py-2 bg-gray-100 rounded-lg text-sm font-medium text-gray-600">
+            <div className="flex items-center">Shop Name</div>
+            <div className="flex items-center">Owner</div>
+            <div className="flex items-center justify-center">Country</div>
+            <div className="flex items-center justify-center">Sales Volume ($)</div>
+          </div>
 
-      {/* Table Body */}
-      <div className="flex-1 overflow-y-auto">
+          {/* Table Body */}
+          <div className="overflow-y-auto">
         {filteredShops.map((shop) => (
           <div
             key={shop.id}
-            className="grid grid-cols-4 gap-4 px-4 py-3 border-b last:border-b-0 items-center cursor-pointer hover:bg-gray-50 transition-colors"
+            className="grid grid-cols-4 gap-4 px-4 py-3 border-b last:border-b-0 items-center cursor-pointer hover:bg-gray-50 transition-colors min-h-[60px]"
             onClick={() => navigate(`/store/${encodeURIComponent(shop.name)}`)}
             onContextMenu={(e) => handleContextMenu(e, shop)}
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-center min-h-full">
               <div className="font-medium">{shop.name}</div>
               <div className="flex items-center gap-1 text-sm text-gray-500">
                 <div className="text-green-600 text-xs">✓</div>
                 <span>{shop.productsCount} products</span>
               </div>
             </div>
-            
-            <div 
-              className="flex items-center gap-2 cursor-pointer" 
+
+            <div
+              className="flex items-center gap-2 cursor-pointer min-h-full"
               onClick={(e) => {
                 e.stopPropagation()
                 navigate(`/profile/${encodeURIComponent(shop.owner.name)}`)
@@ -156,20 +182,22 @@ const TopShops = () => {
               <img
                 src={shop.owner.avatar}
                 alt={shop.owner.name}
-                className="w-6 h-6 rounded-full bg-gray-200"
+                className="w-6 h-6 rounded-full bg-gray-200 flex-shrink-0"
               />
               <span className="text-sm text-gray-600">{shop.owner.name}</span>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center justify-center gap-1 min-h-full">
               {React.createElement(Flags[shop.country], {
-                className: "w-6 h-4 rounded"
+                className: "w-6 h-4 rounded flex-shrink-0"
               })}
             </div>
 
-            <div className="text-right">{shop.salesVolume.toLocaleString()}</div>
+            <div className="flex items-center justify-center min-h-full">{shop.salesVolume.toLocaleString()}</div>
           </div>
         ))}
+          </div>
+        </div>
       </div>
 
       {/* Context Menu */}

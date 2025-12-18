@@ -92,15 +92,59 @@ const CategoryListTable = ({ categories }) => {
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Header */}
-      <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Category List</h2>
-          <div className="flex items-center space-x-4">
+      <div className="bg-gray-50 px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="space-y-3 md:space-y-0">
+          {/* First Row - Title and Filter Button (mobile) / All items (desktop) */}
+          <div className="flex items-center justify-between md:justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Category List</h2>
+            <div className="flex items-center space-x-4">
+              {/* Search - Hidden on mobile, visible on desktop */}
+              <div className="relative hidden md:block">
+                <input
+                  type="text"
+                  placeholder="Search Shop..."
+                  className="pl-8 pr-4 py-1.5 border rounded-md bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                />
+                <svg
+                  className="w-4 h-4 text-gray-500 absolute left-2.5 top-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <button className="px-4 py-1.5 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
+                </svg>
+                <span>Filter</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Second Row - Search (mobile only) */}
+          <div className="md:hidden">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search Shop..."
-                className="pl-8 pr-4 py-1.5 border rounded-md bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                className="w-full pl-8 pr-4 py-1.5 border rounded-md bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-200"
               />
               <svg
                 className="w-4 h-4 text-gray-500 absolute left-2.5 top-2"
@@ -116,22 +160,6 @@ const CategoryListTable = ({ categories }) => {
                 />
               </svg>
             </div>
-            <button className="px-4 py-1.5 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                />
-              </svg>
-              <span>Filter</span>
-            </button>
           </div>
         </div>
       </div>

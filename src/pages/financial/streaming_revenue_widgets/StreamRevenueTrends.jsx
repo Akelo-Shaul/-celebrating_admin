@@ -186,37 +186,35 @@ const StreamRevenueTrends = () => {
   const ChartComponent = chartType === 'line' ? Line : Bar
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Streaming Revenue Trends</h3>
-        <div className="flex items-center gap-4">
-          {/* Chart Type Toggle */}
-          <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
-            <button
-              onClick={() => setChartType('line')}
-              className={`px-3 py-1 text-sm rounded transition-colors ${
-                chartType === 'line'
-                  ? 'bg-white text-orange-600 shadow-sm font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Line
-            </button>
-            <button
-              onClick={() => setChartType('bar')}
-              className={`px-3 py-1 text-sm rounded transition-colors ${
-                chartType === 'bar'
-                  ? 'bg-white text-orange-600 shadow-sm font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Bar
-            </button>
-          </div>
+    <div className="bg-white rounded-lg shadow p-4 md:p-6">
+      <div className="mb-4 md:mb-6">
+        <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Streaming Revenue Trends</h3>
+        {/* Chart Type Toggle */}
+        <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1 w-fit">
+          <button
+            onClick={() => setChartType('line')}
+            className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded transition-colors ${
+              chartType === 'line'
+                ? 'bg-white text-orange-600 shadow-sm font-medium'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Line
+          </button>
+          <button
+            onClick={() => setChartType('bar')}
+            className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded transition-colors ${
+              chartType === 'bar'
+                ? 'bg-white text-orange-600 shadow-sm font-medium'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Bar
+          </button>
         </div>
       </div>
 
-      <div style={{ height: '250px' }}>
+      <div style={{ height: '220px' }}>
         <ChartComponent
           ref={chartRef}
           options={options}

@@ -108,23 +108,23 @@ const PromotedPostsTable = ({ typeFilter = 'All' }) => {
 
   return (
     <div className="bg-white rounded-lg shadow">
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">All Promoted Posts</h3>
-          <div className="flex items-center gap-3">
-            <select className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+      <div className="p-4 md:p-6 border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-0">
+          <h3 className="text-base md:text-lg font-semibold text-gray-900">All Promoted Posts</h3>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <select className="px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
               <option>All Status</option>
               <option>Active</option>
               <option>Completed</option>
               <option>Scheduled</option>
             </select>
-            <select className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <select className="px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
               <option>All Types</option>
               <option>Celebrity</option>
               <option>Shop</option>
               <option>User</option>
             </select>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700">
+            <button className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700">
               Export Report
             </button>
           </div>

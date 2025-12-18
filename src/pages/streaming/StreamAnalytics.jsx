@@ -9,15 +9,15 @@ import TopStreamersList from './stream_analytics_widgets/TopStreamersList';
 
 const StreamAnalytics = () => {
   return (
-    <div className="p-6 bg-gray-100">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Stream Analytics</h1>
-        <p className="text-gray-600">Comprehensive analytics and insights for streaming performance</p>
+    <div className="p-4 md:p-6 bg-gray-100">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Stream Analytics</h1>
+        <p className="text-sm md:text-base text-gray-600">Comprehensive analytics and insights for streaming performance</p>
       </div>
 
       {/* Stats Cards Section - 3x3 Grid */}
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mb-4 md:mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           <StatCard
             title="Live Now"
             value="150"
@@ -118,30 +118,30 @@ const StreamAnalytics = () => {
       </div>
 
       {/* Charts Section - 2 Cards Side by Side */}
-      <div className="mb-6">
-        <div className="grid grid-cols-2 gap-6">
-          <div className="col-span-1">
+      <div className="mb-4 md:mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div>
             <StreamsByCategoryChart />
           </div>
-          <div className="col-span-1">
+          <div>
             <MonetizationTypesChart />
           </div>
         </div>
       </div>
 
       {/* Bottom Section - make the two charts share the row and move the list below */}
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="col-span-1">
+      <div className="mb-4 md:mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div>
             <PlatformGrowthChart />
           </div>
-          <div className="col-span-1">
+          <div>
             <PeakHoursChart />
           </div>
         </div>
 
         {/* Place Top Streamers list below the charts, full width on small and md */}
-        <div className="mt-6">
+        <div className="mt-4 md:mt-6">
           <TopStreamersList />
         </div>
       </div>

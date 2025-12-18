@@ -51,19 +51,19 @@ const TopPromotedPosts = () => {
   ]
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Top Performing Promotions</h3>
-        <TrendingUp className="w-5 h-5 text-green-600" />
+    <div className="bg-white rounded-lg shadow p-4 md:p-6">
+      <div className="flex items-center justify-between mb-4 md:mb-6">
+        <h3 className="text-base md:text-lg font-semibold text-gray-900">Top Performing Promotions</h3>
+        <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
       </div>
-      
-      <div className="space-y-4">
+
+      <div className="space-y-3 md:space-y-4">
         {topPosts.map((post, index) => (
-          <div key={index} className="border border-gray-200 rounded-lg p-4 hover:border-purple-300 transition-colors">
+          <div key={index} className="border border-gray-200 rounded-lg p-3 md:p-4 hover:border-purple-300 transition-colors">
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-semibold text-gray-900">{post.creator}</span>
+                  <span className="text-xs md:text-sm font-semibold text-gray-900">{post.creator}</span>
                   <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full">
                     {post.type}
                   </span>
@@ -71,8 +71,8 @@ const TopPromotedPosts = () => {
                 <p className="text-xs text-gray-600 mb-2">{post.content}</p>
               </div>
             </div>
-            
-            <div className="grid grid-cols-3 gap-3 text-xs">
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3 text-xs">
               <div>
                 <div className="text-gray-500">Impressions</div>
                 <div className="font-semibold text-gray-900">{post.impressions}</div>

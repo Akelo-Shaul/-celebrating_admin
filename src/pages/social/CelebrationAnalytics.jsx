@@ -10,15 +10,15 @@ const CelebrationAnalytics = () => {
         <p className="text-gray-600 mt-1">Analytics and insights for celebration data</p>
       </div>
 
-      {/* Charts Grid - 2 columns side by side */}
-      <div className="grid grid-cols-2 gap-6">
+      {/* Charts Grid - Stacks on mobile, 2 columns on larger screens */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Chart - Celebrations Growth */}
-        <div className="col-span-1">
+        <div>
           <CelebrationsGrowth />
         </div>
-        
+
         {/* Right Chart - Celebrations Media Distribution */}
-        <div className="col-span-1">
+        <div>
           <CelebrationsMediaDistribution />
         </div>
       </div>
