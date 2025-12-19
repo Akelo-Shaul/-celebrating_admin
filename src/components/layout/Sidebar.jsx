@@ -1,11 +1,19 @@
 import React from 'react'
 import { Grid, Users, Star, ShoppingBag, Wallet, Archive, CreditCard, FileText, BarChart2, Calendar, Ticket, Edit2, Activity, Layers, Video, Settings, ChevronDown, DollarSign, ShieldAlert, StarIcon } from 'lucide-react'
 import { menuItems } from '../../config/menuItems'
+import { filterMenuItems } from '../../config/rolePermissions'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Sidebar = ({ isCollapsed, activeItem, onItemSelect }) => {
   const [openDropdown, setOpenDropdown] = React.useState('Dashboard')
   const [activeSubItem, setActiveSubItem] = React.useState(null)
-  const sections = menuItems
+  const { user } = useAuth()
+
+  // Filter menu items based on user role
+  const sections = React.useMemo(() => {
+    if (!user || !user.role) return []
+    return filterMenuItems(menuItems, user.role)
+  }, [user])
 
   React.useEffect(() => {
     // Check if the active item is a sub-item

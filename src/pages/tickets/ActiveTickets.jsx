@@ -1,7 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import StandardTable from '../../components/common/StandardTable'
 
 const ActiveTickets = () => {
+  const navigate = useNavigate()
+
   const events = [
     { id: 1, title: 'Summer Music Fest — Main Stage', venue: 'Greenfield Arena', start: 'Today · 18:30', ticketsSold: 5234, status: 'Live' },
     { id: 2, title: 'Tech Conference 2025 — Keynote', venue: 'Convention Center Hall A', start: 'Today · 14:00', ticketsSold: 1842, status: 'Ongoing' },
@@ -12,7 +15,7 @@ const ActiveTickets = () => {
   const columns = ['Event', 'Venue', 'Start', 'Tickets Sold', 'Status', 'Actions']
 
   const renderRow = (ev) => (
-    <tr key={ev.id} className="hover:bg-gray-50">
+    <tr key={ev.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/event-tickets/${ev.id}`)}>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{ev.title}</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{ev.venue}</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{ev.start}</td>
@@ -22,9 +25,9 @@ const ActiveTickets = () => {
           {ev.status}
         </span>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm">
+      <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2">
-          <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm">View</button>
+          <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm" onClick={() => navigate(`/event-tickets/${ev.id}`)}>View</button>
           <button className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm">Manage</button>
         </div>
       </td>

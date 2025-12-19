@@ -105,7 +105,7 @@ const EventAnalytics = () => {
             {[
               { type: 'VIP', sold: 50, total: 100, color: 'bg-yellow-500' },
               { type: 'Early Bird', sold: 250, total: 300, color: 'bg-green-500' },
-              { type: 'General', sold: 175, total: 100, color: 'bg-blue-500' }
+              { type: 'General', sold: 75, total: 100, color: 'bg-blue-500' }
             ].map((ticket, idx) => (
               <div key={idx} className="flex items-center justify-between">
                 <div className="flex-1">

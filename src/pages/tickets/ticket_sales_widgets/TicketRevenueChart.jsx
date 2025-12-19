@@ -150,16 +150,16 @@ const TicketRevenueChart = () => {
 
   return (
     <div className="bg-white rounded-lg shadow">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">Sales Analytics</h2>
-          
-          <div className="flex items-center space-x-4">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <h2 className="text-base md:text-lg font-bold text-gray-900">Sales Analytics</h2>
+
+          <div className="flex items-center gap-2 md:gap-4">
             {/* Timeframe Selector */}
             <select
               value={timeframe}
               onChange={(e) => setTimeframe(e.target.value)}
-              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 md:flex-initial"
             >
               <option value="week">This Week</option>
               <option value="month">This Month</option>
@@ -171,7 +171,7 @@ const TicketRevenueChart = () => {
             <div className="flex items-center space-x-1 bg-gray-100 rounded-md p-1">
               <button
                 onClick={() => setChartType('line')}
-                className={`px-3 py-1 text-sm rounded ${
+                className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded ${
                   chartType === 'line'
                     ? 'bg-white text-orange-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -181,7 +181,7 @@ const TicketRevenueChart = () => {
               </button>
               <button
                 onClick={() => setChartType('bar')}
-                className={`px-3 py-1 text-sm rounded ${
+                className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded ${
                   chartType === 'bar'
                     ? 'bg-white text-orange-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -194,7 +194,7 @@ const TicketRevenueChart = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center space-x-6 mt-4">
+        <div className="flex items-center gap-3 md:gap-6 mt-4 overflow-x-auto">
           <button
             onClick={() => setActiveTab('revenue')}
             className={`pb-2 px-1 text-sm font-medium border-b-2 transition-colors ${
@@ -229,33 +229,33 @@ const TicketRevenueChart = () => {
       </div>
 
       {/* Chart */}
-      <div className="p-6">
-        <div style={{ height: '350px' }}>
+      <div className="p-4 md:p-6">
+        <div style={{ height: '300px' }} className="md:h-[350px]">
           <ChartComponent data={getCurrentData()} options={options} />
         </div>
       </div>
 
       {/* Summary Stats */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <div className="grid grid-cols-4 gap-4">
+      <div className="px-4 md:px-6 py-4 border-t border-gray-200 bg-gray-50">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <div>
             <div className="text-xs text-gray-600 mb-1">Peak Sales</div>
-            <div className="text-lg font-bold text-gray-900">$98,000</div>
+            <div className="text-base md:text-lg font-bold text-gray-900">$98,000</div>
             <div className="text-xs text-green-600">December</div>
           </div>
           <div>
             <div className="text-xs text-gray-600 mb-1">Average</div>
-            <div className="text-lg font-bold text-gray-900">$69,417</div>
+            <div className="text-base md:text-lg font-bold text-gray-900">$69,417</div>
             <div className="text-xs text-gray-500">Per month</div>
           </div>
           <div>
             <div className="text-xs text-gray-600 mb-1">Growth Rate</div>
-            <div className="text-lg font-bold text-green-600">+12.3%</div>
+            <div className="text-base md:text-lg font-bold text-green-600">+12.3%</div>
             <div className="text-xs text-gray-500">vs last year</div>
           </div>
           <div>
             <div className="text-xs text-gray-600 mb-1">Total YTD</div>
-            <div className="text-lg font-bold text-gray-900">$833,000</div>
+            <div className="text-base md:text-lg font-bold text-gray-900">$833,000</div>
             <div className="text-xs text-green-600">+18.2%</div>
           </div>
         </div>

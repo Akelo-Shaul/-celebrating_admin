@@ -153,15 +153,15 @@ const PastEvents = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Past Events List</h1>
-        <p className="text-gray-600">Review and analyze completed events and their performance</p>
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="mb-4 md:mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">Past Events List</h1>
+        <p className="text-sm md:text-base text-gray-600">Review and analyze completed events and their performance</p>
       </div>
 
       {/* Stats Cards Section */}
-      <div className="mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="mb-4 md:mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           <StatCard
             title="Total Completed"
             value="2,450"
@@ -197,17 +197,38 @@ const PastEvents = () => {
       </div>
 
       {/* Past Events Section */}
-      <div className="mb-6">
-        <div className="bg-white rounded-lg shadow p-6">
+      <div className="mb-4 md:mb-6">
+        <div className="bg-white rounded-lg shadow p-4 md:p-6">
           {/* Header with Search */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">Past Events List</h2>
-            <div className="flex items-center space-x-4">
-              <div className="relative">
+          <div className="mb-4 md:mb-6">
+            <div className="space-y-3 md:space-y-0">
+              {/* Mobile: Title and Filter on first row */}
+              <div className="flex items-center justify-between md:hidden">
+                <h2 className="text-base font-semibold text-gray-900">Past Events List</h2>
+                <button className="px-3 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200 text-sm">
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                    />
+                  </svg>
+                  <span>Filter</span>
+                </button>
+              </div>
+
+              {/* Mobile: Search on second row */}
+              <div className="relative md:hidden">
                 <input
                   type="text"
                   placeholder="Search Event ..."
-                  className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                  className="pl-8 pr-4 py-2 border rounded-md w-full text-sm focus:outline-none focus:ring-1 focus:ring-gray-200"
                 />
                 <svg
                   className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
@@ -223,27 +244,54 @@ const PastEvents = () => {
                   />
                 </svg>
               </div>
-              <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-                  />
-                </svg>
-                <span>Filter</span>
-              </button>
+
+              {/* Desktop: All in one row */}
+              <div className="hidden md:flex md:items-center md:justify-between">
+                <h2 className="text-lg font-semibold text-gray-900">Past Events List</h2>
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search Event ..."
+                      className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-gray-200"
+                    />
+                    <svg
+                      className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </div>
+                  <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-md flex items-center space-x-1 hover:bg-gray-200">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                      />
+                    </svg>
+                    <span>Filter</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Event Cards Grid */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {pastEvents.map((event) => (
               <PastEventCard key={event.id} event={event} />
             ))}

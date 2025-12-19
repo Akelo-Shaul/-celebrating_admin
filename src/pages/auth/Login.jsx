@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User, Lock, LogIn } from 'lucide-react'
+import { User, Lock, LogIn, ChevronDown } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
+import { DUMMY_USERS } from '../../services/authService'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showCredentials, setShowCredentials] = useState(false)
 
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -26,6 +28,14 @@ const Login = () => {
       setIsLoading(false)
     }
   }
+
+  const handleQuickLogin = (user) => {
+    setUsername(user.username)
+    setPassword(user.password)
+    setShowCredentials(false)
+  }
+
+  const demoUsers = Object.values(DUMMY_USERS)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-yellow-50 flex items-center justify-center p-4">
@@ -109,9 +119,38 @@ const Login = () => {
             </button>
           </form>
 
-          {/* Info Message */}
-          <div className="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Enter username and password</p>
+          {/* Demo Credentials */}
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <button
+              onClick={() => setShowCredentials(!showCredentials)}
+              className="w-full flex items-center justify-between text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <span className="font-medium">Demo Credentials</span>
+              <ChevronDown
+                size={16}
+                className={`transform transition-transform ${showCredentials ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {showCredentials && (
+              <div className="mt-4 space-y-2 max-h-64 overflow-y-auto">
+                {demoUsers.map((user) => (
+                  <button
+                    key={user.username}
+                    onClick={() => handleQuickLogin(user)}
+                    className="w-full text-left px-3 py-2 rounded-lg border border-gray-200 hover:border-yellow-300 hover:bg-yellow-50 transition-all"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                        <div className="text-xs text-gray-500">{user.position}</div>
+                      </div>
+                      <div className="text-xs text-gray-400">{user.username}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

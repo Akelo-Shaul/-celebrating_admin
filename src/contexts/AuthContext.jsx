@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { authenticateUser } from '../services/authService'
 
 const AuthContext = createContext()
 
@@ -42,40 +43,32 @@ export const AuthProvider = ({ children }) => {
     checkStoredAuth()
   }, [])
 
-  // Login function - accepts ANY credentials for now
+  // Login function - authenticates against dummy user data
   const login = async (username, password) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500))
+    try {
+      // Authenticate user using auth service
+      const user = await authenticateUser(username, password)
 
-    // Validate non-empty credentials
-    if (!username || !password) {
-      throw new Error('Username and password are required')
+      // Create auth data
+      const authData = {
+        isAuthenticated: true,
+        user: user
+      }
+
+      // Save to localStorage
+      localStorage.setItem('celebrating_admin_auth', JSON.stringify(authData))
+
+      // Update state
+      setAuthState({
+        isAuthenticated: true,
+        user: user,
+        loading: false
+      })
+
+      return user
+    } catch (error) {
+      throw error
     }
-
-    // Create user object
-    const user = {
-      username: username,
-      role: 'admin',
-      loginTime: new Date().toISOString()
-    }
-
-    // Create auth data
-    const authData = {
-      isAuthenticated: true,
-      user: user
-    }
-
-    // Save to localStorage
-    localStorage.setItem('celebrating_admin_auth', JSON.stringify(authData))
-
-    // Update state
-    setAuthState({
-      isAuthenticated: true,
-      user: user,
-      loading: false
-    })
-
-    return user
   }
 
   // Logout function

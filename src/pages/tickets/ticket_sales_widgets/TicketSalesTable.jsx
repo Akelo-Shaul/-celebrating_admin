@@ -270,24 +270,48 @@ const TicketSalesTable = () => {
   return (
     <div className="bg-white rounded-lg shadow">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">Recent Ticket Sales</h2>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search tickets..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              />
-              <Search className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5" />
-            </div>
-            <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md flex items-center space-x-2 hover:bg-gray-300">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+        <div className="space-y-3 md:space-y-0">
+          {/* Mobile: Title and Filter on first row */}
+          <div className="flex items-center justify-between md:hidden">
+            <h2 className="text-base font-bold text-gray-900">Recent Ticket Sales</h2>
+            <button className="px-3 py-2 bg-gray-200 text-gray-700 rounded-md flex items-center gap-2 hover:bg-gray-300 text-sm">
               <Filter className="w-4 h-4" />
               <span>Filter</span>
             </button>
+          </div>
+
+          {/* Mobile: Search on second row */}
+          <div className="relative md:hidden">
+            <input
+              type="text"
+              placeholder="Search tickets..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-8 pr-4 py-2 border rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
+            <Search className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5" />
+          </div>
+
+          {/* Desktop: All in one row */}
+          <div className="hidden md:flex md:items-center md:justify-between">
+            <h2 className="text-lg font-bold text-gray-900">Recent Ticket Sales</h2>
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search tickets..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-8 pr-4 py-2 border rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                />
+                <Search className="w-4 h-4 text-gray-500 absolute left-2.5 top-2.5" />
+              </div>
+              <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md flex items-center space-x-2 hover:bg-gray-300">
+                <Filter className="w-4 h-4" />
+                <span>Filter</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

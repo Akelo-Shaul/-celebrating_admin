@@ -165,20 +165,23 @@ const TicketPurchasesTable = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {purchases.map((purchase) => (
-              <tr key={purchase.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4">
-                  <input 
-                    type="checkbox" 
+              <tr key={purchase.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => navigate(`/ticket/${purchase.id}`)}>
+                <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
                     className="rounded border-gray-300"
                     onClick={(e) => e.stopPropagation()}
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-sm font-medium text-gray-900">{purchase.ticketNo}</span>
+                  <span className="text-sm font-medium text-blue-600 hover:text-blue-800">{purchase.ticketNo}</span>
                 </td>
-                <td 
+                <td
                   className="px-6 py-4 whitespace-nowrap cursor-pointer"
-                  onClick={() => navigate(`/profile/${encodeURIComponent(purchase.user.name)}`)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    navigate(`/profile/${encodeURIComponent(purchase.user.name)}`)
+                  }}
                 >
                   <div className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
                     <img 

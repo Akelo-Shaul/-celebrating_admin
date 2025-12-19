@@ -37,15 +37,15 @@ const PricingTiers = () => {
   )
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 md:p-6 bg-gray-100 min-h-screen">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 md:mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Pricing Tiers</h1>
-          <p className="text-gray-600">Define ticket pricing tiers and quotas that apply across events.</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">Pricing Tiers</h1>
+          <p className="text-sm md:text-base text-gray-600">Define ticket pricing tiers and quotas that apply across events.</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <button onClick={() => setShowForm(s => !s)} className="px-4 py-2 bg-green-600 text-white rounded">{showForm ? 'Cancel' : 'Add Tier'}</button>
+          <button onClick={() => setShowForm(s => !s)} className="px-4 py-2 bg-green-600 text-white rounded text-sm md:text-base whitespace-nowrap">{showForm ? 'Cancel' : 'Add Tier'}</button>
         </div>
       </div>
 

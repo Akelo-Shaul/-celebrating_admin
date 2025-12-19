@@ -3,11 +3,14 @@ import { Menu, Search, Bell, ChevronDown, Mail, Edit2, HelpCircle, Lock, LogOut,
 import { useNavigate } from 'react-router-dom'
 import { findSubItems, isMainMenuItem, findParentMenuItem } from '../../config/menuItems'
 import { useMessaging } from '../../contexts/MessagingContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import { useAuth } from '../../contexts/AuthContext'
+import { getUserInitials, getAvatarUrl } from '../../services/authService'
 
 const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
   const { openMessage } = useMessaging()
-  const { logout } = useAuth()
+  const { toggleNotification } = useNotification()
+  const { logout, user } = useAuth()
   const navigate = useNavigate()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
@@ -139,7 +142,10 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
           </div>
 
           {/* Notifications */}
-          <button className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-700 relative">
+          <button
+            onClick={toggleNotification}
+            className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-700 relative"
+          >
             <Bell size={20} />
             <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
@@ -153,14 +159,20 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
             aria-haspopup="true"
             aria-expanded={isProfileOpen}
           >
-            <img
-              src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000"
-              alt="Elisha Abade"
-              className="w-8 h-8 rounded-full"
-            />
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name || 'User'}
+                className="w-8 h-8 rounded-full"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center text-sm font-semibold text-gray-900">
+                {getUserInitials(user?.name || 'User')}
+              </div>
+            )}
             <div className="hidden md:block">
-              <div className="text-sm font-medium text-gray-800">Elisha Abade</div>
-              <div className="text-xs text-gray-500">Admin</div>
+              <div className="text-sm font-medium text-gray-800">{user?.name || 'User'}</div>
+              <div className="text-xs text-gray-500">{user?.position || 'Admin'}</div>
             </div>
             <ChevronDown size={16} className="text-gray-400" />
           </div>
@@ -186,14 +198,20 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
             <div className="p-6 h-full flex flex-col">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <img
-                    src="https://ui-avatars.com/api/?name=Elisha+Abade&background=fde047&color=000&size=128"
-                    alt="Elisha Avatar"
-                    className="w-16 h-16 rounded-full"
-                  />
+                  {user?.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={`${user.name} Avatar`}
+                      className="w-16 h-16 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-yellow-200 flex items-center justify-center text-2xl font-semibold text-gray-900">
+                      {getUserInitials(user?.name || 'User')}
+                    </div>
+                  )}
                   <div>
-                    <div className="text-lg font-semibold text-gray-800">Elisha Abade</div>
-                    <div className="text-sm text-gray-500">Admin</div>
+                    <div className="text-lg font-semibold text-gray-800">{user?.name || 'User'}</div>
+                    <div className="text-sm text-gray-500">{user?.position || 'Admin'}</div>
                   </div>
                 </div>
                 <button
@@ -208,15 +226,15 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
               <div className="mt-6 space-y-2 text-sm text-gray-700">
                 <div>
                   <div className="text-xs text-gray-500">Admin ID</div>
-                  <div className="font-medium">#ADM-1023</div>
+                  <div className="font-medium">#{user?.id || 'N/A'}</div>
                 </div>
                 <div>
                   <div className="text-xs text-gray-500">Position</div>
-                  <div className="font-medium">Super Admin</div>
+                  <div className="font-medium">{user?.position || 'Admin'}</div>
                 </div>
                 <div>
                   <div className="text-xs text-gray-500">Email</div>
-                  <div className="font-medium">elisha.abade@example.com</div>
+                  <div className="font-medium">{user?.email || 'N/A'}</div>
                 </div>
               </div>
 
@@ -269,7 +287,13 @@ const Header = ({ isCollapsed, onToggleMenu, title, onItemSelect }) => {
 
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <button className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(false)
+                        toggleNotification()
+                      }}
+                      className="w-full text-left px-3 py-2 rounded hover:bg-gray-50 flex items-center gap-3"
+                    >
                       <Bell size={16} className="text-gray-600" />
                       <span>Notifications</span>
                     </button>

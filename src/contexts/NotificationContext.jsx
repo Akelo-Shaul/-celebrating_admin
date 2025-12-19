@@ -13,26 +13,25 @@ export const useNotification = () => {
 
 export const NotificationProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [recipient, setRecipient] = useState(null)
 
-  const openNotification = (user) => {
-    setRecipient(user)
+  const openNotification = () => {
     setIsOpen(true)
   }
 
   const closeNotification = () => {
     setIsOpen(false)
-    // Don't clear recipient immediately to allow for smooth transition
-    setTimeout(() => setRecipient(null), 300)
+  }
+
+  const toggleNotification = () => {
+    setIsOpen(!isOpen)
   }
 
   return (
-    <NotificationContext.Provider value={{ openNotification, closeNotification }}>
+    <NotificationContext.Provider value={{ openNotification, closeNotification, toggleNotification, isOpen }}>
       {children}
-      <NotificationModal 
-        isOpen={isOpen} 
-        onClose={closeNotification} 
-        recipient={recipient}
+      <NotificationModal
+        isOpen={isOpen}
+        onClose={closeNotification}
       />
     </NotificationContext.Provider>
   )

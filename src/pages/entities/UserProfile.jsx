@@ -6,6 +6,9 @@ import { countryToFlag } from '../../utils/countryToFlag'
 import StandardTable from '../../components/common/StandardTable'
 import { useMessaging } from '../../contexts/MessagingContext'
 import { useNotification } from '../../contexts/NotificationContext'
+import { useAuth } from '../../contexts/AuthContext'
+import { canUserVerify, verifyCelebrity, getVerificationDetails } from '../../services/verificationService'
+import VerificationModal from '../../components/modals/VerificationModal'
 
 // Inline SVG for East African Community flag (EAC) — simplified but visually accurate
 const EacFlag = ({ className }) => (
@@ -875,14 +878,45 @@ const NetworkSection = ({ users = [], title = 'Following' }) => {
 
 const UserProfile = () => {
   const { id } = useParams()
+  const location = useLocation()
   const navigate = useNavigate()
   const { openMessage } = useMessaging()
   const { openNotification } = useNotification()
+  const { user } = useAuth()
   const [commentContextMenu, setCommentContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, comment: null })
   const [postContextMenu, setPostContextMenu] = useState({ isOpen: false, position: { x: 0, y: 0 }, post: null })
   const [selectedPosts, setSelectedPosts] = useState([])
   const [bulkActionsOpen, setBulkActionsOpen] = useState(false)
   const bulkActionsRef = useRef(null)
+  const [verificationStatus, setVerificationStatus] = useState(null)
+  const [verificationModalOpen, setVerificationModalOpen] = useState(false)
+
+  // Determine if this is a celebrity or member profile
+  const profileRole = location.state?.role || 'member'
+  const isCelebrity = profileRole.toLowerCase() === 'celebrity'
+
+  // Get verification details for this celebrity (only if celebrity)
+  const verificationDetails = useMemo(() => {
+    if (!isCelebrity) return null
+    return getVerificationDetails(id)
+  }, [id, verificationStatus, isCelebrity])
+
+  // Check if current user can verify (only for celebrities)
+  const verificationCheck = useMemo(() => {
+    if (!isCelebrity) return { canVerify: false }
+    return canUserVerify(id, user)
+  }, [id, user, verificationStatus, isCelebrity])
+
+  // Handle verification action
+  const handleVerification = async () => {
+    try {
+      const result = await verifyCelebrity(id, user)
+      alert(result.message)
+      setVerificationStatus(result.newStatus)
+    } catch (error) {
+      alert(error.message)
+    }
+  }
 
   const handleCommentContextMenu = (e, comment) => {
     e.preventDefault()
@@ -1261,9 +1295,6 @@ const UserProfile = () => {
     ]
   }), [id])
 
-  // This profile is always a celebrity profile
-  const isCelebrity = true
-
   // Profile completion calculations
   const totalSteps = profile.completionSteps ? profile.completionSteps.length : 0
   const completedSteps = profile.completionSteps ? profile.completionSteps.filter(s => s.completed).length : 0
@@ -1284,18 +1315,21 @@ const UserProfile = () => {
                   alt={profile.name}
                   className="w-32 h-32 md:w-40 md:h-40 rounded-lg object-cover mx-auto md:mx-0"
                 />
-                <div className="flex item-center gap-1 px-4 py-2 bg-gray-400 rounded-full w-fit mx-auto md:mx-0">
-                  {Array.from({ length: 5}).map((_, index) => {
-                    return <svg
-                    key={index}
-                    width='20'
-                    height='20'
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                  })}
-                </div>
+                {/* Only show rating stars for celebrities */}
+                {isCelebrity && (
+                  <div className="flex item-center gap-1 px-4 py-2 bg-gray-400 rounded-full w-fit mx-auto md:mx-0">
+                    {Array.from({ length: 5}).map((_, index) => {
+                      return <svg
+                      key={index}
+                      width='20'
+                      height='20'
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    })}
+                  </div>
+                )}
 
               </div>
 
@@ -1311,7 +1345,10 @@ const UserProfile = () => {
                           <span className="text-xs font-bold text-[#FB6C1E]">Verified</span>
                         </div>
                       )}
-                      <div className="text-gray-600 mt-1 text-center md:text-left">{profile.occupation}</div>
+                      {/* Only show occupation for celebrities */}
+                      {isCelebrity && profile.occupation && (
+                        <div className="text-gray-600 mt-1 text-center md:text-left">{profile.occupation}</div>
+                      )}
 
                       <div className='flex flex-row gap-2 items-center justify-center md:justify-start'>
                         {React.createElement(Flags[countryToFlag(profile.country)], {
@@ -1340,15 +1377,61 @@ const UserProfile = () => {
                         <h3 className="text-lg md:text-[20px] font-bold">{profile.profileVisits}</h3>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-4 items-center md:items-start">
+                    <div className="flex flex-col gap-3 items-center md:items-start">
 
-                      <div className="flex items-center gap-1 bg-[#F19534] w-fit px-3 py-1 rounded-md">
-                        <span className="text-[12px] font-bold uppercase">Celebrity</span>
+                      <div className={`flex items-center gap-1 w-fit px-3 py-1 rounded-md ${isCelebrity ? 'bg-[#F19534]' : 'bg-blue-500'}`}>
+                        <span className="text-[12px] font-bold uppercase text-white">{isCelebrity ? 'Celebrity' : 'Member'}</span>
                       </div>
                       <div className="flex items-center gap-1 bg-green-100 w-fit px-3 py-1 rounded-full">
                         <span className="text-xs text-green-800">ACTIVE</span>
                         <div className='w-3 h-3 bg-green-600 rounded-full'></div>
                       </div>
+
+                      {/* Verification Button - Only show for celebrities when user can verify */}
+                      {isCelebrity && verificationCheck.canVerify && (
+                        <button
+                          onClick={() => setVerificationModalOpen(true)}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 text-sm font-semibold rounded-md transition-colors shadow-sm"
+                        >
+                          <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          {verificationCheck.buttonText}
+                        </button>
+                      )}
+
+                      {/* Verification Progress - Only show for celebrities if verification has started */}
+                      {isCelebrity && verificationDetails && verificationDetails.status !== 'pending' && (
+                        <div className="bg-white border border-gray-200 rounded-md p-3 w-full max-w-xs">
+                          <h4 className="text-xs font-semibold text-gray-700 mb-2">Verification Progress</h4>
+                          <div className="space-y-2">
+                            {verificationDetails.steps.map((step, index) => (
+                              <div key={index} className="flex items-start gap-2">
+                                {step.completed ? (
+                                  <CheckCircle size={16} className="text-green-600 flex-shrink-0 mt-0.5" />
+                                ) : (
+                                  <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex-shrink-0 mt-0.5"></div>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <div className={`text-xs ${step.completed ? 'text-green-600 font-medium' : 'text-gray-600'}`}>
+                                    {step.title}
+                                  </div>
+                                  {step.verifier && (
+                                    <div className="text-xs text-gray-500">By {step.verifier.name}</div>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Status message when user can't take action */}
+                          {!verificationCheck.canVerify && verificationDetails.status !== 'verified' && (
+                            <div className="mt-3 bg-blue-50 border border-blue-200 rounded p-2">
+                              <p className="text-xs text-blue-700">{verificationCheck.reason}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                     </div>
                   </div>
@@ -1404,79 +1487,83 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="w-full px-3 md:px-6 py-4">
-            {/* Percentage text */}
-            <div className="flex justify-end mt-2 text-sm font-semibold text-gray-700">
-              {Math.round(progressPercent)}%
-            </div>
-            <div className="relative w-full overflow-x-auto md:overflow-visible pb-2">
-              <div className="relative flex items-center justify-between min-w-full md:w-full" style={{ minWidth: '600px' }}>
-                {/* Line behind all steps */}
-                <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 rounded-full -translate-y-1 md:-translate-y-2 z-0" />
+          {/* Progress Tracker - Only show for celebrities */}
+          {isCelebrity && (
+            <div className="w-full px-3 md:px-6 py-4">
+              {/* Percentage text */}
+              <div className="flex justify-end mt-2 text-sm font-semibold text-gray-700">
+                {Math.round(progressPercent)}%
+              </div>
+              <div className="relative w-full overflow-x-auto md:overflow-visible pb-2">
+                <div className="relative flex items-center justify-between min-w-full md:w-full" style={{ minWidth: '600px' }}>
+                  {/* Line behind all steps */}
+                  <div className="absolute top-1/2 left-0 w-full h-1 bg-gray-200 rounded-full -translate-y-1 md:-translate-y-2 z-0" />
 
-                {/* Progress line (filled portion) */}
-                <div
-                  className="absolute top-1/2 left-0 h-1 bg-green-500 rounded-full -translate-y-1 md:-translate-y-2 transition-all duration-500 z-0"
-                  style={{ width: `${progressPercent}%` }}
-                />
+                  {/* Progress line (filled portion) */}
+                  <div
+                    className="absolute top-1/2 left-0 h-1 bg-green-500 rounded-full -translate-y-1 md:-translate-y-2 transition-all duration-500 z-0"
+                    style={{ width: `${progressPercent}%` }}
+                  />
 
-                {/* Step indicators */}
-                {profile.completionSteps && profile.completionSteps.map((step, index) => {
-                  const isCompleted = !!step.completed
-                  return (
-                    <div
-                      key={step.label}
-                      className="relative flex-1 flex flex-col items-center gap-2 md:gap-3 text-center z-10 min-w-[80px]"
-                    >
-                      {/* Diamond shape (with inner circle for completed) */}
-                      <div className="relative">
-                        <div className={`w-7 h-7 md:w-9 md:h-9 rotate-45 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'} transition-colors translate-y-3.5 duration-300 rounded-md`}></div>
+                  {/* Step indicators */}
+                  {profile.completionSteps && profile.completionSteps.map((step, index) => {
+                    const isCompleted = !!step.completed
+                    return (
+                      <div
+                        key={step.label}
+                        className="relative flex-1 flex flex-col items-center gap-2 md:gap-3 text-center z-10 min-w-[80px]"
+                      >
+                        {/* Diamond shape (with inner circle for completed) */}
+                        <div className="relative">
+                          <div className={`w-7 h-7 md:w-9 md:h-9 rotate-45 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'} transition-colors translate-y-3.5 duration-300 rounded-md`}></div>
+                        </div>
+                        <span className="mt-3 text-[10px] md:text-xs font-medium text-gray-700 whitespace-nowrap px-1">
+                          {step.label}
+                        </span>
                       </div>
-                      <span className="mt-3 text-[10px] md:text-xs font-medium text-gray-700 whitespace-nowrap px-1">
-                        {step.label}
-                      </span>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </div>
-
-          </div>
+          )}
         </div>
 
         {/* Right Column: Rankings and Shops */}
         <div className="flex flex-col gap-4 col-span-1 md:col-span-1 order-2">
-          {/* Rankings section */}
-          <div className='bg-white rounded-lg shadow gap-2 p-4'>
-            <h3 className="font-semibold text-lg">Rankings</h3>
-            <div className="space-y-2">
-              <div className="flex items-center mb-2">
-                <Globe className="mr-2 h-5 w-5 text-gray-600"/>
-                <div className="text-sm md:text-md text-gray-600">#1,234 Global</div>
-              </div>
-              <div className="flex items-center gap-2 mb-2">
-                {/* Africa map image (use public asset) */}
-                <img src="/assets/Africa_Flag_Map.png" alt="Africa map" className="w-6 h-6 object-fit" />
-                <div className="text-sm md:text-md text-gray-600">#1,234 Africa</div>
-              </div>
-              <div className="flex items-center gap-2 mb-2">
-                {/* East Africa (EAC flag) */}
-                {(() => {
-                  const code = countryToFlag('East Africa')
-                  return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
-                })()}
-                <div className="text-sm md:text-md text-gray-600">#1,234 East Africa</div>
-              </div>
-              <div className="flex items-center gap-2">
-                {/* Kenya */}
-                {(() => {
-                  const code = countryToFlag('Kenya')
-                  return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
-                })()}
-                <div className="text-sm md:text-md text-gray-600">#1,234 Kenya</div>
+          {/* Rankings section - Only show for celebrities */}
+          {isCelebrity && (
+            <div className='bg-white rounded-lg shadow gap-2 p-4'>
+              <h3 className="font-semibold text-lg">Rankings</h3>
+              <div className="space-y-2">
+                <div className="flex items-center mb-2">
+                  <Globe className="mr-2 h-5 w-5 text-gray-600"/>
+                  <div className="text-sm md:text-md text-gray-600">#1,234 Global</div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  {/* Africa map image (use public asset) */}
+                  <img src="/assets/Africa_Flag_Map.png" alt="Africa map" className="w-6 h-6 object-fit" />
+                  <div className="text-sm md:text-md text-gray-600">#1,234 Africa</div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  {/* East Africa (EAC flag) */}
+                  {(() => {
+                    const code = countryToFlag('East Africa')
+                    return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
+                  })()}
+                  <div className="text-sm md:text-md text-gray-600">#1,234 East Africa</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {/* Kenya */}
+                  {(() => {
+                    const code = countryToFlag('Kenya')
+                    return code === 'EAC' ? <EacFlag className="w-6 h-6" /> : React.createElement(Flags[code], { className: 'w-6 h-6' })
+                  })()}
+                  <div className="text-sm md:text-md text-gray-600">#1,234 Kenya</div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Shops Section (right column) - use project's StandardTable */}
           <div className="self-start w-full">
             <StandardTable
@@ -1508,8 +1595,113 @@ const UserProfile = () => {
 
         {/* Profile Data Section */}
         <div className="w-full bg-white rounded-lg shadow p-4 md:p-6 col-span-1 md:col-span-2 order-3">
-          {/* Profile Data tabs */}
-          <ProfileDataTabs profile={profile} />
+          {isCelebrity ? (
+            /* Celebrity Profile Data tabs */
+            <ProfileDataTabs profile={profile} />
+          ) : (
+            /* Member Profile - Simple Info View (Based on User model fields only) */
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Information</h3>
+              <div className="space-y-4">
+                {/* Basic User Fields from Model */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* username */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-1">Username</div>
+                    <div className="text-sm font-medium text-gray-900">{profile.username || 'N/A'}</div>
+                  </div>
+
+                  {/* fullName */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-1">Full Name</div>
+                    <div className="text-sm font-medium text-gray-900">{profile.name}</div>
+                  </div>
+
+                  {/* email */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-1">Email</div>
+                    <div className="text-sm font-medium text-gray-900">{profile.email}</div>
+                  </div>
+
+                  {/* phoneNumber */}
+                  {profile.phone && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Phone</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.phone}</div>
+                    </div>
+                  )}
+
+                  {/* country */}
+                  {profile.country && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Country</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.country}</div>
+                    </div>
+                  )}
+
+                  {/* state */}
+                  {profile.state && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">State</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.state}</div>
+                    </div>
+                  )}
+
+                  {/* city */}
+                  {profile.city && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">City</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.city}</div>
+                    </div>
+                  )}
+
+                  {/* birthDate */}
+                  {profile.dob && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Date of Birth</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.dob}</div>
+                    </div>
+                  )}
+
+                  {/* sex */}
+                  {profile.sex && (
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Gender</div>
+                      <div className="text-sm font-medium text-gray-900">{profile.sex}</div>
+                    </div>
+                  )}
+
+                  {/* createdAt / registeredOn */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-1">Member Since</div>
+                    <div className="text-sm font-medium text-gray-900">{profile.registeredOn}</div>
+                  </div>
+
+                  {/* isActive status */}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-1">Account Status</div>
+                    <div className="text-sm font-medium text-green-600">Active</div>
+                  </div>
+                </div>
+
+                {/* bio */}
+                {profile.bio && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-2">Bio</div>
+                    <div className="text-sm text-gray-700">{profile.bio}</div>
+                  </div>
+                )}
+
+                {/* location */}
+                {profile.location && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="text-xs text-gray-500 mb-2">Location</div>
+                    <div className="text-sm text-gray-700">{profile.location}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Comments Section */}
@@ -1834,6 +2026,16 @@ const UserProfile = () => {
         </div>
 
       </div>
+
+      {/* Verification Modal */}
+      <VerificationModal
+        isOpen={verificationModalOpen}
+        onClose={() => setVerificationModalOpen(false)}
+        profile={profile}
+        userRole={user?.role}
+        verificationStatus={verificationDetails?.status || 'pending'}
+        onVerify={handleVerification}
+      />
     </div>
   )
 }

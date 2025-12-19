@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { TrendingUp, TrendingDown, User, MessageCircle, Bell, CheckCircle, XCircle, Award, BarChart3, Edit, Search, Filter } from 'lucide-react'
+import { TrendingUp, TrendingDown, User, MessageCircle, Bell, CheckCircle, XCircle, Award, BarChart3, Edit, Search, Filter, Eye } from 'lucide-react'
 import * as Flags from 'country-flag-icons/react/3x2'
 import { countryToCode } from '../dashboard/shop_widgets/countryUtils'
 import { useMessaging } from '../../contexts/MessagingContext'
 import { useNotification } from '../../contexts/NotificationContext'
+import { getVerificationDetails } from '../../services/verificationService'
 
 // Context Menu Component for Verification Requests
 const VerificationContextMenu = ({ isOpen, position, onClose, celebrity, onAction }) => {
@@ -78,7 +79,7 @@ const VerificationRequests = () => {
     { header: 'Country', key: 'country' },
     { header: 'Trend', key: 'trend' },
     { header: 'email', key: 'email' },
-    { header: '', key: 'actions' }
+    { header: 'Status', key: 'status' }
   ];
 
   const mockData = [
@@ -346,12 +347,35 @@ const VerificationRequests = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{row.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <button className="inline-flex items-center px-4 py-1.5 bg-yellow-300 text-black text-sm font-medium rounded-md hover:bg-yellow-400 focus:outline-none">
-                    <svg className="w-4 h-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    Verify
-                  </button>
+                  {(() => {
+                    const details = getVerificationDetails(row.profile.handle)
+                    const statusColors = {
+                      'pending': 'bg-gray-100 text-gray-700',
+                      'social_admin_1': 'bg-blue-100 text-blue-700',
+                      'social_admin_2': 'bg-yellow-100 text-yellow-700',
+                      'verified': 'bg-green-100 text-green-700'
+                    }
+                    const statusLabels = {
+                      'pending': 'Pending',
+                      'social_admin_1': '1/3 Verified',
+                      'social_admin_2': '2/3 Confirmed',
+                      'verified': 'Verified'
+                    }
+                    return (
+                      <div className="flex items-center gap-2">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[details.status] || statusColors.pending}`}>
+                          {statusLabels[details.status] || 'Pending'}
+                        </span>
+                        <button
+                          onClick={() => navigate(`/profile/${encodeURIComponent(row.profile.handle)}`, { state: { role: 'celebrity' } })}
+                          className="p-1.5 hover:bg-gray-100 rounded-full transition-colors"
+                          title="View Profile"
+                        >
+                          <Eye size={16} className="text-gray-600" />
+                        </button>
+                      </div>
+                    )
+                  })()}
                 </td>
               </tr>
             ))}

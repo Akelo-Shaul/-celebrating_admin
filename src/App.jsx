@@ -100,6 +100,7 @@ import ActiveTickets from './pages/tickets/ActiveTickets'
 import SalesAnalytics from './pages/tickets/SalesAnalytics'
 import PricingTiers from './pages/tickets/PricingTiers'
 import TicketReports from './pages/tickets/TicketReports'
+import EventTicketSales from './pages/tickets/EventTicketSales'
 
 // Entity Pages
 import UserProfile from './pages/entities/UserProfile'
@@ -109,6 +110,7 @@ import PostDetail from './pages/entities/PostDetail'
 import ProductProfile from './pages/entities/ProductProfile'
 import EventDetail from './pages/entities/EventDetail'
 import LiveStreamDetail from './pages/entities/LiveStreamDetail'
+import TicketDetail from './pages/entities/TicketDetail'
 
 const AppContent = () => {
   const navigate = useNavigate()
@@ -326,6 +328,7 @@ const AppContent = () => {
               <Route path="/sales-analytics" element={<SalesAnalytics />} />
               <Route path="/pricing-tiers" element={<PricingTiers />} />
               <Route path="/ticket-reports" element={<TicketReports />} />
+              <Route path="/event-tickets/:id" element={<EventTicketSales />} />
 
               {/* Entity routes */}
               <Route path="/profile/:id" element={<UserProfile />} />
@@ -334,7 +337,9 @@ const AppContent = () => {
               <Route path="/post/:id" element={<PostDetail />} />
               <Route path="/product/:id" element={<ProductProfile />} />
               <Route path="/event/:id" element={<EventDetail />} />
+              <Route path="/events/detail/:id" element={<EventDetail />} />
               <Route path="/stream/:id" element={<LiveStreamDetail />} />
+              <Route path="/ticket/:id" element={<TicketDetail />} />
 
               <Route path="/transaction-history" element={<PageContainer title="Transaction History" />} />
               <Route path="/all-transactions" element={<PageContainer title="All Transactions" />} />
