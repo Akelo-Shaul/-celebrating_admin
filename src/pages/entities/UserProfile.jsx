@@ -1,4 +1,4 @@
-import { BadgeCheck, CalendarCheck, EditIcon, Globe, Layers, Mail, MapPin, Phone, UserCog, Ban, Edit, CheckCircle, Bell, EyeOff, Eye, ThumbsUp, MessageSquare, AlertTriangle, TrendingUp, FileText, Lock, Star, Merge, Tag } from 'lucide-react'
+import { BadgeCheck, CalendarCheck, EditIcon, Globe, Layers, Mail, MapPin, Phone, UserCog, Ban, Edit, CheckCircle, Bell, EyeOff, Eye, ThumbsUp, MessageSquare, AlertTriangle, TrendingUp, FileText, Lock, Star, Merge, Tag, Gavel } from 'lucide-react'
 import React, { useMemo, useState, useRef, useEffect } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import Flags from 'country-flag-icons/react/3x2'
@@ -1292,6 +1292,16 @@ const UserProfile = () => {
       { id: 7, name: 'James Wilson', country: 'Kenya', posts: 43, followers: '33,000', rating: 4.7, type: 'Celebrity', status: 'Active', joinedDate: '17-02-2020', imageUrl: 'https://randomuser.me/api/portraits/men/56.jpg' },
       { id: 8, name: 'Olivia Davis', country: 'Kenya', posts: 31, followers: '21,000', rating: 4.4, type: 'Member', status: 'Active', joinedDate: '11-06-2021', imageUrl: 'https://randomuser.me/api/portraits/women/57.jpg' },
       { id: 9, name: 'William Moore', country: 'Kenya', posts: 55, followers: '40,000', rating: 4.6, type: 'Celebrity', status: 'Inactive', joinedDate: '26-08-2019', imageUrl: 'https://randomuser.me/api/portraits/men/58.jpg' }
+    ],
+    auctions: [
+      { id: 1, type: 'Video Shout Out', askPrice: 'KSh 12', dueDate: '18th January 2026', totalBids: 4, highestBid: 'KSh 250', status: 'Active', createdAt: '10th January 2026' },
+      { id: 2, type: 'Live Video Call', askPrice: 'KSh 50', dueDate: '19th January 2026', totalBids: 7, highestBid: 'KSh 500', status: 'Active', createdAt: '11th January 2026' },
+      { id: 3, type: 'Social Media Shoutout', askPrice: 'KSh 25', dueDate: '19th January 2026', totalBids: 5, highestBid: 'KSh 254', status: 'Closed', winningBid: 'KSh 254', winningCelebrity: 'RuffTone', createdAt: '09th January 2026' }
+    ],
+    bids: [
+      { id: 1, auctionType: 'Video Shout Out', memberName: 'John Doe', bidAmount: 'KSh 250', status: 'Pending', auctionDueDate: '23rd January 2026', bidDate: '12th January 2026' },
+      { id: 2, auctionType: 'Birthday Message', memberName: 'Jane Smith', bidAmount: 'KSh 75', status: 'Accepted', auctionDueDate: '20th January 2026', bidDate: '11th January 2026' },
+      { id: 3, auctionType: 'Corporate Event Appearance', memberName: 'Jane Smith', bidAmount: 'KSh 850', status: 'Pending', auctionDueDate: '27th January 2026', bidDate: '13th January 2026' }
     ]
   }), [id])
 
@@ -1981,6 +1991,103 @@ const UserProfile = () => {
                ))}
              </div>
            </div>
+
+           {/* Auctions Section - Only for Members */}
+           {!isCelebrity && profile.auctions && profile.auctions.length > 0 && (
+             <div className="bg-gray-200 rounded-lg shadow p-4 mt-6">
+               <div className="flex items-center justify-between mb-4">
+                 <h3 className="font-bold text-lg text-black">My Auctions</h3>
+                 <button
+                   onClick={() => navigate('/all-auctions')}
+                   className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                 >
+                   View All
+                 </button>
+               </div>
+
+               {/* Auction Cards */}
+               <div className="space-y-3">
+                 {profile.auctions.map((auction) => (
+                   <div
+                     key={auction.id}
+                     className="bg-white rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow"
+                     onClick={() => navigate(`/auction/${auction.id}`)}
+                   >
+                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                       <div className="flex-1">
+                         <div className="flex items-center gap-2 mb-2">
+                           <Gavel className="w-4 h-4 text-yellow-600" />
+                           <h4 className="font-semibold text-sm text-gray-900">{auction.type}</h4>
+                         </div>
+                         <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                           <div>Ask Price: <span className="font-semibold text-gray-900">{auction.askPrice}</span></div>
+                           <div>Due: <span className="font-medium text-green-600">{auction.dueDate}</span></div>
+                           <div>Bids: <span className="font-semibold text-blue-600">{auction.totalBids}</span></div>
+                           <div>Highest: <span className="font-semibold text-green-600">{auction.highestBid}</span></div>
+                         </div>
+                       </div>
+                       <div>
+                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                           auction.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                         }`}>
+                           {auction.status}
+                         </span>
+                       </div>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           )}
+
+           {/* Bids Section - Only for Celebrities */}
+           {isCelebrity && profile.bids && profile.bids.length > 0 && (
+             <div className="bg-gray-200 rounded-lg shadow p-4 mt-6">
+               <div className="flex items-center justify-between mb-4">
+                 <h3 className="font-bold text-lg text-black">My Bids</h3>
+                 <button
+                   onClick={() => navigate('/all-auctions')}
+                   className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                 >
+                   View All
+                 </button>
+               </div>
+
+               {/* Bid Cards */}
+               <div className="space-y-3">
+                 {profile.bids.map((bid) => (
+                   <div
+                     key={bid.id}
+                     className="bg-white rounded-lg p-4"
+                   >
+                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                       <div className="flex-1">
+                         <div className="flex items-center gap-2 mb-2">
+                           <Gavel className="w-4 h-4 text-yellow-600" />
+                           <h4 className="font-semibold text-sm text-gray-900">{bid.auctionType}</h4>
+                         </div>
+                         <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                           <div>Member: <span className="font-medium text-gray-900">{bid.memberName}</span></div>
+                           <div>My Bid: <span className="font-semibold text-green-600">{bid.bidAmount}</span></div>
+                           <div>Due: <span className="font-medium text-gray-700">{bid.auctionDueDate}</span></div>
+                           <div>Bid Date: <span className="text-gray-600">{bid.bidDate}</span></div>
+                         </div>
+                       </div>
+                       <div>
+                         <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                           bid.status === 'Accepted' ? 'bg-green-100 text-green-700' :
+                           bid.status === 'Rejected' ? 'bg-red-100 text-red-700' :
+                           'bg-yellow-100 text-yellow-700'
+                         }`}>
+                           {bid.status}
+                         </span>
+                       </div>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           )}
         </div>
 
         {/* User Achievements */}

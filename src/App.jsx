@@ -88,6 +88,10 @@ import StreamAnalytics from './pages/streaming/StreamAnalytics'
 import ScheduledStreams from './pages/streaming/ScheduledStreams'
 import StreamSettings from './pages/streaming/StreamSettings'
 
+// Auction Pages
+import AllAuctions from './pages/auctions/AllAuctions'
+import AuctionDetail from './pages/auctions/AuctionDetail'
+
 // Events Pages
 import EventAnalytics from './pages/events/EventAnalytics'
 import UpcomingEvents from './pages/events/UpcomingEvents'
@@ -315,6 +319,14 @@ const AppContent = () => {
               <Route path="/stream-analytics" element={<StreamAnalytics />} />
               <Route path="/scheduled-streams" element={<ScheduledStreams />} />
               <Route path="/stream-settings" element={<StreamSettings />} />
+
+              {/* Auction Routes */}
+              <Route path="/auction-management" element={<PageContainer title="Auction Management" />} />
+              <Route path="/all-auctions" element={<AllAuctions />} />
+              <Route path="/active-auctions" element={<AllAuctions />} />
+              <Route path="/closed-auctions" element={<AllAuctions />} />
+              <Route path="/auction-analytics" element={<PageContainer title="Auction Analytics" />} />
+              <Route path="/auction/:id" element={<AuctionDetail />} />
 
               {/* Events Routes */}
               <Route path="/event-analytics" element={<EventAnalytics />} />

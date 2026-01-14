@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Users, Star, ShoppingBag, Wallet, Archive, CreditCard, FileText, BarChart2, Calendar, Ticket, Edit2, Activity, Layers, Video, Settings, ChevronDown, DollarSign, ShieldAlert, StarIcon } from 'lucide-react'
+import { Grid, Users, Star, ShoppingBag, Wallet, Archive, CreditCard, FileText, BarChart2, Calendar, Ticket, Edit2, Activity, Layers, Video, Settings, ChevronDown, DollarSign, ShieldAlert, StarIcon, Gavel } from 'lucide-react'
 import { menuItems } from '../../config/menuItems'
 import { filterMenuItems } from '../../config/rolePermissions'
 import { useAuth } from '../../contexts/AuthContext'
@@ -65,6 +65,8 @@ const Sidebar = ({ isCollapsed, activeItem, onItemSelect }) => {
         return <FileText size={16} />
       case 'Live Streams':
         return <Video size={16} />
+      case 'Auction Management':
+        return <Gavel size={16} />
       case 'Event Management':
         return <Calendar size={16} />
       case 'Ticket Sales':

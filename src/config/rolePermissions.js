@@ -17,7 +17,7 @@ export const ROLE_PERMISSIONS = {
         'Celebrity Management': '*', // All celebrity management screens
         // Exclude Shop Management
       },
-      'SOCIAL': '*' // All social section screens
+      'SOCIAL': '*' // All social section screens including Auction Management
     }
   },
 

@@ -136,6 +136,15 @@ export const menuItems = [
           'Stream Analytics',
           'Stream Settings'
         ]
+      },
+      {
+        label: 'Auction Management',
+        subItems: [
+          'All Auctions',
+          'Active Auctions',
+          'Closed Auctions',
+          'Auction Analytics'
+        ]
       }
     ],
   },
